@@ -5,7 +5,8 @@
 
 # another test to make sure it works when it's been changed.
 #hello
-# test comment to work with Tess's git setupd
+# test comment to work with Tess's git setup
+# test comment to see if Tess can push changes
 
 def print_hi(name):
     ## Use a breakpoint in the code line below to debug your script.
