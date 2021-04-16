@@ -11,6 +11,7 @@
 Our Game Space!!
 """
 import arcade
+import random as rdm
 
 # Constants
 SCREEN_WIDTH = 1000
@@ -34,6 +35,7 @@ msg="Here we define our constants for our game,such as how fast our player will 
 FRUIT_START_Y = 650
 FRUIT_NATIVE_SIZE = 128
 FRUIT_SIZE = int(FRUIT_NATIVE_SIZE * FRUIT_SCALING)
+# Constants for falling fruit
 
 print(msg)
 class MyGame(arcade.Window):
@@ -50,6 +52,7 @@ class MyGame(arcade.Window):
         # go into a list.
         self.coin_list = None
         self.wall_list = None
+        self.orders_list = None
         self.player_list = None
         self.fruit_list= None
 
@@ -63,6 +66,7 @@ class MyGame(arcade.Window):
         # Create the Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
+        self.orders_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList(use_spatial_hash=True)
         self.fruit_list = arcade.SpriteList()
 
@@ -81,6 +85,7 @@ class MyGame(arcade.Window):
             wall.center_y = 32
             self.wall_list.append(wall)
 
+
         msg="We use crates to define boundaries of our game, and put them in the wall_list\n"
         print(msg)
         # We use crates to define boundaries of our game, and put them in the wall_list.
@@ -96,16 +101,24 @@ class MyGame(arcade.Window):
 
         fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
 
-        fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
-
-        fruit.bottom = FRUIT_SIZE *9.75
-        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-        fruit.left = FRUIT_SIZE * 4
+        fruit.top = FRUIT_SIZE
 
         fruit.boundary_right = FRUIT_SIZE
         fruit.boundary_left = FRUIT_SIZE
-        fruit.change_y = -2
+        fruit.change_y = 2
         self.fruit_list.append(fruit)
+
+
+        #Order box in top right corner
+        lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG","Our Images/Sample_order_lvl1.3.PNG"]
+        rdm_lvl_1_order = rdm.choice(lvl_1_orders)
+        order_coordinate_list = [[950, 570]]
+        for coordinate in order_coordinate_list:
+            # Add a crate in upper right corner
+            orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
+            orders.position = coordinate
+            self.orders_list.append(orders)
+
 
         # Create the 'physics engine'
 
@@ -124,9 +137,8 @@ class MyGame(arcade.Window):
 
         # Draw our sprites
         self.wall_list.draw()
-        self.coin_list.draw()
         self.player_list.draw()
-        self.fruit_list.draw()
+        self.orders_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -148,7 +160,6 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
-        self.fruit_list.update()
 
 def main():
     """ Main method """
