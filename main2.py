@@ -172,6 +172,12 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+
+        for fruit in self.fruit_list:
+            if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                fruit.bottom = FRUIT_SIZE * 9.75
+                # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                fruit.left = FRUIT_SIZE *rdm.randint(2,12)
         self.fruit_list.update()
 
 def main():
