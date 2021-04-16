@@ -137,9 +137,18 @@ class MyGame(arcade.Window):
             lvl_2_orders= ["Our Images/Sample_order_lvl2.1.PNG", "Our Images/Sample_order_lvl2.2.PNG",
                            "Our Images/Sample_order_lvl2.3.PNG"]
             rdm_lvl_2_order = rdm.choice(lvl_2_orders)
-            order_coordinate_list = [[950, 570]]
+            order_coordinate_list = [[950, 550]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(rdm_lvl_2_order, TILE_SCALING)
+                orders.position = coordinate
+                self.orders_list.append(orders)
+        if self.level==3:
+            lvl_3_orders= ["Our Images/Sample_order_lvl3.1.PNG", "Our Images/Sample_order_lvl3.2.PNG",
+                           "Our Images/Sample_order_lvl3.3.PNG"]
+            rdm_lvl_3_order = rdm.choice(lvl_3_orders)
+            order_coordinate_list = [[950, 530]]
+            for coordinate in order_coordinate_list:
+                orders = arcade.Sprite(rdm_lvl_3_order, FRUIT_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
