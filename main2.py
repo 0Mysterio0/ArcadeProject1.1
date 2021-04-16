@@ -194,13 +194,20 @@ class MyGame(arcade.Window):
 
         # See if the user got to the end of the level
         if len(arcade.check_for_collision_with_list(self.player_sprite, self.fruit_list)) > 0:
+            #every time we collide with a fruit, increase the objective variable
             self.objective+=1
+            #once we hit a certain amount of fruit, go to next level
             if self.objective==70:
                 self.level += 1
                 # Load the next level
                 self.setup(self.level)
-
+            # once we hit a certain amount of fruit, go to next level
             if self.objective==140:
+                self.level += 1
+                # Load the next level
+                self.setup(self.level)
+            # once we hit a certain amount of fruit, go to next level
+            if self.objective==200:
                 self.level += 1
                 # Load the next level
                 self.setup(self.level)
