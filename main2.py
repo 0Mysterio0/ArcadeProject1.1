@@ -21,6 +21,7 @@ SCREEN_TITLE = "Platformer"
 CHARACTER_SCALING = 1
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
+FRUIT_SCALING = 0.5
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
@@ -29,7 +30,10 @@ PLAYER_START_X = 64
 PLAYER_START_Y = 128
 msg="Here we define our constants for our game,such as how fast our player will move across the screen," \
     " which in our case is={0}\n".format(PLAYER_MOVEMENT_SPEED)
-#Fruits Constants
+# Fruits Constants
+FRUIT_START_Y = 650
+FRUIT_NATIVE_SIZE = 128
+FRUIT_SIZE = int(FRUIT_NATIVE_SIZE * FRUIT_SCALING)
 # Constants for falling fruit
 
 print(msg)
@@ -89,7 +93,16 @@ class MyGame(arcade.Window):
             wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", TILE_SCALING)
             wall.position = coordinate
             self.wall_list.append(wall)
+        # Attempting to create fruit image at the top of the page but is currently green worm
 
+        fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
+
+        fruit.top = FRUIT_SIZE
+
+        fruit.boundary_right = FRUIT_SIZE
+        fruit.boundary_left = FRUIT_SIZE
+        fruit.change_y = 2
+        self.fruit_list.append(fruit)
 
         # Create the 'physics engine'
 
