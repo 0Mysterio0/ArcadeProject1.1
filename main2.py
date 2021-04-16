@@ -194,10 +194,12 @@ class MyGame(arcade.Window):
 
         # See if the user got to the end of the level
         if len(arcade.check_for_collision_with_list(self.player_sprite, self.fruit_list)) > 0:
-            self.level += 1
-            # Load the next level
-            self.setup(self.level)
-            print("yes")
+            self.objective+=1
+            if self.objective==100:
+                self.level += 1
+                # Load the next level
+                self.setup(self.level)
+                print("yes")
 def main():
     """ Main method """
     window = MyGame()
