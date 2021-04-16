@@ -109,15 +109,15 @@ class MyGame(arcade.Window):
         fruit.boundary_left = FRUIT_SIZE
         fruit.change_y = -2
         self.fruit_list.append(fruit)
-        fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
+        fruit = arcade.Sprite(":resources:images/enemies/slimeBlue.png", FRUIT_SCALING)
 
         fruit.bottom = FRUIT_SIZE * 9.75
         # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-        fruit.left = FRUIT_SIZE * 4
+        fruit.left = FRUIT_SIZE * 9
 
         fruit.boundary_right = FRUIT_SIZE
         fruit.boundary_left = FRUIT_SIZE
-        fruit.change_y = -2
+        fruit.change_y = -4
         self.fruit_list.append(fruit)
 
         #Order box in top right corner
