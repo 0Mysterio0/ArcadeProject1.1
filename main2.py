@@ -27,6 +27,10 @@ PLAYER_MOVEMENT_SPEED = 10
 GRAVITY = 1
 PLAYER_START_X = 64
 PLAYER_START_Y = 128
+
+# Constants for falling fruit
+
+
 msg="Here we define our constants for our game,such as how fast our player will move across the screen," \
     " which in our case is={0}\n".format(PLAYER_MOVEMENT_SPEED)
 print(msg)
@@ -42,7 +46,7 @@ class MyGame(arcade.Window):
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
-        self.coin_list = None
+        self.lemon_list = None
         self.wall_list = None
         self.player_list = None
         self.fruit_list= None
