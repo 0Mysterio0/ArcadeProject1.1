@@ -101,13 +101,24 @@ class MyGame(arcade.Window):
 
         fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
 
-        fruit.top = FRUIT_SIZE
+        fruit.bottom = FRUIT_SIZE * 9.75
+        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+        fruit.left = FRUIT_SIZE * 4
 
         fruit.boundary_right = FRUIT_SIZE
         fruit.boundary_left = FRUIT_SIZE
-        fruit.change_y = 2
+        fruit.change_y = -2
         self.fruit_list.append(fruit)
+        fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
 
+        fruit.bottom = FRUIT_SIZE * 9.75
+        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+        fruit.left = FRUIT_SIZE * 4
+
+        fruit.boundary_right = FRUIT_SIZE
+        fruit.boundary_left = FRUIT_SIZE
+        fruit.change_y = -2
+        self.fruit_list.append(fruit)
 
         #Order box in top right corner
         lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG","Our Images/Sample_order_lvl1.3.PNG"]
@@ -139,6 +150,7 @@ class MyGame(arcade.Window):
         self.wall_list.draw()
         self.player_list.draw()
         self.orders_list.draw()
+        self.fruit_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -160,6 +172,7 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+        self.fruit_list.update()
 
 def main():
     """ Main method """
