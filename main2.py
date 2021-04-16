@@ -99,7 +99,7 @@ class MyGame(arcade.Window):
         fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
 
         fruit.bottom = FRUIT_SIZE *9.75
-        # fruit.left will have to by FRUIT_SIZE * an random integer
+        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
         fruit.left = FRUIT_SIZE * 4
 
         fruit.boundary_right = FRUIT_SIZE
