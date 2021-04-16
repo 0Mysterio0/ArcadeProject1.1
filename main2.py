@@ -19,7 +19,7 @@ SCREEN_HEIGHT = 650
 SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 1
+CHARACTER_SCALING = 0.3
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
 FRUIT_SCALING = 0.5
