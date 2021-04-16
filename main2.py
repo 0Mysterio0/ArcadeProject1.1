@@ -148,7 +148,7 @@ class MyGame(arcade.Window):
             rdm_lvl_3_order = rdm.choice(lvl_3_orders)
             order_coordinate_list = [[950, 530]]
             for coordinate in order_coordinate_list:
-                orders = arcade.Sprite(rdm_lvl_3_order, TILE_SCALING)
+                orders = arcade.Sprite(rdm_lvl_3_order, FRUIT_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
