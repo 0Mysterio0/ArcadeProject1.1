@@ -37,9 +37,6 @@ FRUIT_NATIVE_SIZE = 128
 FRUIT_SIZE = int(FRUIT_NATIVE_SIZE * FRUIT_SCALING)
 # Constants for falling fruit
 
-#Other Constants
-objective=0
-
 print(msg)
 class MyGame(arcade.Window):
     """
@@ -128,8 +125,8 @@ class MyGame(arcade.Window):
 
         #Order box in top right corner
         if self.level==1:
-            objective=0
-            lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG","Our Images/Sample_order_lvl1.3.PNG"]
+            lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG",
+                           "Our Images/Sample_order_lvl1.3.PNG"]
             rdm_lvl_1_order = rdm.choice(lvl_1_orders)
             order_coordinate_list = [[950, 570]]
             for coordinate in order_coordinate_list:
@@ -176,6 +173,7 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time):
         """ Movement and game logic """
+
         # Move the player with the physics engine
         self.physics_engine.update()
 
@@ -188,12 +186,10 @@ class MyGame(arcade.Window):
 
         # See if the user got to the end of the level
         if len(arcade.check_for_collision_with_list(self.player_sprite, self.fruit_list)) > 0:
-            self.objective += 1
-            if self.objective==100:
-                self.level += 1
-                # Load the next level
-                self.setup(self.level)
-                print("yes")
+            self.level += 1
+            # Load the next level
+            self.setup(self.level)
+            print("yes")
 def main():
     """ Main method """
     window = MyGame()
