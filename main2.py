@@ -123,14 +123,15 @@ class MyGame(arcade.Window):
         self.fruit_list.append(fruit)
 
         #Order box in top right corner
-        lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG","Our Images/Sample_order_lvl1.3.PNG"]
-        rdm_lvl_1_order = rdm.choice(lvl_1_orders)
-        order_coordinate_list = [[950, 570]]
-        for coordinate in order_coordinate_list:
-            # Add a crate in upper right corner
-            orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
-            orders.position = coordinate
-            self.orders_list.append(orders)
+        if self.level==1:
+            lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG","Our Images/Sample_order_lvl1.3.PNG"]
+            rdm_lvl_1_order = rdm.choice(lvl_1_orders)
+            order_coordinate_list = [[950, 570]]
+            for coordinate in order_coordinate_list:
+                # Add a crate in upper right corner
+                orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
+                orders.position = coordinate
+                self.orders_list.append(orders)
 
 
         # Create the 'physics engine'
