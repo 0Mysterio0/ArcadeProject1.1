@@ -67,7 +67,7 @@ class MyGame(arcade.Window):
         self.fruit_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
-        image_source = "Our Images/Gal1.1.PNG"
+        image_source = "Our Images/Gal.PNG"
         self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
