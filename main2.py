@@ -27,6 +27,9 @@ PLAYER_MOVEMENT_SPEED = 10
 GRAVITY = 1
 PLAYER_START_X = 64
 PLAYER_START_Y = 128
+
+#Fruits Constants
+
 msg="Here we define our constants for our game,such as how fast our player will move across the screen," \
     " which in our case is={0}\n".format(PLAYER_MOVEMENT_SPEED)
 print(msg)
