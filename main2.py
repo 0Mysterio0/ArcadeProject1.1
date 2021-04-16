@@ -27,7 +27,8 @@ PLAYER_MOVEMENT_SPEED = 10
 GRAVITY = 1
 PLAYER_START_X = 64
 PLAYER_START_Y = 128
-msg="Here we define our constants for our game,such as how fast our player will move across the screen{0}".format(PLAYER_MOVEMENT_SPEED)
+msg="Here we define our constants for our game,such as how fast our player will move across the screen," \
+    " which in our case is={0}\n".format(PLAYER_MOVEMENT_SPEED)
 print(msg)
 class MyGame(arcade.Window):
     """
@@ -74,19 +75,27 @@ class MyGame(arcade.Window):
             wall.center_y = 32
             self.wall_list.append(wall)
 
-        # Put some crates on the ground
+        msg="We use crates to define boundaries of our game, and put them in the wall_list\n"
+        print(msg)
+        # We use crates to define boundaries of our game, and put them in the wall_list.
         # This shows using a coordinate list to place sprites
         coordinate_list = [[-30, 96],
                            [1000, 96]]
-        # Create the 'physics engine'
-        #The first
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
-        self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
         for coordinate in coordinate_list:
             #Add a crate on the ground
             wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", TILE_SCALING)
             wall.position = coordinate
             self.wall_list.append(wall)
+
+
+        # Create the 'physics engine'
+
+        #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+        msg="Our final step is to generate the physics engine using,\n\n" \
+            "self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list),\n\n" \
+            " where the first argument is the player and the second argument is what objects the player can not go through.\n"
+        print(msg)
+        self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
 
     def on_draw(self):
         """ Render the screen. """
