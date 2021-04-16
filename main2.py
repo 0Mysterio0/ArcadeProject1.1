@@ -72,6 +72,7 @@ class MyGame(arcade.Window):
 
         # Set up the player, specifically placing it at these coordinates.
         image_source = "Our Images/Gal_with_basket.PNG"
+        image_source_1="Our Images/Gal_left.PNG"
         self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
@@ -161,7 +162,6 @@ class MyGame(arcade.Window):
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
-
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = 0
         if key == arcade.key.RIGHT or key == arcade.key.D:
