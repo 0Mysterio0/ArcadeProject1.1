@@ -130,8 +130,16 @@ class MyGame(arcade.Window):
             rdm_lvl_1_order = rdm.choice(lvl_1_orders)
             order_coordinate_list = [[950, 570]]
             for coordinate in order_coordinate_list:
-                # Add a crate in upper right corner
                 orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
+                orders.position = coordinate
+                self.orders_list.append(orders)
+        if self.level==2:
+            lvl_2_orders= ["Our Images/Sample_order_lvl2.1.PNG", "Our Images/Sample_order_lvl2.2.PNG",
+                           "Our Images/Sample_order_lvl2.3.PNG"]
+            rdm_lvl_2_order = rdm.choice(lvl_2_orders)
+            order_coordinate_list = [[950, 570]]
+            for coordinate in order_coordinate_list:
+                orders = arcade.Sprite(rdm_lvl_2_order, TILE_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
