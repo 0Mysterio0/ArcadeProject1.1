@@ -35,6 +35,8 @@ Ex1. after losing, the fruit gets sucked up and out of your basket.
 Ex2. Player animations
 
 Ex3. Player select
+
+Ex4. Balloons appear when you complete a level
 ###Notes:
 textures/directions would be super complex to code
 
