@@ -42,7 +42,7 @@ SUCKER_NATIVE_SIZE=128
 SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 # Constants for falling suckers
 
-print(msg)
+#print(msg)
 class MyGame(arcade.Window):
     """
     Main application class.
