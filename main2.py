@@ -133,7 +133,7 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
         # Attempting to create fruit image at the top of the page but is currently green worm
 
-        #@tess, is it safe to delete this code now? see fruit movement function below
+        #@tess, is it safe to delete this code now? see fruit movement function below --> Yes! This can be deleted
 
         fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
 
@@ -161,7 +161,7 @@ class MyGame(arcade.Window):
             to move down the screen, then it will append that fruit to the fruit list for you.  """
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * 4
+            fruit.left = FRUIT_SIZE * rdm.randint(4,16)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -172,7 +172,7 @@ class MyGame(arcade.Window):
              yet.  """
             sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            sucker.left = FRUIT_SIZE * 4
+            sucker.left = FRUIT_SIZE * rdm.randint(4,16)
 
             sucker.boundary_right = FRUIT_SIZE
             sucker.boundary_left = FRUIT_SIZE
@@ -367,7 +367,9 @@ class MyGame(arcade.Window):
 
         # Loop through each fruit we hit (if any) and remove it
         for fruit in fruit_hit_list:
-            # Remove the fruit
+            # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
+            # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
+            # we won't be have enough fruit to make it through all of the levels
             fruit.remove_from_sprite_lists()
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)
