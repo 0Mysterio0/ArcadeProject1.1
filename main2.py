@@ -12,11 +12,16 @@ Our Game Space!!
 """
 import arcade
 import random as rdm
+import math
 
 # Constants
+
+#We need to utilize these constants more all around the game!!
+#Also maybe increase the size of our game as well just in general.
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 650
 SCREEN_TITLE = "Platformer"
+
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 0.3
@@ -41,8 +46,46 @@ SUCKER_START_Y = 650
 SUCKER_NATIVE_SIZE=128
 SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 # Constants for falling suckers
-
+Fruit_follow_speed=10
 #print(msg)
+
+
+#Each of these class sprites are tests basically. The one that actually works and is valuable is the coin one so far.
+class TurningSprite(arcade.Sprite):
+    """ Sprite that sets its angle to the direction it is traveling in. """
+    def update(self):
+        """ Move the sprite """
+        super().update()
+        self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
+
+class Coin(arcade.Sprite):
+    """
+    This is an imported and adapted to our game coins class that will have (fruit coins) follow the player. We need to
+    fix it so that fruits will stack on top of one another inside the basket somehow.
+    Maybe make some predetermined heights or even
+    make it so each fruit coin will follow the next fruit coin below it. For instance call the (follow sprite)
+    function on each incoming fruit?
+    """
+
+    def follow_sprite(self, player_sprite):
+        """
+        This function will move the current sprite towards whatever
+        other sprite is specified as a parameter.
+
+        We use the 'min' function here to get the sprite to line up with
+        the target sprite, and not jump around if the sprite is not off
+        an exact multiple of Fruit_follow_speed
+        """
+
+        if self.center_y < player_sprite.top:
+            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
+        elif self.center_y > player_sprite.top:
+            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
+
+        if self.center_x < player_sprite.center_x:
+            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
+        elif self.center_x > player_sprite.center_x:
+            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
 class MyGame(arcade.Window):
     """
     Main application class.
@@ -63,6 +106,8 @@ class MyGame(arcade.Window):
         self.junk_list=None
         #self.wrong_fruit.list=None
 
+
+
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
@@ -70,15 +115,17 @@ class MyGame(arcade.Window):
         # Level
         self.level = 1
         self.objective=0
+
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
         # Create the Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.orders_list = arcade.SpriteList(use_spatial_hash=True)
-        self.coin_list = arcade.SpriteList(use_spatial_hash=True)
+        self.coin_list = arcade.SpriteList()
         self.fruit_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
+
 
         #Load all of the fruit images, but dont append them to any list yet:
         Apple = arcade.Sprite("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
@@ -98,8 +145,11 @@ class MyGame(arcade.Window):
         Sucker1=arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
         Sucker2 = arcade.Sprite("Our Images/Suckers/sucker2.png", FRUIT_SCALING * 1.8)
         Sucker3 = arcade.Sprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
+        Sucker4=TurningSprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
 
 
+        #Fruit Coin Lists?:
+        Grape_coin=Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
 
 
 
@@ -131,34 +181,13 @@ class MyGame(arcade.Window):
             wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", TILE_SCALING)
             wall.position = coordinate
             self.wall_list.append(wall)
-        # Attempting to create fruit image at the top of the page but is currently green worm
 
-        #@tess, is it safe to delete this code now? see fruit movement function below --> Yes! This can be deleted
-
-        fruit = arcade.Sprite(":resources:images/enemies/wormGreen.png", FRUIT_SCALING)
-
-        fruit.bottom = FRUIT_SIZE * 9.75
-        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-        fruit.left = FRUIT_SIZE * 4
-
-        fruit.boundary_right = FRUIT_SIZE
-        fruit.boundary_left = FRUIT_SIZE
-        fruit.change_y = -2
-        #self.fruit_list.append(fruit)
-        fruit = arcade.Sprite(":resources:images/enemies/slimeBlue.png", FRUIT_SCALING)
-
-        fruit.bottom = FRUIT_SIZE * 9.75
-        # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-        fruit.left = FRUIT_SIZE * 9
-
-        fruit.boundary_right = FRUIT_SIZE
-        fruit.boundary_left = FRUIT_SIZE
-        fruit.change_y = -4
-        #self.fruit_list.append(fruit)
 
         def Fruit_Movement(self,fruit):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
-            to move down the screen, then it will append that fruit to the fruit list for you.  """
+            to move down the screen, then it will append that fruit to the fruit list for you. Not sure if we
+              use it here, but we need to take advantage of the SCREEN WIDTH variable. """
+            # Maybe we make "ghost fruit that follow the other fruit"
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             fruit.left = FRUIT_SIZE * rdm.randint(4,16)
@@ -167,9 +196,33 @@ class MyGame(arcade.Window):
             fruit.boundary_left = FRUIT_SIZE
             fruit.change_y =rdm.choice([-5,-4,-3,-2])
             self.fruit_list.append(fruit)
+        def Advanced_Fruit_Movement(self,fruit,coin):
+            """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
+             fruit, and it gets picked up and the real fruit that manages the score variables is the one that
+              disappears instead.
+               Potential Issue so far: If the fruit hits the ground before its collected, the
+               fruit coin and the real fruit get separated from each other """
+
+            fruit.bottom = FRUIT_SIZE * 9.75
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            fruit.left = FRUIT_SIZE * rdm.randint(4,16)
+
+            fruit.boundary_right = FRUIT_SIZE
+            fruit.boundary_left = FRUIT_SIZE
+            fruit.change_y =rdm.choice([-5,-4,-3,-2])
+            self.fruit_list.append(fruit)
+            coin.bottom = fruit.bottom
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
+            coin.left =  fruit.left
+
+            coin.boundary_right=fruit.boundary_right
+            coin.boundary_left=fruit.boundary_left
+            coin.change_y=fruit.change_y
+            self.coin_list.append(coin)
         def Sucker_Movement(self,sucker):
-            """Defining a function that condenses the sucker movement operations, however does not work as expected
-             yet.  """
+            """Defining a function that eventually should have the suckers moving different than the fruits, but does
+            not work yet.  """
             sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             sucker.left = FRUIT_SIZE * rdm.randint(4,16)
@@ -188,7 +241,7 @@ class MyGame(arcade.Window):
                 orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
-
+            Sucker_Movement(self,Sucker4)
             #Only append fruits that are required for each order:
             #If order one is selected
             if rdm_lvl_1_order=="Our Images/Sample_order_lvl1.1.PNG":
@@ -198,8 +251,9 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker1)
                 Fruit_Movement(self, Orange)
                 Sucker_Movement(self, Sucker2)
-                Fruit_Movement(self, Grapes)
+                Advanced_Fruit_Movement(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
+
                 """Below here was the setup to get certain fruit to appear at certain times, but was not working yet"""
                 #if self.objective==10:
                     #Fruit_Movement(self, Watermelon)
@@ -219,7 +273,7 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker1)
                 Fruit_Movement(self, Kiwi)
                 Sucker_Movement(self, Sucker2)
-                Fruit_Movement(self, Grapes)
+                Advanced_Fruit_Movement(self, Grapes,Grape_coin)
                 Sucker_Movement(self, Sucker3)
                 #if self.objective == -10:
                    # Fruit_Movement(self, Apple)
@@ -239,7 +293,7 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker1)
                 Fruit_Movement(self, Cherry)
                 Sucker_Movement(self, Sucker2)
-                Fruit_Movement(self, Grapes)
+                Advanced_Fruit_Movement(self, Grapes,Grape_coin)
                 Sucker_Movement(self, Sucker3)
 
                 #if self.objective == -10:
@@ -307,11 +361,6 @@ class MyGame(arcade.Window):
 
         # Create the 'physics engine'
 
-        #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
-        #msg="Our final step is to generate the physics engine using,\n\n" \
-            #"self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list),\n\n" \
-            #" where the first argument is the player and the second argument is what objects the player can not go through.\n"
-
         self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
 
     def on_draw(self):
@@ -326,6 +375,7 @@ class MyGame(arcade.Window):
         self.orders_list.draw()
         self.fruit_list.draw()
         self.junk_list.draw()
+        self.coin_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -353,6 +403,12 @@ class MyGame(arcade.Window):
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
                 fruit.left = FRUIT_SIZE *rdm.randint(2,12)
         self.fruit_list.update()
+        for coin in self.coin_list:
+            if arcade.check_for_collision_with_list(coin, self.wall_list):
+                coin.bottom = FRUIT_SIZE * 9.75
+                # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                coin.left = FRUIT_SIZE *rdm.randint(2,12)
+        self.coin_list.update()
 
         for sucker in self.junk_list:
             if arcade.check_for_collision_with_list(sucker, self.wall_list):
@@ -361,15 +417,29 @@ class MyGame(arcade.Window):
                 sucker.left = FRUIT_SIZE *rdm.randint(2,12)
         self.junk_list.update()
 
-        # See if we hit any coins
+        # See if we hit any fruits
         fruit_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.fruit_list)
+        # See if we hit any of our Fruit coins
+        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.coin_list)
+
+
+        #after we hit a fruit coin, it will follow the player around
+        #eventually we need to check for collisions between the fruit coins and have them stack
+        #on top of each other inside the basket as a whole
+        #or we set predetermined heights for each incoming fruit to rest at.
+        for coin in coin_hit_list:
+            coin.follow_sprite(self.player_sprite)
+
+
 
         # Loop through each fruit we hit (if any) and remove it
         for fruit in fruit_hit_list:
             # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
             # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
-            # we won't be have enough fruit to make it through all of the levels
+            # we won't be have enough fruit to make it through all of the levels'
+            #--->should be resolved with the fruit coin system.
             fruit.remove_from_sprite_lists()
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)
