@@ -64,7 +64,9 @@ class Coin(arcade.Sprite):
     fix it so that fruits will stack on top of one another inside the basket somehow.
     Maybe make some predetermined heights or even
     make it so each fruit coin will follow the next fruit coin below it. For instance call the (follow sprite)
-    function on each incoming fruit?
+    function on each incoming fruit? Whatever we end up doing, we'll probably need to play around with the
+    follow_sprite function below too and see what we can have it do.
+
     """
 
     def follow_sprite(self, player_sprite):
