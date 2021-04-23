@@ -137,7 +137,7 @@ class MyGame(arcade.Window):
         self.first_objective=0
         self.second_objective = 0
         self.third_objective = 0
-
+        self.control=0
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
         # Create the Sprite lists
@@ -406,10 +406,16 @@ class MyGame(arcade.Window):
         # Draw our sprites
         self.wall_list.draw()
         self.player_list.draw()
-        self.orders_list.draw()
+
         self.fruit_list.draw()
         self.junk_list.draw()
         self.coin_list.draw()
+
+        #testing if we can have sprites appear midlvel
+        #okay so this tells us that sprites wont be draw physically
+        #but still exist in the game the whole time!!
+        if self.objective>0:
+            self.orders_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -428,8 +434,37 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         """ Movement and game logic """
 
+        Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
+        Watermelon = arcade.Sprite("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
+
         # Move the player with the physics engine
         self.physics_engine.update()
+        def Advanced_Fruit_Movement(self,fruit,coin):
+            """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
+             fruit, and it gets picked up and the real fruit that manages the score variables is the one that
+              disappears instead.
+               Potential Issue so far: If the fruit hits the ground before its collected, the
+               fruit coin and the real fruit get separated from each other """
+
+            fruit.bottom = FRUIT_SIZE * 9.75
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
+
+            fruit.boundary_right = FRUIT_SIZE
+            fruit.boundary_left = FRUIT_SIZE
+            fruit.change_y =rdm.choice([-5,-4,-3,-2])
+            self.fruit_list.append(fruit)
+            coin.bottom = fruit.bottom
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
+            coin.left =  fruit.left
+
+            coin.boundary_right=fruit.boundary_right
+            coin.boundary_left=fruit.boundary_left
+            coin.change_y=fruit.change_y
+            self.coin_list.append(coin)
+
+
 
         for fruit in self.fruit_list:
             if arcade.check_for_collision_with_list(fruit, self.wall_list):
@@ -467,6 +502,10 @@ class MyGame(arcade.Window):
             coin.follow_sprite(self.player_sprite)
 
 
+        #this is where our game truly BEGINS
+        if self.objective>0 and self.control==0:
+            self.control+=1
+            Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
 
         # Loop through each fruit we hit (if any) and remove it
         for fruit in fruit_hit_list:
