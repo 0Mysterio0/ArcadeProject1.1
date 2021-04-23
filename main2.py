@@ -299,7 +299,7 @@ class MyGame(arcade.Window):
 
                 Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
                 Sucker_Movement(self, Sucker1)
-                Advanced_Fruit_Movement(self, Banana, Bannana_coin)
+                Advanced_Fruit_Movement(self, Bannana, Bannana_coin)
                 Sucker_Movement(self, Sucker2)
                 Advanced_Fruit_Movement(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
@@ -456,30 +456,6 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
-        def Advanced_Fruit_Movement(self,fruit,coin):
-            """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
-             fruit, and it gets picked up and the real fruit that manages the score variables is the one that
-              disappears instead.
-               Potential Issue so far: If the fruit hits the ground before its collected, the
-               fruit coin and the real fruit get separated from each other """
-
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(1,14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list.append(fruit)
-            coin.bottom = fruit.bottom
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
-            coin.left =  fruit.left
-
-            coin.boundary_right=fruit.boundary_right
-            coin.boundary_left=fruit.boundary_left
-            coin.change_y=fruit.change_y
-            self.coin_list.append(coin)
 
 
 
@@ -511,8 +487,8 @@ class MyGame(arcade.Window):
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.coin_list)
 
-        second_layer_hit_list=arcade.check_for_collision_with_list(self.first_fruit,
-                                                              self.coin_list)
+        #second_layer_hit_list=arcade.check_for_collision_with_list(self.first_fruit,
+                                                            #  self.coin_list)
 
         #after we hit a fruit coin, it will follow the player around
         #eventually we need to check for collisions between the fruit coins and have them stack
@@ -528,7 +504,7 @@ class MyGame(arcade.Window):
         #keeps the spawning in check.
         if self.objective>0 and self.control==0:
             self.control+=1
-            Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
+            #Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
 
         # Loop through each fruit we hit (if any) and remove it
         for fruit in fruit_hit_list:
