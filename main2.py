@@ -451,47 +451,38 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker3)
 
         if self.level==2:
-            lvl_2_orders= ["Our Images/Sample_order_lvl2.1.PNG", "Our Images/Sample_order_lvl2.2.PNG",
-                           "Our Images/Sample_order_lvl2.3.PNG"]
+            lvl_2_orders= ["Our Images/Orders/Lvl2/Order1.1.PNG", "Our Images/Orders/Lvl2/Order1.2.PNG",
+                           "Our Images/Orders/Lvl2/Order1.3.PNG"]
             rdm_lvl_2_order = rdm.choice(lvl_2_orders)
-            order_coordinate_list = [[950, 550]]
+            order_coordinate_list = [[950, 530]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(rdm_lvl_2_order, TILE_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
-            if rdm_lvl_2_order == "Our Images/Sample_order_lvl2.1.PNG":
-
-                if self.objective == 0:
-                    Fruit_Movement(self, Watermelon)
-                    Sucker_Movement(self, Sucker1)
-                elif self.objective == 1:
-                    Fruit_Movement(self, Orange)
-                    Sucker_Movement(self, Sucker1)
-                else:
-                    Fruit_Movement(self, Grapes)
-                    Sucker_Movement(self, Sucker2)
-            if rdm_lvl_2_order == "Our Images/Sample_order_lvl2.2.PNG":
-
-                if self.objective == 0:
-                    Fruit_Movement(self, Watermelon)
-                    Sucker_Movement(self, Sucker1)
-                elif self.objective == 1:
-                    Fruit_Movement(self, Orange)
-                    Sucker_Movement(self, Sucker1)
-                else:
-                    Fruit_Movement(self, Grapes)
-                    Sucker_Movement(self, Sucker2)
-            if rdm_lvl_2_order == "Our Images/Sample_order_lvl2.3.PNG":
-
-                if self.objective == 0:
-                    Fruit_Movement(self, Watermelon)
-                    Sucker_Movement(self, Sucker1)
-                elif self.objective == 1:
-                    Fruit_Movement(self, Orange)
-                    Sucker_Movement(self, Sucker1)
-                else:
-                    Fruit_Movement(self, Grapes)
-                    Sucker_Movement(self, Sucker2)
+            if rdm_lvl_2_order == "Our Images/Orders/Lvl2/Order1.1.PNG":
+                Advanced_Fruit_Movement(self, Orange, Orange_coin)
+                Sucker_Movement(self, Sucker1)
+                Advanced_Fruit_Movement(self, Pear, Pear_coin)
+                Sucker_Movement(self, Sucker2)
+                Advanced_Fruit_Movement_3(self, Plum, Plum_coin)
+                Sucker_Movement(self, Sucker3)
+                Advanced_Fruit_Movement_3(self, Apple, Apple_coin)
+            if rdm_lvl_2_order == "Our Images/Orders/Lvl2/Order1.2.PNG":
+                Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
+                Sucker_Movement(self, Sucker1)
+                Advanced_Fruit_Movement(self, Bannana, Bannana_coin)
+                Sucker_Movement(self, Sucker2)
+                Advanced_Fruit_Movement_3(self, Grapes, Grape_coin)
+                Sucker_Movement(self, Sucker3)
+                Advanced_Fruit_Movement_3(self, Watermelon, Watermelon_coin)
+            if rdm_lvl_2_order == "Our Images/Orders/Lvl2/Order1.3.PNG":
+                Advanced_Fruit_Movement(self, Lemon, Lemon_coin)
+                Sucker_Movement(self, Sucker1)
+                Advanced_Fruit_Movement(self, Kiwi, Kiwi_coin)
+                Sucker_Movement(self, Sucker2)
+                Advanced_Fruit_Movement_3(self, Watermelon, Watermelon_coin)
+                Sucker_Movement(self, Sucker3)
+                Advanced_Fruit_Movement_3(self, Pineapple, Pineapple_coin)
 
         if self.level==3:
             lvl_3_orders= ["Our Images/Sample_order_lvl3.1.PNG", "Our Images/Sample_order_lvl3.2.PNG",
@@ -503,7 +494,7 @@ class MyGame(arcade.Window):
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
-
+        #End Screen
         if self.level==4:
             lvl_4 = "Our Images/Intro/Title.PNG"
             ending_coordinate_list = [[500, 550]]
