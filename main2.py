@@ -783,7 +783,7 @@ class MyGame(arcade.Window):
                     # Load the next level
                     self.setup(self.level)
         if self.level==2:
-            if self.objective>=4:
+            if self.objective>=9.5:
                     #once we hit a certain amount of fruit, go to next level
                     self.level = 4
                     # Load the next level
