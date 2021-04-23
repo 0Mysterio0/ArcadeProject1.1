@@ -94,6 +94,21 @@ class Coin(arcade.Sprite):
             self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
         elif self.center_x > player_sprite.center_x:
             self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
+
+
+ #class MenuView(arcade.View):
+    #def on_show(self):
+       # arcade.set_background_color(arcade.color.WHITE)
+
+    #def on_draw(self):
+    #    arcade.start_render()
+    #    arcade.draw_text("Menu Screen", WIDTH / 2, HEIGHT / 2, arcade.color.BLACK, font_size=50, anchor_x="center")
+    #    arcade.draw_text("Click to advance", WIDTH / 2, HEIGHT / 2 - 75, arcade.color.GRAY, font_size=20, anchor_x="center")
+
+    #def on_mouse_press(self, _x, _y, _button, _modifiers):
+    #    instructions_view = InstructionView()
+    #    self.window.show_view(instructions_view)
+
 class MyGame(arcade.Window):
     """
     Main application class.
@@ -266,10 +281,10 @@ class MyGame(arcade.Window):
             self.junk_list.append(sucker)
         #Order box in top right corner
         if self.level==1:
-            lvl_1_orders= ["Our Images/Sample_order_lvl1.1.PNG", "Our Images/Sample_order_lvl1.2.PNG",
-                           "Our Images/Sample_order_lvl1.3.PNG"]
+            lvl_1_orders= ["Our Images/Orders/Lvl1/Order1.1.PNG", "Our Images/Orders/Lvl1/Order1.2.PNG",
+                           "Our Images/Orders/Lvl1/Order1.3.PNG"]
             rdm_lvl_1_order = rdm.choice(lvl_1_orders)
-            order_coordinate_list = [[950, 570]]
+            order_coordinate_list = [[950, 550]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
                 orders.position = coordinate
@@ -277,13 +292,13 @@ class MyGame(arcade.Window):
             Sucker_Movement(self,Sucker4)
             #Only append fruits that are required for each order:
             #If order one is selected
-            if rdm_lvl_1_order=="Our Images/Sample_order_lvl1.1.PNG":
+            if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.1.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                                we want for the game"""
 
-                Fruit_Movement(self, Watermelon)
+                Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
                 Sucker_Movement(self, Sucker1)
-                Fruit_Movement(self, Orange)
+                Advanced_Fruit_Movement(self, Banana, Bannana_coin)
                 Sucker_Movement(self, Sucker2)
                 Advanced_Fruit_Movement(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
@@ -300,14 +315,14 @@ class MyGame(arcade.Window):
                    # Sucker_Movement(self, Sucker2)
 
             # If order two is selected
-            if rdm_lvl_1_order=="Our Images/Sample_order_lvl1.2.PNG":
+            if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.2.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                                we want for the game"""
-                Fruit_Movement(self, Apple)
+                Advanced_Fruit_Movement(self, Strawberry,Strawberry_coin)
                 Sucker_Movement(self, Sucker1)
-                Fruit_Movement(self, Kiwi)
+                Advanced_Fruit_Movement(self, Kiwi,Kiwi_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement(self, Grapes,Grape_coin)
+                Advanced_Fruit_Movement(self, Pineapple,Pineapple_coin)
                 Sucker_Movement(self, Sucker3)
                 #if self.objective == -10:
                    # Fruit_Movement(self, Apple)
@@ -319,15 +334,15 @@ class MyGame(arcade.Window):
                    # Fruit_Movement(self, Grapes)
                     #Sucker_Movement(self, Sucker2)
             # If order three is selected
-            if rdm_lvl_1_order=="Our Images/Sample_order_lvl1.3.PNG":
+            if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.3.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                 we want for the game"""
 
-                Fruit_Movement(self, Bannana)
+                Advanced_Fruit_Movement(self, Apple, Apple_coin)
                 Sucker_Movement(self, Sucker1)
-                Fruit_Movement(self, Cherry)
+                Advanced_Fruit_Movement(self, Pear, Pear_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement(self, Grapes,Grape_coin)
+                Advanced_Fruit_Movement(self, Plum, Plum_coin)
                 Sucker_Movement(self, Sucker3)
 
                 #if self.objective == -10:
