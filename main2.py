@@ -99,7 +99,7 @@ class Coin(arcade.Sprite):
 
 
         if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y + 1)
+            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
         elif self.center_y > player_sprite.top:
             self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
 
@@ -112,7 +112,7 @@ class Coin(arcade.Sprite):
 
 
         if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y + 2)
+            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
         elif self.center_y > player_sprite.top:
             self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
 
@@ -179,7 +179,11 @@ class MyGame(arcade.Window):
         self.orders_list = arcade.SpriteList(use_spatial_hash=True)
         self.instructions_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList()
+        self.coin_list_2 = arcade.SpriteList()
+        self.coin_list_3 = arcade.SpriteList()
         self.fruit_list = arcade.SpriteList()
+        self.fruit_list_2 = arcade.SpriteList()
+        self.fruit_list_3 = arcade.SpriteList()
         self.cherry_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
 
@@ -603,7 +607,7 @@ class MyGame(arcade.Window):
             coin.follow_sprite_2(self.player_sprite)
 
         for coin in coin_hit_list_3:
-            coin.follow_sprite_2(self.player_sprite)
+            coin.follow_sprite_3(self.player_sprite)
 
 
         if self.first_objective == 1:
