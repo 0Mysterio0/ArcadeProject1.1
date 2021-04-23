@@ -144,6 +144,7 @@ class MyGame(arcade.Window):
         self.fruit_list_2= None
         self.fruit_list_3= None
         self.cherry_list = None
+        self.door_list = None
         self.junk_list=None
 
         #Foundation lists to make an order based fruit collecting system.
@@ -186,6 +187,7 @@ class MyGame(arcade.Window):
         self.fruit_list_2 = arcade.SpriteList()
         self.fruit_list_3 = arcade.SpriteList()
         self.cherry_list = arcade.SpriteList()
+        self.door_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
 
 
@@ -463,6 +465,27 @@ class MyGame(arcade.Window):
                 self.orders_list.append(orders)
 
 
+        if self.level==4:
+            lvl_4 = "Our Images/Intro/Title.PNG"
+            ending_coordinate_list = [[500, 550]]
+            for coordinate in ending_coordinate_list:
+                ending = arcade.Sprite(lvl_4, TILE_SCALING)
+                ending.position = coordinate
+                self.instructions_list.append(ending)
+            fruit = "Our Images/Fruits/Cherry.png"
+            cherry_coordinate_list = [[125, 175]]
+            for coordinate in cherry_coordinate_list:
+                cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING * 1.8)
+                cherry_instr.position = coordinate
+                self.cherry_list.append(cherry_instr)
+            door="Our Images/pixel door.png"
+            door_coordinate_list = [[925, 90]]
+            for coordinate in door_coordinate_list:
+                door_ = arcade.Sprite(door, FRUIT_SCALING * 1.8)
+                door_.position = coordinate
+                self.door_list.append(door_)
+
+
         # Create the 'physics engine'
 
         self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
@@ -487,6 +510,7 @@ class MyGame(arcade.Window):
         self.coin_list_3.draw()
         self.orders_list.draw()
         self.instructions_list.draw()
+        self.door_list.draw()
 
         #testing if we can have sprites appear midlvel
         #okay so this tells us that sprites wont be draw physically
