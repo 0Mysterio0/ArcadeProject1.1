@@ -171,7 +171,18 @@ class MyGame(arcade.Window):
 
 
         #Fruit Coin Lists?:
-        Grape_coin=Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
+        Grape_coin= Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
+        Cherry_coin = Coin("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
+        Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
+        Orange_coin = Coin("Our Images/Fruits/orange.png", FRUIT_SCALING * 1.8)
+        Pear_coin = Coin("Our Images/Fruits/pear.png", FRUIT_SCALING * 1.8)
+        Pineapple_coin = Coin("Our Images/Fruits/Pineapple.png", FRUIT_SCALING * 1.8)
+        Plum_coin = Coin("Our Images/Fruits/plum.png", FRUIT_SCALING * 1.8)
+        Strawberry_coin = Coin("Our Images/Fruits/Strawberry.png", FRUIT_SCALING * 1.8)
+        Kiwi_coin = Coin("Our Images/Fruits/kiwi.png", FRUIT_SCALING * 1.8)
+        Lemon_coin = Coin("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
+        Apple_coin = Coin("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
+        Bannana_coin = Coin("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
 
 
 
@@ -197,7 +208,7 @@ class MyGame(arcade.Window):
         # We use crates to define boundaries of our game, and put them in the wall_list.
         # This shows using a coordinate list to place sprites
         coordinate_list = [[-30, 96],
-                           [1000, 96]]
+                           [1045, 96]]
         for coordinate in coordinate_list:
             #Add a crate on the ground
             wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", TILE_SCALING)
@@ -212,7 +223,7 @@ class MyGame(arcade.Window):
             # Maybe we make "ghost fruit that follow the other fruit"
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(4,16)
+            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -227,7 +238,7 @@ class MyGame(arcade.Window):
 
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(4,16)
+            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -247,7 +258,7 @@ class MyGame(arcade.Window):
             not work yet.  """
             sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            sucker.left = FRUIT_SIZE * rdm.randint(4,16)
+            sucker.left = FRUIT_SIZE * rdm.randint(4,14)
 
             sucker.boundary_right = FRUIT_SIZE
             sucker.boundary_left = FRUIT_SIZE
@@ -269,6 +280,7 @@ class MyGame(arcade.Window):
             if rdm_lvl_1_order=="Our Images/Sample_order_lvl1.1.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                                we want for the game"""
+
                 Fruit_Movement(self, Watermelon)
                 Sucker_Movement(self, Sucker1)
                 Fruit_Movement(self, Orange)
@@ -423,20 +435,20 @@ class MyGame(arcade.Window):
             if arcade.check_for_collision_with_list(fruit, self.wall_list):
                 fruit.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                fruit.left = FRUIT_SIZE *rdm.randint(2,12)
+                fruit.left = FRUIT_SIZE *rdm.randint(2,15)
         self.fruit_list.update()
         for coin in self.coin_list:
             if arcade.check_for_collision_with_list(coin, self.wall_list):
                 coin.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                coin.left = FRUIT_SIZE *rdm.randint(2,12)
+                coin.left = FRUIT_SIZE *rdm.randint(2,15)
         self.coin_list.update()
 
         for sucker in self.junk_list:
             if arcade.check_for_collision_with_list(sucker, self.wall_list):
                 sucker.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                sucker.left = FRUIT_SIZE *rdm.randint(2,12)
+                sucker.left = FRUIT_SIZE *rdm.randint(2,15)
         self.junk_list.update()
 
         # See if we hit any fruits
@@ -461,7 +473,7 @@ class MyGame(arcade.Window):
             # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
             # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
             # we won't be have enough fruit to make it through all of the levels'
-            #--->should be resolved with the fruit coin system.
+            #--->should be resolved with the fruit coin system. --> it is indeed resolved with the coins
             fruit.remove_from_sprite_lists()
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)

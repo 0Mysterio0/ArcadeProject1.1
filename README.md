@@ -6,7 +6,7 @@
 
 2. ~~Make player move only between bounds~~
 
-3. Have fruit and suckers fall from sky, with random speeds
+3. ~~Have fruit and suckers fall from sky, with random speeds~~
 
 4. Randomize fruit orders and display correct fruit
 
@@ -25,7 +25,7 @@
 11. Made sucker movement different/harder than fruit movement, potentially
 utilizing x and y coords.
 
-12. Randomize initial placement of fruits and suckers
+~~12. Randomize initial placement of fruits and suckers~~
 
 13. Fruit gets placed into basket, on top of one another
 
