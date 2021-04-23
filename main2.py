@@ -410,12 +410,13 @@ class MyGame(arcade.Window):
         self.fruit_list.draw()
         self.junk_list.draw()
         self.coin_list.draw()
+        self.orders_list.draw()
 
         #testing if we can have sprites appear midlvel
         #okay so this tells us that sprites wont be draw physically
         #but still exist in the game the whole time!!
-        if self.objective>0:
-            self.orders_list.draw()
+        #if self.objective>0:
+           # self.orders_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -506,7 +507,7 @@ class MyGame(arcade.Window):
         #this allows for fruit to be added midlevel, and the self.control variable
         #keeps the spawning in check.
         if self.objective>0 and self.control==0:
-            self.control+=1
+            #self.control+=1
             Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
 
         # Loop through each fruit we hit (if any) and remove it
