@@ -304,16 +304,6 @@ class MyGame(arcade.Window):
                 Advanced_Fruit_Movement(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
 
-                """Below here was the setup to get certain fruit to appear at certain times, but was not working yet"""
-                #if self.objective==10:
-                    #Fruit_Movement(self, Watermelon)
-                    #Sucker_Movement(self, Sucker1)
-                #elif self.objective==10:
-                    #Fruit_Movement(self, Orange)
-                    #Sucker_Movement(self, Sucker1)
-                #else:
-                    #Fruit_Movement(self, Grapes)
-                   # Sucker_Movement(self, Sucker2)
 
             # If order two is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.2.PNG":
@@ -325,15 +315,6 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker2)
                 Advanced_Fruit_Movement(self, Pineapple,Pineapple_coin)
                 Sucker_Movement(self, Sucker3)
-                #if self.objective == -10:
-                   # Fruit_Movement(self, Apple)
-                    #Sucker_Movement(self, Sucker2)
-                #elif self.objective == -1:
-                   # Fruit_Movement(self, Kiwi)
-                    #Sucker_Movement(self, Sucker2)
-                #else:
-                   # Fruit_Movement(self, Grapes)
-                    #Sucker_Movement(self, Sucker2)
             # If order three is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.3.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
@@ -346,15 +327,6 @@ class MyGame(arcade.Window):
                 Advanced_Fruit_Movement(self, Plum, Plum_coin)
                 Sucker_Movement(self, Sucker3)
 
-                #if self.objective == -10:
-                    #Fruit_Movement(self,Bannana)
-                    #Sucker_Movement(self, Sucker3)
-                #elif self.objective == -1:
-                    #Fruit_Movement(self,Cherry)
-                    #Sucker_Movement(self, Sucker3)
-                #else:
-                   # Fruit_Movement(self, Grapes)
-                    #Sucker_Movement(self, Sucker2)
         if self.level==2:
             lvl_2_orders= ["Our Images/Sample_order_lvl2.1.PNG", "Our Images/Sample_order_lvl2.2.PNG",
                            "Our Images/Sample_order_lvl2.3.PNG"]
