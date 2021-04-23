@@ -159,6 +159,7 @@ class MyGame(arcade.Window):
         self.fruit_list_3= None
         self.fruit_list_4= None
         self.cherry_list = None
+        self.cherry_list_2 = None
         self.door_list = None
         self.junk_list=None
 
@@ -202,6 +203,7 @@ class MyGame(arcade.Window):
         self.fruit_list_3 = arcade.SpriteList()
         self.fruit_list_4 = arcade.SpriteList()
         self.cherry_list = arcade.SpriteList()
+        self.cherry_list_2 = arcade.SpriteList()
         self.door_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
 
@@ -466,7 +468,7 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker1)
                 Advanced_Fruit_Movement(self, Pear, Pear_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Plum, Plum_coin)
+                Advanced_Fruit_Movement_2(self, Plum, Plum_coin)
                 Sucker_Movement(self, Sucker3)
                 Advanced_Fruit_Movement_3(self, Apple, Apple_coin)
             if rdm_lvl_2_order == "Our Images/Orders/Lvl2/Order1.2.PNG":
@@ -474,15 +476,15 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker1)
                 Advanced_Fruit_Movement(self, Bannana, Bannana_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Grapes, Grape_coin)
+                Advanced_Fruit_Movement_2(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
-                Advanced_Fruit_Movement_3(self, Watermelon, Watermelon_coin)
+                Advanced_Fruit_Movement_3(self, Cherry, Cherry_coin)
             if rdm_lvl_2_order == "Our Images/Orders/Lvl2/Order1.3.PNG":
                 Advanced_Fruit_Movement(self, Lemon, Lemon_coin)
                 Sucker_Movement(self, Sucker1)
                 Advanced_Fruit_Movement(self, Kiwi, Kiwi_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Watermelon, Watermelon_coin)
+                Advanced_Fruit_Movement_2(self, Strawberry, Strawberry_coin)
                 Sucker_Movement(self, Sucker3)
                 Advanced_Fruit_Movement_3(self, Pineapple, Pineapple_coin)
 
@@ -499,7 +501,7 @@ class MyGame(arcade.Window):
             for coordinate in cherry_coordinate_list:
                 cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING * 1.8)
                 cherry_instr.position = coordinate
-                self.cherry_list.append(cherry_instr)
+                self.cherry_list_2.append(cherry_instr)
             door="Our Images/Outro/pixel door.png"
             door_coordinate_list = [[890, 143]]
             for coordinate in door_coordinate_list:
@@ -525,6 +527,7 @@ class MyGame(arcade.Window):
         self.fruit_list_2.draw()
         self.fruit_list_3.draw()
         self.cherry_list.draw()
+        self.cherry_list_2.draw()
         self.junk_list.draw()
         self.coin_list.draw()
         self.coin_list_2.draw()
@@ -647,8 +650,8 @@ class MyGame(arcade.Window):
         # Hit the cherry
         cherry_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.cherry_list)
-        cherry_hit_list_1 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                               self.cherry_list)
+        cherry_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
+                                                               self.cherry_list_2)
 
         # See if we hit any of our Fruit coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -744,7 +747,7 @@ class MyGame(arcade.Window):
             self.instr_objective += 1
             self.cherry_list.update()
 
-        for cherry in cherry_hit_list_1:
+        for cherry in cherry_hit_list_2:
             cherry.remove_from_sprite_lists()
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)
@@ -767,8 +770,9 @@ class MyGame(arcade.Window):
 
         # See if the user got to the end of the level
         if self.level==0:
-            if self.instr_objective>=1:
+            if self.instr_objective==1:
                     #once we hit a certain amount of fruit, go to next level
+                    self.instr_objective=0
                     self.level += 1
                     # Load the next level
                     self.setup(self.level)
