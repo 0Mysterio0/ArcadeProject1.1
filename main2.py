@@ -463,6 +463,11 @@ class MyGame(arcade.Window):
         # See if we hit any fruits
         fruit_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.fruit_list)
+
+        # Hit the cherry
+        cherry_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.cherry_list)
+
         # See if we hit any of our Fruit coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.coin_list)
@@ -499,6 +504,18 @@ class MyGame(arcade.Window):
             self.objective += 1.5
             self.fruit_list.update()
 
+        for cherry in cherry_hit_list:
+            # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
+            # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
+            # we won't be have enough fruit to make it through all of the levels'
+            #--->should be resolved with the fruit coin system. --> it is indeed resolved with the coins
+            cherry.remove_from_sprite_lists()
+            # Play a sound
+            #arcade.play_sound(self.collect_coin_sound)
+            # Add to the score
+            self.objective += 1.5
+            self.cherry_list.update()
+
         junk_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.junk_list)
 
@@ -509,12 +526,12 @@ class MyGame(arcade.Window):
             # Play a sound
             # arcade.play_sound(self.collect_coin_sound)
             # Subtract score
-            self.objective -= 0.5
+            self.objective -= 1.5
             self.junk_list.update()
 
         # See if the user got to the end of the level
         if self.level==0:
-            if self.objective>=0:
+            if self.objective>=.25:
                     #once we hit a certain amount of fruit, go to next level
                     self.level += 1
                     # Load the next level
