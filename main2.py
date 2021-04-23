@@ -96,19 +96,6 @@ class Coin(arcade.Sprite):
             self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
 
 
- #class MenuView(arcade.View):
-    #def on_show(self):
-       # arcade.set_background_color(arcade.color.WHITE)
-
-    #def on_draw(self):
-    #    arcade.start_render()
-    #    arcade.draw_text("Menu Screen", WIDTH / 2, HEIGHT / 2, arcade.color.BLACK, font_size=50, anchor_x="center")
-    #    arcade.draw_text("Click to advance", WIDTH / 2, HEIGHT / 2 - 75, arcade.color.GRAY, font_size=20, anchor_x="center")
-
-    #def on_mouse_press(self, _x, _y, _button, _modifiers):
-    #    instructions_view = InstructionView()
-    #    self.window.show_view(instructions_view)
-
 class MyGame(arcade.Window):
     """
     Main application class.
@@ -124,6 +111,7 @@ class MyGame(arcade.Window):
         self.coin_list = None
         self.wall_list = None
         self.orders_list = None
+        self.instructions_list = None
         self.player_list = None
         self.fruit_list= None
         self.junk_list=None
@@ -139,7 +127,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         # Level
-        self.level = 1
+        self.level = 0
 
         #Defining Objective System, it gets a little complex here:
         #So far only self.objective is the true score. Anything else is just a foundation
@@ -159,6 +147,7 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.orders_list = arcade.SpriteList(use_spatial_hash=True)
+        self.instructions_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList()
         self.fruit_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
@@ -280,6 +269,16 @@ class MyGame(arcade.Window):
             sucker.change_y =rdm.choice([-5,-4,-3,-2])
             sucker.change_x= rdm.choice([-1, 0, 1])
             self.junk_list.append(sucker)
+
+        #Instruction screen
+        if self.level==0:
+            lvl_0="Our Images/Orders/Lvl1/Order1.1.PNG"
+            instruction_coordinate_list = [[500, 550]]
+            for coordinate in instruction_coordinate_list:
+                instructions = arcade.Sprite(lvl_0, TILE_SCALING)
+                instructions.position = coordinate
+                self.instructions_list.append(instructions)
+
         #Order box in top right corner
         if self.level==1:
             lvl_1_orders= ["Our Images/Orders/Lvl1/Order1.1.PNG", "Our Images/Orders/Lvl1/Order1.2.PNG",
@@ -399,6 +398,7 @@ class MyGame(arcade.Window):
         self.junk_list.draw()
         self.coin_list.draw()
         self.orders_list.draw()
+        self.instructions_list.draw()
 
         #testing if we can have sprites appear midlvel
         #okay so this tells us that sprites wont be draw physically
@@ -522,6 +522,7 @@ def main():
     window = MyGame()
     window.setup(window.level)
     arcade.run()
+
 
 
 if __name__ == "__main__":
