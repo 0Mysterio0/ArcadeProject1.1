@@ -681,7 +681,7 @@ class MyGame(arcade.Window):
             # Play a sound
             # arcade.play_sound(self.collect_coin_sound)
             # Subtract score
-            self.objective -= 1.5
+            self.objective -= 0.5
             self.junk_list.update()
 
         # See if the user got to the end of the level
