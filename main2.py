@@ -182,6 +182,8 @@ class MyGame(arcade.Window):
         self.second_objective = 0
         self.third_objective = 0
         self.instr_objective=0
+        self.restart_objective = 0
+        self.end_objective = 0
         self.control=0
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
@@ -393,7 +395,7 @@ class MyGame(arcade.Window):
             lvl_0_instr = "Our Images/Intro/Instructions.png"
             instruction_coordinate_list = [[500, 360]]
             for coordinate in instruction_coordinate_list:
-                instructions = arcade.Sprite(lvl_0_instr, TILE_SCALING*.2)
+                instructions = arcade.Sprite(lvl_0_instr, TILE_SCALING*.3)
                 instructions.position = coordinate
                 self.instructions_list.append(instructions)
             fruit="Our Images/Fruits/Cherry.png"
@@ -484,16 +486,6 @@ class MyGame(arcade.Window):
                 Sucker_Movement(self, Sucker3)
                 Advanced_Fruit_Movement_3(self, Pineapple, Pineapple_coin)
 
-        if self.level==3:
-            lvl_3_orders= ["Our Images/Sample_order_lvl3.1.PNG", "Our Images/Sample_order_lvl3.2.PNG",
-                           "Our Images/Sample_order_lvl3.3.PNG"]
-            rdm_lvl_3_order = rdm.choice(lvl_3_orders)
-            order_coordinate_list = [[950, 530]]
-            for coordinate in order_coordinate_list:
-                orders = arcade.Sprite(rdm_lvl_3_order, FRUIT_SCALING)
-                orders.position = coordinate
-                self.orders_list.append(orders)
-
         #End Screen
         if self.level==4:
             lvl_4 = "Our Images/Intro/Title.PNG"
@@ -503,15 +495,15 @@ class MyGame(arcade.Window):
                 ending.position = coordinate
                 self.instructions_list.append(ending)
             fruit = "Our Images/Fruits/Cherry.png"
-            cherry_coordinate_list = [[125, 175]]
+            cherry_coordinate_list = [[150, 175]]
             for coordinate in cherry_coordinate_list:
                 cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING * 1.8)
                 cherry_instr.position = coordinate
                 self.cherry_list.append(cherry_instr)
             door="Our Images/Outro/pixel door.png"
-            door_coordinate_list = [[925, 90]]
+            door_coordinate_list = [[890, 143]]
             for coordinate in door_coordinate_list:
-                door_ = arcade.Sprite(door, FRUIT_SCALING * 1.8)
+                door_ = arcade.Sprite(door, FRUIT_SCALING * .75)
                 door_.position = coordinate
                 self.door_list.append(door_)
 
@@ -656,6 +648,8 @@ class MyGame(arcade.Window):
         # Hit the cherry
         cherry_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.cherry_list)
+        cherry_hit_list_1 = arcade.check_for_collision_with_list(self.player_sprite,
+                                                               self.cherry_list)
 
         # See if we hit any of our Fruit coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -745,15 +739,18 @@ class MyGame(arcade.Window):
 
 
         for cherry in cherry_hit_list:
-            # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
-            # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
-            # we won't be have enough fruit to make it through all of the levels'
-            #--->should be resolved with the fruit coin system. --> it is indeed resolved with the coins
             cherry.remove_from_sprite_lists()
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)
-            # Add to the score
             self.instr_objective += 1
+            self.cherry_list.update()
+
+        for cherry in cherry_hit_list_1:
+            cherry.remove_from_sprite_lists()
+            # Play a sound
+            #arcade.play_sound(self.collect_coin_sound)
+            self.restart_objective = 1
+            self.objective=0
             self.cherry_list.update()
 
         junk_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -783,9 +780,22 @@ class MyGame(arcade.Window):
                     # Load the next level
                     self.setup(self.level)
         if self.level==2:
-            if self.objective>=4:
+            if self.objective>=9.5:
                     #once we hit a certain amount of fruit, go to next level
                     self.level = 4
+                    # Load the next level
+                    self.setup(self.level)
+        if self.level==4:
+            if self.restart_objective==1:
+                    self.restart_objective=0
+                    #once we hit the cherry, restart at level 1
+                    self.level = 0
+                    # Load the next level
+                    self.setup(self.level)
+            elif self.end_objective==1:
+                    self.end_objective=0
+                    #once we hit the door, game over
+                    self.level +=1
                     # Load the next level
                     self.setup(self.level)
 def main():
