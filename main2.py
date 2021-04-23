@@ -141,6 +141,7 @@ class MyGame(arcade.Window):
         self.first_objective=0
         self.second_objective = 0
         self.third_objective = 0
+        self.instr_objective=0
         self.control=0
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
@@ -513,7 +514,7 @@ class MyGame(arcade.Window):
             # Play a sound
             #arcade.play_sound(self.collect_coin_sound)
             # Add to the score
-            self.objective += 1.5
+            self.instr_objective += 1
             self.cherry_list.update()
 
         junk_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -531,7 +532,7 @@ class MyGame(arcade.Window):
 
         # See if the user got to the end of the level
         if self.level==0:
-            if self.objective>=.25:
+            if self.instr_objective>=1:
                     #once we hit a certain amount of fruit, go to next level
                     self.level += 1
                     # Load the next level
