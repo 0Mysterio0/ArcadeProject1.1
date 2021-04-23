@@ -106,8 +106,11 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.fruit_list= None
         self.junk_list=None
-        #self.wrong_fruit.list=None
 
+        #Foundation lists to make an order based fruit collecting system.
+        self.first_fruit=None
+        self.second_fruit=None
+        self.third_fruit=None
 
 
         # Separate variable that holds the player sprite
@@ -116,7 +119,13 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         # Level
         self.level = 1
+        #Defining Objective System, it gets a little complex here:
+        #So far only self.objective is the true score. Anything else is just a foundation
+        #for a later system.
         self.objective=0
+        self.first_objective=0
+        self.second_objective = 0
+        self.third_objective = 0
 
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
