@@ -139,6 +139,7 @@ class MyGame(arcade.Window):
         self.wall_list = None
         self.orders_list = None
         self.instructions_list = None
+        self.intro_list = None
         self.player_list = None
         self.fruit_list= None
         self.fruit_list_2= None
@@ -180,6 +181,7 @@ class MyGame(arcade.Window):
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.orders_list = arcade.SpriteList(use_spatial_hash=True)
         self.instructions_list = arcade.SpriteList(use_spatial_hash=True)
+        self.intro_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList()
         self.coin_list_2 = arcade.SpriteList()
         self.coin_list_3 = arcade.SpriteList()
@@ -352,9 +354,15 @@ class MyGame(arcade.Window):
         #Instruction screen
         if self.level==0:
             lvl_0="Our Images/Intro/Title.PNG"
-            instruction_coordinate_list = [[500, 550]]
+            intro_coordinate_list = [[500, 550]]
+            for coordinate in intro_coordinate_list:
+                intro = arcade.Sprite(lvl_0, TILE_SCALING)
+                intro.position = coordinate
+                self.intro_list.append(intro)
+            lvl_0_instr = "Our Images/Intro/Instructions.png"
+            instruction_coordinate_list = [[500, 360]]
             for coordinate in instruction_coordinate_list:
-                instructions = arcade.Sprite(lvl_0, TILE_SCALING)
+                instructions = arcade.Sprite(lvl_0_instr, TILE_SCALING*.2)
                 instructions.position = coordinate
                 self.instructions_list.append(instructions)
             fruit="Our Images/Fruits/Cherry.png"
@@ -510,6 +518,7 @@ class MyGame(arcade.Window):
         self.coin_list_3.draw()
         self.orders_list.draw()
         self.instructions_list.draw()
+        self.intro_list.draw()
         self.door_list.draw()
 
         #testing if we can have sprites appear midlvel
