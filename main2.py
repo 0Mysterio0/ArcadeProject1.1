@@ -357,7 +357,7 @@ class MyGame(arcade.Window):
             fruit="Our Images/Fruits/Cherry.png"
             cherry_coordinate_list = [[925, 175]]
             for coordinate in cherry_coordinate_list:
-                cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING)
+                cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING*1.8)
                 cherry_instr.position = coordinate
                 self.cherry_list.append(cherry_instr)
 
@@ -667,6 +667,12 @@ class MyGame(arcade.Window):
             self.junk_list.update()
 
         # See if the user got to the end of the level
+        if self.level==0:
+            if self.objective>=0:
+                    #once we hit a certain amount of fruit, go to next level
+                    self.level += 1
+                    # Load the next level
+                    self.setup(self.level)
         if self.level==1:
             if self.objective>=3.5:
                     #once we hit a certain amount of fruit, go to next level
