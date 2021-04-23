@@ -430,10 +430,6 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time):
         """ Movement and game logic """
-
-        Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
-        Watermelon = arcade.Sprite("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
-
         # Move the player with the physics engine
         self.physics_engine.update()
 
@@ -512,7 +508,9 @@ class MyGame(arcade.Window):
             self.objective -= 0.5
             self.junk_list.update()
 
+
         # See if the user got to the end of the level
+
         if self.level==1:
             if self.objective>=3.5:
                     #once we hit a certain amount of fruit, go to next level
