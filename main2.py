@@ -114,6 +114,7 @@ class MyGame(arcade.Window):
         self.instructions_list = None
         self.player_list = None
         self.fruit_list= None
+        self.cherry_list = None
         self.junk_list=None
 
         #Foundation lists to make an order based fruit collecting system.
@@ -150,6 +151,7 @@ class MyGame(arcade.Window):
         self.instructions_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList()
         self.fruit_list = arcade.SpriteList()
+        self.cherry_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
 
 
@@ -278,6 +280,12 @@ class MyGame(arcade.Window):
                 instructions = arcade.Sprite(lvl_0, TILE_SCALING)
                 instructions.position = coordinate
                 self.instructions_list.append(instructions)
+            fruit="Our Images/Fruits/Cherry.png"
+            cherry_coordinate_list = [[925, 175]]
+            for coordinate in cherry_coordinate_list:
+                cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING)
+                cherry_instr.position = coordinate
+                self.cherry_list.append(cherry_instr)
 
         #Order box in top right corner
         if self.level==1:
@@ -395,6 +403,7 @@ class MyGame(arcade.Window):
         self.player_list.draw()
 
         self.fruit_list.draw()
+        self.cherry_list.draw()
         self.junk_list.draw()
         self.coin_list.draw()
         self.orders_list.draw()
