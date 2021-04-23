@@ -349,7 +349,7 @@ class MyGame(arcade.Window):
 
         #Instruction screen
         if self.level==0:
-            lvl_0="Our Images/Orders/Lvl1/Order1.1.PNG"
+            lvl_0="Our Images/Intro/Title.PNG"
             instruction_coordinate_list = [[500, 550]]
             for coordinate in instruction_coordinate_list:
                 instructions = arcade.Sprite(lvl_0, TILE_SCALING)
