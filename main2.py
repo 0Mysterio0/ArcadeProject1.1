@@ -494,11 +494,14 @@ class MyGame(arcade.Window):
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.coin_list)
 
+        second_layer_hit_list=arcade.check_for_collision_with_list(self.first_fruit,
+                                                              self.coin_list)
 
         #after we hit a fruit coin, it will follow the player around
         #eventually we need to check for collisions between the fruit coins and have them stack
         #on top of each other inside the basket as a whole
         #or we set predetermined heights for each incoming fruit to rest at.
+
         for coin in coin_hit_list:
             coin.follow_sprite(self.player_sprite)
 
