@@ -483,6 +483,8 @@ class MyGame(arcade.Window):
         self.cherry_list.draw()
         self.junk_list.draw()
         self.coin_list.draw()
+        self.coin_list_2.draw()
+        self.coin_list_3.draw()
         self.orders_list.draw()
         self.instructions_list.draw()
 
