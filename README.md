@@ -27,7 +27,9 @@ utilizing x and y coords.
 
 12. Randomize initial placement of fruits and suckers
 
-13. Fruit gets placed into basket
+13. Fruit gets placed into basket, on top of one another
+
+14. Have order matter when collecting fruits
 
 ###Extra:
 Ex1. after losing, the fruit gets sucked up and out of your basket.
