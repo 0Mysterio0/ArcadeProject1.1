@@ -517,7 +517,7 @@ class MyGame(arcade.Window):
                 cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING * 1.8)
                 cherry_instr.position = coordinate
                 self.cherry_list.append(cherry_instr)
-            door="Our Images/pixel door.png"
+            door="Our Images/Outro/pixel door.png"
             door_coordinate_list = [[925, 90]]
             for coordinate in door_coordinate_list:
                 door_ = arcade.Sprite(door, FRUIT_SCALING * 1.8)
@@ -792,9 +792,9 @@ class MyGame(arcade.Window):
                     # Load the next level
                     self.setup(self.level)
         if self.level==2:
-            if self.objective==2:
+            if self.objective>=4:
                     #once we hit a certain amount of fruit, go to next level
-                    self.level += 1
+                    self.level = 4
                     # Load the next level
                     self.setup(self.level)
 def main():
