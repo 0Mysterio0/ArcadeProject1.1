@@ -503,6 +503,8 @@ class MyGame(arcade.Window):
 
 
         #this is where our game truly BEGINS
+        #this allows for fruit to be added midlevel, and the self.control variable
+        #keeps the spawning in check.
         if self.objective>0 and self.control==0:
             self.control+=1
             Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
