@@ -506,8 +506,7 @@ class MyGame(arcade.Window):
                 door_ = arcade.Sprite(door, FRUIT_SCALING * .75)
                 door_.position = coordinate
                 self.door_list.append(door_)
-
-
+            self.player_sprite.set_position(500,PLAYER_START_Y)
         # Create the 'physics engine'
 
         self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
