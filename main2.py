@@ -121,6 +121,18 @@ class Coin(arcade.Sprite):
         elif self.center_x > player_sprite.center_x:
             self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
 
+    def follow_sprite_4(self, player_sprite):
+
+        if self.center_y < player_sprite.top:
+            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
+        elif self.center_y > player_sprite.top:
+            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
+
+        if self.center_x < player_sprite.center_x:
+            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
+        elif self.center_x > player_sprite.center_x:
+            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
+
 class MyGame(arcade.Window):
     """
     Main application class.
@@ -136,6 +148,7 @@ class MyGame(arcade.Window):
         self.coin_list = None
         self.coin_list_2= None
         self.coin_list_3 = None
+        self.coin_list_4 = None
         self.wall_list = None
         self.orders_list = None
         self.instructions_list = None
@@ -144,14 +157,10 @@ class MyGame(arcade.Window):
         self.fruit_list= None
         self.fruit_list_2= None
         self.fruit_list_3= None
+        self.fruit_list_4= None
         self.cherry_list = None
         self.door_list = None
         self.junk_list=None
-
-        #Foundation lists to make an order based fruit collecting system.
-        self.first_fruit=None
-        self.second_fruit=None
-        self.third_fruit=None
 
 
         # Separate variable that holds the player sprite
@@ -185,9 +194,11 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
         self.coin_list_2 = arcade.SpriteList()
         self.coin_list_3 = arcade.SpriteList()
+        self.coin_list_4= arcade.SpriteList()
         self.fruit_list = arcade.SpriteList()
         self.fruit_list_2 = arcade.SpriteList()
         self.fruit_list_3 = arcade.SpriteList()
+        self.fruit_list_4 = arcade.SpriteList()
         self.cherry_list = arcade.SpriteList()
         self.door_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
@@ -337,6 +348,26 @@ class MyGame(arcade.Window):
             coin.boundary_left=fruit.boundary_left
             coin.change_y=fruit.change_y
             self.coin_list_3.append(coin)
+
+        def Advanced_Fruit_Movement_4(self,fruit,coin):
+
+            fruit.bottom = FRUIT_SIZE * 9.75
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
+
+            fruit.boundary_right = FRUIT_SIZE
+            fruit.boundary_left = FRUIT_SIZE
+            fruit.change_y =rdm.choice([-5,-4,-3,-2])
+            self.fruit_list_4.append(fruit)
+            coin.bottom = fruit.bottom
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
+            coin.left =  fruit.left
+
+            coin.boundary_right=fruit.boundary_right
+            coin.boundary_left=fruit.boundary_left
+            coin.change_y=fruit.change_y
+            self.coin_list_4.append(coin)
 
         def Sucker_Movement(self,sucker):
             """Defining a function that eventually should have the suckers moving different than the fruits, but does
@@ -594,6 +625,21 @@ class MyGame(arcade.Window):
         self.coin_list_3.update()
 
         # hitting the ground
+        for fruit in self.fruit_list_4:
+            if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                fruit.bottom = FRUIT_SIZE * 9.75
+                # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                fruit.left = FRUIT_SIZE *rdm.randint(1,14)
+        self.fruit_list_4.update()
+
+        for coin in self.coin_list_4:
+            if arcade.check_for_collision_with_list(coin, self.wall_list):
+                coin.bottom = FRUIT_SIZE *9.75
+                # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                coin.left = fruit.left
+        self.coin_list_4.update()
+
+        # hitting the ground
         for sucker in self.junk_list:
             if arcade.check_for_collision_with_list(sucker, self.wall_list):
                 sucker.bottom = FRUIT_SIZE * 9.75
@@ -611,6 +657,9 @@ class MyGame(arcade.Window):
         fruit_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.fruit_list_3)
 
+        fruit_hit_list_4 = arcade.check_for_collision_with_list(self.player_sprite,
+                                                                self.fruit_list_4)
+
 
 
         # Hit the cherry
@@ -626,6 +675,9 @@ class MyGame(arcade.Window):
 
         coin_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.coin_list_3)
+
+        coin_hit_list_4 = arcade.check_for_collision_with_list(self.player_sprite,
+                                                               self.coin_list_4)
 
         #second_layer_hit_list=arcade.check_for_collision_with_list(self.first_fruit,
                                                             #  self.coin_list)
@@ -645,6 +697,8 @@ class MyGame(arcade.Window):
         for coin in coin_hit_list_3:
             coin.follow_sprite_3(self.player_sprite)
 
+        for coin in coin_hit_list_4:
+            coin.follow_sprite_4(self.player_sprite)
 
         if self.first_objective == 1:
             fruit_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
@@ -668,7 +722,6 @@ class MyGame(arcade.Window):
         #keeps the spawning in check.
         if self.objective>0 and self.control==0:
             self.control+=1
-            #Advanced_Fruit_Movement(self,Watermelon,Watermelon_coin)
 
         # Loop through each fruit we hit (if any) and remove it
         for fruit in fruit_hit_list:
@@ -693,6 +746,12 @@ class MyGame(arcade.Window):
             fruit.remove_from_sprite_lists()
             self.objective += 1.5
             self.fruit_list_3.update()
+
+        for fruit in fruit_hit_list_4:
+            fruit.remove_from_sprite_lists()
+            self.objective += 1.5
+            self.fruit_list_4.update()
+
 
         for cherry in cherry_hit_list:
             # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
