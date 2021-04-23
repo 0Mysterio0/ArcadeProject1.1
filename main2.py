@@ -78,11 +78,17 @@ class Coin(arcade.Sprite):
         the target sprite, and not jump around if the sprite is not off
         an exact multiple of Fruit_follow_speed
         """
+        #Unintentionally!! I think this would be another way for us to do ordering of the fruit!
+        #where wrong fruits get collected and fall through player or something of that effect?
+        #This may actually replace the use of the suckers? so only wrong fruit falls through,
+        #and it knocks off one of the right fruit that is currently in the basket!!!!!
+        #so the game keeps going while one keeps avoiding the wrong fruit?
 
-        if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
-        elif self.center_y > player_sprite.top:
-            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
+
+        #if self.center_y < player_sprite.top:
+            #self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
+        #elif self.center_y > player_sprite.top:
+            #self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
 
         if self.center_x < player_sprite.center_x:
             self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
@@ -119,9 +125,14 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         # Level
         self.level = 1
+
         #Defining Objective System, it gets a little complex here:
         #So far only self.objective is the true score. Anything else is just a foundation
-        #for a later system.
+        #for a later system. This might be just one potential option for us. We may be able to utiilze
+        #the follow sprite function differently for fruits without referencing any sort of objectives?
+        #or maybe this is used with these objectives as well for the whole process? Altogether it looks
+        #like we have a few options.
+
         self.objective=0
         self.first_objective=0
         self.second_objective = 0
