@@ -85,10 +85,10 @@ class Coin(arcade.Sprite):
         #so the game keeps going while one keeps avoiding the wrong fruit?
 
 
-        #if self.center_y < player_sprite.top:
-            #self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
-        #elif self.center_y > player_sprite.top:
-            #self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
+        if self.center_y < player_sprite.top:
+            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
+        elif self.center_y > player_sprite.top:
+            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
 
         if self.center_x < player_sprite.center_x:
             self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
@@ -238,7 +238,7 @@ class MyGame(arcade.Window):
             # Maybe we make "ghost fruit that follow the other fruit"
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
+            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -253,7 +253,7 @@ class MyGame(arcade.Window):
 
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
+            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -273,11 +273,12 @@ class MyGame(arcade.Window):
             not work yet.  """
             sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            sucker.left = FRUIT_SIZE * rdm.randint(4,14)
+            sucker.left = FRUIT_SIZE * rdm.randint(0,14)
 
             sucker.boundary_right = FRUIT_SIZE
             sucker.boundary_left = FRUIT_SIZE
             sucker.change_y =rdm.choice([-5,-4,-3,-2])
+            sucker.change_x= rdm.choice([-1, 0, 1])
             self.junk_list.append(sucker)
         #Order box in top right corner
         if self.level==1:
@@ -464,7 +465,7 @@ class MyGame(arcade.Window):
 
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(4,14)
+            fruit.left = FRUIT_SIZE * rdm.randint(1,14)
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
@@ -486,20 +487,21 @@ class MyGame(arcade.Window):
             if arcade.check_for_collision_with_list(fruit, self.wall_list):
                 fruit.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                fruit.left = FRUIT_SIZE *rdm.randint(2,15)
+                fruit.left = FRUIT_SIZE *rdm.randint(1,14)
         self.fruit_list.update()
+
         for coin in self.coin_list:
             if arcade.check_for_collision_with_list(coin, self.wall_list):
                 coin.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                coin.left = FRUIT_SIZE *rdm.randint(2,15)
+                coin.left = fruit.left
         self.coin_list.update()
 
         for sucker in self.junk_list:
             if arcade.check_for_collision_with_list(sucker, self.wall_list):
                 sucker.bottom = FRUIT_SIZE * 9.75
                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                sucker.left = FRUIT_SIZE *rdm.randint(2,15)
+                sucker.left = FRUIT_SIZE *rdm.randint(1,14)
         self.junk_list.update()
 
         # See if we hit any fruits
