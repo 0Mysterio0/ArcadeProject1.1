@@ -631,6 +631,8 @@ class MyGame(arcade.Window):
                  # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
                 fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
                 fruits.change_y=rdm.randint(-4,-2)
+                #Note, we should be able to make a sound as well within this function
+                #and specifically when one of the shake conditions is true
 
             #Update suckers when they hit the ground
             for sucker in self.Sucker_list:
@@ -686,6 +688,8 @@ class MyGame(arcade.Window):
                             self.Stacked_3 = True
 
             #When suckers collides with player, shake the top fruit off.
+            #Insert a for statement with the suckers, and consider each one colliding with something of
+            #the revamped fruit list.
             if arcade.check_for_collision_with_list(self.player_sprite,self.Sucker_list) and (not self.Shake_1 or
                     not self.Shake_2 or not self.Shake_3 or not self.Shake_4 or not self.Shake_5):
                     if self.Stacked_3:
