@@ -163,10 +163,10 @@ class MyGame(arcade.Window):
         self.junk_list=None
 
         self.Sucker_list = None
-        self.Lvl_1_list = None
-        self.Lvl_2_list = None
-        self.Lvl_3_list = None
-
+        self.revamped_fruit_list = None
+        self.tier_1_fruit_list = None
+        self.tier_2_fruit_list = None
+        self.tier_3_fruit_list = None
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
@@ -191,13 +191,17 @@ class MyGame(arcade.Window):
         self.game_over = False
 
         #We use these bools when each fruit is stacked
-        self.Stacked=False
         self.Stacked_1=False
         self.Stacked_2=False
+        self.Stacked_3 = False
+        self.Stacked_4 = False
+        self.Stacked_5 = False
         #These bools are for when a sucker is hit, it will shake the fruit off.
-        self.Shake=False
         self.Shake_1 = False
         self.Shake_2 = False
+        self.Shake_3 = False
+        self.Shake_4 = False
+        self.Shake_5 = False
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
         # Create the Sprite lists
@@ -219,10 +223,14 @@ class MyGame(arcade.Window):
         self.door_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
 
-        #These list are for each level of fruits
-        self.Lvl_1_list = arcade.SpriteList()
-        self.Lvl_2_list = arcade.SpriteList()
-        self.Lvl_3_list = arcade.SpriteList()
+        #We use this list for each level of fruits
+        self.revamped_fruit_list = arcade.SpriteList()
+
+        #Consider a list for each tier of fruit in the tower, but don't actually draw
+        #from this list
+        self.tier_1_fruit_list = arcade.SpriteList()
+        self.tier_2_fruit_list = arcade.SpriteList()
+        self.tier_3_fruit_list = arcade.SpriteList()
         #This sucker list works for every level
         self.Sucker_list = arcade.SpriteList()
 
@@ -482,16 +490,19 @@ class MyGame(arcade.Window):
             for sucker in self.Sucker_list:
                 Sucker_Movement(sucker)
 
-                """This the model level setup """
-            self.Lvl_1_list.append(self.Strawberry_coin)
-            self.Lvl_1_list.append(self.Kiwi_coin)
-            self.Lvl_1_list.append(self.Pineapple_coin)
+                """This is the model level setup """
+            self.revamped_fruit_list.append(self.Kiwi_coin)
+            self.tier_1_fruit_list.append(self.Kiwi_coin)
+            self.revamped_fruit_list.append(self.Pineapple_coin)
+            self.tier_2_fruit_list.append(self.Pineapple_coin)
+            self.revamped_fruit_list.append(self.Strawberry_coin)
+            self.tier_3_fruit_list.append(self.Strawberry_coin)
             #Apply movement function to each fruit in the level
-            for fruit in self.Lvl_1_list:
+            for fruit in self.revamped_fruit_list:
                 Basic_Fruit_Movement(fruit)
 
 
-        if self.level==2:
+        if self.level == 2:
             lvl_2_orders= ["Our Images/Orders/Lvl2/Order1.1.PNG", "Our Images/Orders/Lvl2/Order1.2.PNG",
                            "Our Images/Orders/Lvl2/Order1.3.PNG"]
             rdm_lvl_2_order = rdm.choice(lvl_2_orders)
@@ -557,35 +568,35 @@ class MyGame(arcade.Window):
         # Clear the screen to the background color
         arcade.start_render()
 
-        # Draw our sprites
-        self.wall_list.draw()
-        self.player_list.draw()
 
+        #These lists are outdated, but will currently cause issues if removed.
         self.fruit_list.draw()
         self.fruit_list_2.draw()
         self.fruit_list_3.draw()
-        self.cherry_list.draw()
-        self.cherry_list_2.draw()
-        #self.junk_list.draw()
         self.coin_list.draw()
         self.coin_list_2.draw()
         self.coin_list_3.draw()
+
+
+        #These are the actual lists:
+        # Draw our sprites
+        self.wall_list.draw()
+        self.player_list.draw()
         self.orders_list.draw()
         self.instructions_list.draw()
         self.intro_list.draw()
         self.door_list.draw()
+        self.cherry_list.draw()
+        self.cherry_list_2.draw()
 
+        #Draw suckers for levels not in the intro or outro
         if self.level != 0 or self.level != 4:
             self.Sucker_list.draw()
 
-        #Use this format to draw levels easier
-        if self.level==1:
-            for fruit in self.Lvl_1_list:
-                fruit.draw()
+        #This will always draw the fruit for each level now:
+        for fruit in self.revamped_fruit_list:
+            fruit.draw()
 
-        if self.level==2:
-            for fruit in self.Lvl_1_list:
-                fruit.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -606,15 +617,12 @@ class MyGame(arcade.Window):
         if not self.game_over:
             # Move the player with the physics engine
             self.physics_engine.update()
+
+            #Updating suckers
             self.Sucker_list.update()
 
             #condensing our fruit update operations
-            if self.level==1:
-                for fruit in self.Lvl_1_list:
-                    fruit.update()
-            if self.level==2:
-                for fruit in self.Lvl_2_list:
-                    fruit.update()
+            self.revamped_fruit_list.update()
 
             #New hitting ground function to optimize some things
             def Hitting_ground(fruits):
@@ -625,84 +633,71 @@ class MyGame(arcade.Window):
                 fruits.change_y=rdm.randint(-4,-2)
 
             #Update suckers when they hit the ground
-            if arcade.check_for_collision_with_list(self.Sucker1, self.wall_list):
-                Hitting_ground(self.Sucker1)
-                self.Sucker1.update()
-            if arcade.check_for_collision_with_list(self.Sucker2, self.wall_list):
-                Hitting_ground(self.Sucker2)
-                self.Sucker2.update()
-            if arcade.check_for_collision_with_list(self.Sucker3, self.wall_list):
-                Hitting_ground(self.Sucker3)
-                self.Sucker3.update()
-            if arcade.check_for_collision_with_list(self.Sucker4, self.wall_list):
-                Hitting_ground(self.Sucker4)
-                self.Sucker4.update()
+            for sucker in self.Sucker_list:
+                if arcade.check_for_collision_with_list(sucker, self.wall_list):
+                    Hitting_ground(sucker)
+                    sucker.update()
 
-            if arcade.check_for_collision_with_list(self.Watermelon_coin, self.wall_list):
-                Hitting_ground(self.Watermelon_coin)
-                self.Watermelon_coin.update()
+            #Update each tier of fruit separately to manage shake and stacked
+            #conditions, which is still condensed compared
+            #to updating every fruit on their own
+            #All tiers can now be setup this way, with no need to reference
+            #particular levels.
+            for fruit in self.tier_1_fruit_list:
+                if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                    Hitting_ground(fruit)
+                    self.Shake_1 = False
+                    self.Stacked_1 = False
+                    fruit.update()
+            for fruit in self.tier_2_fruit_list:
+                if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                    Hitting_ground(fruit)
+                    self.Shake_2 = False
+                    self.Stacked_2 = False
+                    fruit.update()
+            for fruit in self.tier_3_fruit_list:
+                if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                    Hitting_ground(fruit)
+                    self.Shake_3 = False
+                    self.Stacked_3 = False
+                    fruit.update()
 
-
-                #Level 1 ground operations
-            if arcade.check_for_collision_with_list(self.Strawberry_coin, self.wall_list):
-                Hitting_ground(self.Strawberry_coin)
-                self.Shake_2 = False
-                self.Stacked_2 = False
-                self.Strawberry_coin.update()
-
-            if arcade.check_for_collision_with_list(self.Kiwi_coin, self.wall_list):
-                Hitting_ground(self.Kiwi_coin)
-                self.Shake = False
-                self.Stacked = False
-                self.Kiwi_coin.update()
-
-            if arcade.check_for_collision_with_list(self.Pineapple_coin, self.wall_list):
-                Hitting_ground(self.Pineapple_coin)
-                self.Shake_1 = False
-                self.Stacked_1 = False
-                self.Pineapple_coin.update()
-
-                #Stacking Operations for Level 1 Order 2
-            if arcade.check_for_collision(self.Kiwi_coin, self.player_sprite) and not self.Shake:
-                self.Kiwi_coin.follow_sprite(self.player_sprite)
-                if not self.Stacked:
-                    self.objective += 1.5
-                self.Stacked = True
-                if arcade.check_for_collision(self.Pineapple_coin, self.Kiwi_coin) and not self.Shake_1:
-                    self.Pineapple_coin.follow_sprite(self.Kiwi_coin)
+            #Stacking operations, each successive fruit will follow the previous fruit
+            #Occurs only when the previous fruit is stacked
+            for tier_1_fruit in self.tier_1_fruit_list:
+                if arcade.check_for_collision(tier_1_fruit, self.player_sprite) and not self.Shake_1:
+                    tier_1_fruit.follow_sprite(self.player_sprite)
                     if not self.Stacked_1:
                         self.objective += 1.5
                     self.Stacked_1 = True
-
-                    if arcade.check_for_collision(self.Strawberry_coin, self.Pineapple_coin) and not self.Shake_2:
-                        self.Strawberry_coin.follow_sprite(self.Pineapple_coin)
+                for tier_2_fruit in self.tier_2_fruit_list:
+                    if arcade.check_for_collision(tier_2_fruit, self.player_sprite) and not self.Shake_2\
+                            and self.Stacked_1:
+                        tier_2_fruit.follow_sprite(tier_1_fruit)
                         if not self.Stacked_2:
                             self.objective += 1.5
                         self.Stacked_2 = True
-            #if (arcade.check_for_collision(self.Kiwi_coin, self.player_sprite) and not self.Stacked):
-                    #This self.objective variable is a relic, we don't need it anymore.
-                    #Its only here to help us get to level 2, until we fix level 2 to use this
-                    #new stacking method.
-                    #self.objective+=1.5
-                    #self.Stacked=True
-            #if (arcade.check_for_collision(self.Pineapple_coin,self.Kiwi_coin) and not self.Stacked_1):
-                    #self.objective += 1.5
-                    #self.Stacked_1 = True
-            #if (arcade.check_for_collision(self.Strawberry_coin, self.Pineapple_coin) and not self.Stacked_2):
-                    #self.objective += 1.5
-                    #self.Stacked_2 = True
+                    for tier_3_fruit in self.tier_3_fruit_list:
+                        if arcade.check_for_collision(tier_3_fruit, self.player_sprite) and not self.Shake_3 \
+                                and self.Stacked_2:
+                            tier_3_fruit.follow_sprite(tier_2_fruit)
+                            if not self.Stacked_3:
+                                self.objective += 1.5
+                            self.Stacked_3 = True
 
-            if (arcade.check_for_collision_with_list(self.player_sprite,self.Sucker_list)) and (not self.Shake_2 or
-                    not self.Shake_1 or not self.Shake):
-                    if self.Stacked_2:
-                        self.Shake_2=True
+            #When suckers collides with player, shake the top fruit off.
+            if arcade.check_for_collision_with_list(self.player_sprite,self.Sucker_list) and (not self.Shake_1 or
+                    not self.Shake_2 or not self.Shake_3 or not self.Shake_4 or not self.Shake_5):
+                    if self.Stacked_3:
+                        self.Shake_3=True
+                    elif self.Stacked_2:
+                        self.Shake_2 = True
                     elif self.Stacked_1:
-                        self.Shake_1 = True
-                    elif self.Stacked:
-                        self.Shake=True
+                        self.Shake_1=True
 
 
-
+            #Almost everything below this point is now outdated and once sorted through,
+            #can be removed.
             self.fruit_list.update()
             #hitting the ground
             for fruit in self.fruit_list:
@@ -906,13 +901,13 @@ class MyGame(arcade.Window):
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
-                if self.Stacked_2:
+                if self.Stacked_3:
                         #once we hit a certain amount of fruit, go to next level
                         self.level += 1
                         # Load the next level
                         self.setup(self.level)
             if self.level==2:
-                if self.objective>=9.5:
+                if self.objective>=9.5 or self.Stacked_4:
                         #once we hit a certain amount of fruit, go to next level
                         self.level = 4
                         # Load the next level
