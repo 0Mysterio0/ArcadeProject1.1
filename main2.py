@@ -637,8 +637,6 @@ class MyGame(arcade.Window):
                  # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
                 fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
                 fruits.change_y=rdm.randint(-4,-2)
-                #Note, we should be able to make a sound as well within this function
-                #and specifically when one of the shake conditions is true
 
             #Update suckers when they hit the ground
             for sucker in self.Sucker_list:
@@ -648,7 +646,7 @@ class MyGame(arcade.Window):
 
             #Update each tier of fruit separately to manage shake and stacked
             #conditions, which is still condensed compared
-            #to updating every fruit on their own
+            #to updating every fruit on their own.
             #All tiers can now be setup this way, with no need to reference
             #particular levels.
             for fruit in self.tier_1_fruit_list:
@@ -671,9 +669,11 @@ class MyGame(arcade.Window):
                     fruit.update()
 
             #Stacking operations, each successive fruit will follow the previous fruit
-            #Occurs only when the previous fruit is stacked
+            #Occurs only when the previous fruit is stacked. Also the self.objective
+            #is merely a relic, and can be removed once rest of system is updated.
             for tier_1_fruit in self.tier_1_fruit_list:
                 if arcade.check_for_collision(tier_1_fruit, self.player_sprite) and not self.Shake_1:
+                    #Play good sound here when this occurs
                     tier_1_fruit.follow_sprite(self.player_sprite)
                     if not self.Stacked_1:
                         self.objective += 1.5
@@ -681,18 +681,22 @@ class MyGame(arcade.Window):
                 for tier_2_fruit in self.tier_2_fruit_list:
                     if arcade.check_for_collision_with_list(tier_2_fruit, self.tier_1_fruit_list) and not self.Shake_2\
                             and self.Stacked_1:
+                        # Play good sound here when this occurs
                         tier_2_fruit.follow_sprite(tier_1_fruit)
                         if not self.Stacked_2:
                             self.objective += 1.5
                         self.Stacked_2 = True
                     for tier_3_fruit in self.tier_3_fruit_list:
-                        if arcade.check_for_collision_with_list(tier_3_fruit, self.tier_2_fruit_list) and not self.Shake_3 \
+                        if arcade.check_for_collision_with_list(tier_3_fruit, self.tier_2_fruit_list) \
+                                and not self.Shake_3 \
                                 and self.Stacked_2:
+                            # Play good sound here when this occurs
                             tier_3_fruit.follow_sprite(tier_2_fruit)
                             if not self.Stacked_3:
                                 self.objective += 1.5
                             self.Stacked_3 = True
 
+            #Old collision system below, still handy for reference at this point in time.
             #When suckers collides with player, shake the top fruit off.
              #   if arcade.check_for_collision(sucker,self.player_sprite) and (not self.Shake_1 or
               #          not self.Shake_2 or not self.Shake_3 or not self.Shake_4 or not self.Shake_5):
@@ -702,10 +706,10 @@ class MyGame(arcade.Window):
                   #          self.Shake_2 =True
                    #     elif self.Stacked_1:
                     #        self.Shake_1=True
-            #Revamped collision system, if a sucker collides with a fruit that is stacked, it will knock
-            #one off.
-            #Theres a lot of "ands" in the following statements, so read carefully and
-            #consider each one piece separately
+            #Revamped collision system, if a sucker collides with fruit that is stacked, it will knock
+            #ONLY the top one off.
+            #Theres a lot of "and"s as well as "or"s in the following statements, so read carefully and
+            #consider each piece separately
             for sucker in self.Sucker_list:
                 if (((arcade.check_for_collision_with_list(sucker, self.tier_1_fruit_list)
                     and self.Stacked_1)) or
@@ -715,6 +719,7 @@ class MyGame(arcade.Window):
                     and self.Stacked_3))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
+                    #Play bad sound here when this occurs.
                     if self.Stacked_3:
                         self.Shake_3=True
                     elif self.Stacked_2:
