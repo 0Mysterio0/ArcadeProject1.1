@@ -10,6 +10,7 @@
 """
 Our Game Space!!
 """
+
 import arcade
 import random as rdm
 import math
@@ -160,6 +161,7 @@ class MyGame(arcade.Window):
         self.cherry_list_2 = None
         self.door_list = None
         self.junk_list=None
+
         self.Sucker_list = None
         self.Lvl_1_order_2_list =None
 
@@ -330,7 +332,7 @@ class MyGame(arcade.Window):
             fruit.boundary_left = FRUIT_SIZE
             fruit.change_y =rdm.choice([-4,-3,-2])
 
-
+        #Outdated
         def Advanced_Fruit_Movement(self,fruit,coin):
             """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
              fruit, and it gets picked up and the real fruit that manages the score variables is the one that
@@ -356,7 +358,7 @@ class MyGame(arcade.Window):
             coin.change_y=fruit.change_y
             self.coin_list.append(coin)
 
-
+        # Outdated
         def Advanced_Fruit_Movement_2(self,fruit,coin):
 
             fruit.bottom = FRUIT_SIZE * 9.75
@@ -377,6 +379,7 @@ class MyGame(arcade.Window):
             coin.change_y=fruit.change_y
             self.coin_list_2.append(coin)
 
+        # Outdated
         def Advanced_Fruit_Movement_3(self,fruit,coin):
 
             fruit.bottom = FRUIT_SIZE * 9.75
@@ -397,6 +400,7 @@ class MyGame(arcade.Window):
             coin.change_y=fruit.change_y
             self.coin_list_3.append(coin)
 
+        # Outdated
         def Advanced_Fruit_Movement_4(self,fruit,coin):
 
             fruit.bottom = FRUIT_SIZE * 9.75
@@ -417,6 +421,7 @@ class MyGame(arcade.Window):
             coin.change_y=fruit.change_y
             self.coin_list_4.append(coin)
 
+        #Still use this sucker movement.
         def Sucker_Movement(sucker):
             """Defining a function that eventually should have the suckers moving different than the fruits, but does
             not work yet.  """
@@ -453,7 +458,7 @@ class MyGame(arcade.Window):
                 cherry_instr.position = coordinate
                 self.cherry_list.append(cherry_instr)
 
-        #Order box in top right corner
+
         #This level is the "model" level. Refer to this level and specifically
         #order 2 for any formatting and concerns.
         if self.level==1:
@@ -483,8 +488,7 @@ class MyGame(arcade.Window):
             #This order is the "model" order. All other orders need to follow this format:
             # If order two is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.2.PNG":
-                """So far this will display all fruit and suckers at the same time, which is probably not what
-                               we want for the game"""
+                """This the model order """
                 self.Lvl_1_order_2 = True
                 self.Lvl_1_order_2_list.append(self.Strawberry_coin)
                 self.Lvl_1_order_2_list.append(self.Kiwi_coin)
@@ -589,19 +593,24 @@ class MyGame(arcade.Window):
         self.intro_list.draw()
         self.door_list.draw()
 
-        self.Sucker_list.draw()
+
 
         #Use this format to draw orders easier
-        if self.Lvl_1_order_1:
-            self.Watermelon_coin.draw()
-            self.Bannana_coin.draw()
-        if self.Lvl_1_order_2:
-            for fruit in self.Lvl_1_order_2_list:
-                fruit.draw()
-        if self.Lvl_1_order_3:
-            self.Apple_coin.draw()
-            self.Pear_coin.draw()
+        if self.level==1:
+            self.Sucker_list.draw()
+            if self.Lvl_1_order_1:
+                self.Watermelon_coin.draw()
+                self.Bannana_coin.draw()
+            #Reference this order specifically--->
+            if self.Lvl_1_order_2:
+                for fruit in self.Lvl_1_order_2_list:
+                    fruit.draw()
+            if self.Lvl_1_order_3:
+                self.Apple_coin.draw()
+                self.Pear_coin.draw()
 
+        if self.level==2:
+            self.Sucker_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -622,6 +631,7 @@ class MyGame(arcade.Window):
         if not self.game_over:
             # Move the player with the physics engine
             self.physics_engine.update()
+            self.Sucker_list.update()
             if self.Lvl_1_order_1:
                 self.Watermelon_coin.update()
                 self.Bannana_coin.update()
@@ -641,6 +651,19 @@ class MyGame(arcade.Window):
                  # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
                 fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
                 fruits.change_y=rdm.randint(-4,-2)
+
+            if arcade.check_for_collision_with_list(self.Sucker1, self.wall_list):
+                Hitting_ground(self.Sucker1)
+                self.Sucker1.update()
+            if arcade.check_for_collision_with_list(self.Sucker2, self.wall_list):
+                Hitting_ground(self.Sucker2)
+                self.Sucker2.update()
+            if arcade.check_for_collision_with_list(self.Sucker3, self.wall_list):
+                Hitting_ground(self.Sucker3)
+                self.Sucker3.update()
+            if arcade.check_for_collision_with_list(self.Sucker4, self.wall_list):
+                Hitting_ground(self.Sucker4)
+                self.Sucker4.update()
 
             if arcade.check_for_collision_with_list(self.Watermelon_coin, self.wall_list):
                 Hitting_ground(self.Watermelon_coin)
@@ -673,7 +696,6 @@ class MyGame(arcade.Window):
                     self.Pineapple_coin.follow_sprite(self.Kiwi_coin)
                     if arcade.check_for_collision(self.Strawberry_coin, self.Pineapple_coin) and not self.Shake_2:
                         self.Strawberry_coin.follow_sprite(self.Pineapple_coin)
-
             if (arcade.check_for_collision(self.Kiwi_coin, self.player_sprite) and not self.Stacked):
                     self.objective+=1.5
                     self.Stacked=True
@@ -907,7 +929,7 @@ class MyGame(arcade.Window):
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
-                if self.objective>=3.5:
+                if self.Stacked_2:
                         #once we hit a certain amount of fruit, go to next level
                         self.level += 1
                         # Load the next level
