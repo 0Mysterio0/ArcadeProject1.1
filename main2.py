@@ -185,15 +185,21 @@ class MyGame(arcade.Window):
         self.restart_objective = 0
         self.end_objective = 0
         self.control=0
+
+        #When game is over, this allows for the game to close
         self.game_over = False
 
+
+        #We give each order for each level a bool to later with
         self.Lvl_1_order_1=False
         self.Lvl_1_order_2=False
         self.Lvl_1_order_3 =False
 
+        #We use these bools when each fruit is stacked
         self.Stacked=False
         self.Stacked_1=False
         self.Stacked_2=False
+        #These bools are for when a sucker is hit, it will shake the fruit off.
         self.Shake=False
         self.Shake_1 = False
         self.Shake_2 = False
@@ -309,11 +315,13 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
 
 
+        #This basic fruit function is now all that we need, no further use for the advanced fruit
+        #movement functions. They are not removed simply because it will break the code at this point
+        #in time.
         def Basic_Fruit_Movement(fruit):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
             to move down the screen, then it will append that fruit to the fruit list for you. Not sure if we
               use it here, but we need to take advantage of the SCREEN WIDTH variable. """
-            # Maybe we make "ghost fruit that follow the other fruit"
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             fruit.left = FRUIT_SIZE * rdm.randint(0,14)
@@ -446,38 +454,33 @@ class MyGame(arcade.Window):
                 self.cherry_list.append(cherry_instr)
 
         #Order box in top right corner
+        #This level is the "model" level. Refer to this level and specifically
+        #order 2 for any formatting and concerns.
         if self.level==1:
             lvl_1_orders= ["Our Images/Orders/Lvl1/Order1.1.PNG", "Our Images/Orders/Lvl1/Order1.2.PNG",
                            "Our Images/Orders/Lvl1/Order1.3.PNG"]
             rdm_lvl_1_order = rdm.choice(lvl_1_orders)
+
+            #for testing, the order is only set to the second order.
             rdm_lvl_1_order="Our Images/Orders/Lvl1/Order1.2.PNG"
+            #Place Order:
             order_coordinate_list = [[950, 550]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(rdm_lvl_1_order, TILE_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
-
-
+            #Setup suckers
             for sucker in self.Sucker_list:
                 Sucker_Movement(sucker)
-            #Only append fruits that are required for each order:
+
             #If order one is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.1.PNG":
-                """So far this will display all fruit and suckers at the same time, which is probably not what
-                               we want for the game"""
                 self.Lvl_1_order_1 = True
                 Basic_Fruit_Movement(self.Watermelon_coin)
                 Basic_Fruit_Movement(self.Bannana_coin)
 
 
-                #Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
-
-                #Advanced_Fruit_Movement_2(self, Bannana, Bannana_coin)
-
-                #Advanced_Fruit_Movement_3(self, Grapes, Grape_coin)
-
-
-
+            #This order is the "model" order. All other orders need to follow this format:
             # If order two is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.2.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
@@ -488,15 +491,6 @@ class MyGame(arcade.Window):
                 self.Lvl_1_order_2_list.append(self.Pineapple_coin)
                 for fruit in self.Lvl_1_order_2_list:
                     Basic_Fruit_Movement(fruit)
-                #Basic_Fruit_Movement(self.Strawberry_coin)
-                #Basic_Fruit_Movement(self.Kiwi_coin)
-                #Basic_Fruit_Movement(self.Pineapple_coin)
-
-                #Advanced_Fruit_Movement(self, Strawberry, Strawberry_coin)
-
-                #Advanced_Fruit_Movement_2(self, Kiwi, Kiwi_coin)
-
-                #Advanced_Fruit_Movement_3(self, Pineapple,Pineapple_coin)
 
             # If order three is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.3.PNG":
@@ -597,6 +591,7 @@ class MyGame(arcade.Window):
 
         self.Sucker_list.draw()
 
+        #Use this format to draw orders easier
         if self.Lvl_1_order_1:
             self.Watermelon_coin.draw()
             self.Bannana_coin.draw()
@@ -641,14 +636,18 @@ class MyGame(arcade.Window):
 
             #New hitting ground function to optimize some things
             def Hitting_ground(fruits):
-                    fruits.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
-                    fruits.change_y=rdm.randint(-4,-2)
+                """When fruit hits ground, this function will reset it"""
+                fruits.bottom = FRUIT_SIZE * 9.75
+                 # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
+                fruits.change_y=rdm.randint(-4,-2)
 
             if arcade.check_for_collision_with_list(self.Watermelon_coin, self.wall_list):
                 Hitting_ground(self.Watermelon_coin)
                 self.Watermelon_coin.update()
+
+
+                #Level 1, Order 2 ground operations
             if arcade.check_for_collision_with_list(self.Strawberry_coin, self.wall_list):
                 Hitting_ground(self.Strawberry_coin)
                 self.Shake_2 = False
@@ -667,7 +666,7 @@ class MyGame(arcade.Window):
                 self.Stacked_1 = False
                 self.Pineapple_coin.update()
 
-                #Stacking Operations for Level 1 Order 1.2
+                #Stacking Operations for Level 1 Order 2
             if arcade.check_for_collision(self.Kiwi_coin, self.player_sprite) and not self.Shake:
                 self.Kiwi_coin.follow_sprite(self.player_sprite)
                 if arcade.check_for_collision(self.Pineapple_coin, self.Kiwi_coin) and not self.Shake_1:
@@ -695,6 +694,8 @@ class MyGame(arcade.Window):
                         self.Shake_1 = True
                     elif self.Stacked:
                         self.Shake=True
+
+
 
             self.fruit_list.update()
             #hitting the ground
