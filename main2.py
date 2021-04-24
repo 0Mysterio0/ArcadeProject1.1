@@ -187,6 +187,11 @@ class MyGame(arcade.Window):
         self.end_objective = 0
         self.control=0
         self.game_over = False
+
+        self.Lvl_1_order_1=False
+        self.Lvl_1_order_2=False
+        self.Lvl_1_order_3 =False
+
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
         # Create the Sprite lists
@@ -207,6 +212,22 @@ class MyGame(arcade.Window):
         self.cherry_list_2 = arcade.SpriteList()
         self.door_list = arcade.SpriteList()
         self.junk_list=arcade.SpriteList()
+
+
+        #Looks like it may be easier to handle the sprites easier than in lists.
+        self.Apple=arcade.Sprite("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
+        self.Watermelon=arcade.Sprite("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
+        self.Strawberry=arcade.Sprite("Our Images/Fruits/Strawberry.png", FRUIT_SCALING * 1.8)
+        self.Bannana = arcade.Sprite("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
+        self.Cherry = arcade.Sprite("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
+        self.Grapes = arcade.Sprite("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
+        self.Kiwi = arcade.Sprite("Our Images/Fruits/kiwi.png", FRUIT_SCALING * 1.8)
+        self.Lemon = arcade.Sprite("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
+        self.Orange = arcade.Sprite("Our Images/Fruits/orange.png", FRUIT_SCALING * 1.8)
+        self.Pear = arcade.Sprite("Our Images/Fruits/pear.png", FRUIT_SCALING * 1.8)
+        self.Pineapple = arcade.Sprite("Our Images/Fruits/Pineapple.png", FRUIT_SCALING * 1.8)
+        self.Plum = arcade.Sprite("Our Images/Fruits/plum.png", FRUIT_SCALING * 1.8)
+
 
 
         #Load all of the fruit images, but dont append them to any list yet:
@@ -244,6 +265,18 @@ class MyGame(arcade.Window):
         Apple_coin = Coin("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
         Bannana_coin = Coin("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
 
+        self.Grape_coin = Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
+        self.Cherry_coin = Coin("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
+        self.Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
+        self.Orange_coin = Coin("Our Images/Fruits/orange.png", FRUIT_SCALING * 1.8)
+        self.Pear_coin = Coin("Our Images/Fruits/pear.png", FRUIT_SCALING * 1.8)
+        self.Pineapple_coin = Coin("Our Images/Fruits/Pineapple.png", FRUIT_SCALING * 1.8)
+        self.Plum_coin = Coin("Our Images/Fruits/plum.png", FRUIT_SCALING * 1.8)
+        self.Strawberry_coin = Coin("Our Images/Fruits/Strawberry.png", FRUIT_SCALING * 1.8)
+        self.Kiwi_coin = Coin("Our Images/Fruits/kiwi.png", FRUIT_SCALING * 1.8)
+        self.Lemon_coin = Coin("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
+        self.Apple_coin = Coin("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
+        self.Bannana_coin = Coin("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
 
 
 
@@ -275,7 +308,7 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
 
 
-        def Fruit_Movement(self,fruit):
+        def Basic_Fruit_Movement(fruit,fruit_coin):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
             to move down the screen, then it will append that fruit to the fruit list for you. Not sure if we
               use it here, but we need to take advantage of the SCREEN WIDTH variable. """
@@ -286,8 +319,17 @@ class MyGame(arcade.Window):
 
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list.append(fruit)
+            fruit.change_y =rdm.choice([-4,-3,-2])
+
+            fruit_coin.bottom =fruit.bottom
+            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+            fruit_coin.left = fruit.left
+
+            fruit_coin.boundary_right =  fruit.boundary_right
+            fruit_coin.boundary_left = fruit.boundary_left
+            fruit_coin.change_y = fruit.change_y
+
+
         def Advanced_Fruit_Movement(self,fruit,coin):
             """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
              fruit, and it gets picked up and the real fruit that manages the score variables is the one that
@@ -424,12 +466,16 @@ class MyGame(arcade.Window):
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.1.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                                we want for the game"""
+                self.Lvl_1_order_1 = True
+                Basic_Fruit_Movement(self.Watermelon,self.Watermelon_coin)
+                Basic_Fruit_Movement(self.Bannana, self.Bannana_coin)
 
-                Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
+
+                #Advanced_Fruit_Movement(self, Watermelon, Watermelon_coin)
                 Sucker_Movement(self, Sucker1)
-                Advanced_Fruit_Movement(self, Bannana, Bannana_coin)
+                #Advanced_Fruit_Movement_2(self, Bannana, Bannana_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Grapes, Grape_coin)
+                #Advanced_Fruit_Movement_3(self, Grapes, Grape_coin)
                 Sucker_Movement(self, Sucker3)
 
 
@@ -437,22 +483,28 @@ class MyGame(arcade.Window):
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.2.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                                we want for the game"""
-                Advanced_Fruit_Movement(self, Strawberry, Strawberry_coin)
+                self.Lvl_1_order_2 = True
+                Basic_Fruit_Movement(self.Strawberry,self.Strawberry_coin)
+                Basic_Fruit_Movement(self.Kiwi, self.Kiwi_coin)
+
+                #Advanced_Fruit_Movement(self, Strawberry, Strawberry_coin)
                 Sucker_Movement(self, Sucker1)
-                Advanced_Fruit_Movement_2(self, Kiwi, Kiwi_coin)
+                #Advanced_Fruit_Movement_2(self, Kiwi, Kiwi_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Pineapple,Pineapple_coin)
+                #Advanced_Fruit_Movement_3(self, Pineapple,Pineapple_coin)
                 Sucker_Movement(self, Sucker3)
             # If order three is selected
             if rdm_lvl_1_order=="Our Images/Orders/Lvl1/Order1.3.PNG":
                 """So far this will display all fruit and suckers at the same time, which is probably not what
                 we want for the game"""
-
-                Advanced_Fruit_Movement(self, Apple, Apple_coin)
+                self.Lvl_1_order_3=True
+                Basic_Fruit_Movement(self.Apple,self.Apple_coin)
+                Basic_Fruit_Movement(self.Pear, self.Pear_coin)
+                #Advanced_Fruit_Movement(self, Apple, Apple_coin)
                 Sucker_Movement(self, Sucker1)
-                Advanced_Fruit_Movement_2(self, Pear, Pear_coin)
+                #Advanced_Fruit_Movement_2(self, Pear, Pear_coin)
                 Sucker_Movement(self, Sucker2)
-                Advanced_Fruit_Movement_3(self, Plum, Plum_coin)
+                #Advanced_Fruit_Movement_3(self, Plum, Plum_coin)
                 Sucker_Movement(self, Sucker3)
 
         if self.level==2:
@@ -538,6 +590,21 @@ class MyGame(arcade.Window):
         self.intro_list.draw()
         self.door_list.draw()
 
+        if self.Lvl_1_order_1 ==True:
+            self.Watermelon.draw()
+            self.Watermelon_coin.draw()
+            self.Bannana_coin.draw()
+            self.Bannana.draw()
+        if self.Lvl_1_order_2 == True:
+            self.Strawberry.draw()
+            self.Strawberry_coin.draw()
+            self.Kiwi.draw()
+            self.Kiwi_coin.draw()
+        if self.Lvl_1_order_3 ==True:
+            self.Apple.draw()
+            self.Apple_coin.draw()
+            self.Pear.draw()
+            self.Pear_coin.draw()
         #testing if we can have sprites appear midlvel
         #okay so this tells us that sprites wont be draw physically
         #but still exist in the game the whole time!!
@@ -563,7 +630,41 @@ class MyGame(arcade.Window):
         if not self.game_over:
             # Move the player with the physics engine
             self.physics_engine.update()
+            if self.Lvl_1_order_1 == True:
+                self.Watermelon.update()
+                self.Watermelon_coin.update()
+            if self.Lvl_1_order_2 == True:
+                self.Strawberry.update()
+                self.Strawberry_coin.update()
+            if self.Lvl_1_order_3 == True:
+                self.Apple.update()
+                self.Apple_coin.update()
 
+
+            def Hitting_ground(fruits,fruit_coins):
+                    fruits.bottom = FRUIT_SIZE * 9.75
+                    fruit_coins.bottom=fruits.bottom
+                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
+                    fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
+                    fruits.change_y=rdm.randint(-4,-2)
+                    fruit_coins.left = fruits.left
+                    fruit_coins.change_y=fruits.change_y
+
+            if arcade.check_for_collision_with_list(self.Apple, self.wall_list):
+                Hitting_ground(self.Apple,self.Apple_coin)
+                self.Apple.update()
+                self.Apple_coin.update()
+
+            if arcade.check_for_collision_with_list(self.Watermelon, self.wall_list):
+                Hitting_ground(self.Watermelon,self.Watermelon_coin)
+                self.Watermelon.update()
+                self.Watermelon_coin.update()
+            if arcade.check_for_collision_with_list(self.Strawberry, self.wall_list):
+                Hitting_ground(self.Strawberry,self.Strawberry_coin)
+                self.Strawberry.update()
+                self.Strawberry_coin.update()
+
+            self.fruit_list.update()
             #hitting the ground
             for fruit in self.fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
@@ -634,6 +735,10 @@ class MyGame(arcade.Window):
             self.junk_list.update()
 
             # See if we hit any fruits
+            #if  arcade.check_for_collision(self.player_sprite,self.fruit_list)==True:
+             #  if arcade.check_for_collision(self.fruit_list[1],self.fruit_list_2[1] )==True:
+              #     self.fruit_list_2[1].follow_sprite(self.fruit_list[1])
+
             fruit_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                                  self.fruit_list)
 
