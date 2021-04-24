@@ -464,7 +464,7 @@ class MyGame(arcade.Window):
         if self.level==1:
             lvl_1_orders= ["Our Images/Orders/Lvl1/Order1.1.PNG", "Our Images/Orders/Lvl1/Order1.2.PNG",
                            "Our Images/Orders/Lvl1/Order1.3.PNG"]
-            rdm_lvl_1_order = rdm.choice(lvl_1_orders)
+            #rdm_lvl_1_order = rdm.choice(lvl_1_orders)
 
             #for testing, the order is only set to the second order.
             rdm_lvl_1_order="Our Images/Orders/Lvl1/Order1.2.PNG"
@@ -584,7 +584,7 @@ class MyGame(arcade.Window):
         self.fruit_list_3.draw()
         self.cherry_list.draw()
         self.cherry_list_2.draw()
-        self.junk_list.draw()
+        #self.junk_list.draw()
         self.coin_list.draw()
         self.coin_list_2.draw()
         self.coin_list_3.draw()
@@ -697,6 +697,9 @@ class MyGame(arcade.Window):
                     if arcade.check_for_collision(self.Strawberry_coin, self.Pineapple_coin) and not self.Shake_2:
                         self.Strawberry_coin.follow_sprite(self.Pineapple_coin)
             if (arcade.check_for_collision(self.Kiwi_coin, self.player_sprite) and not self.Stacked):
+                    #This self.objective variable is a relic, we don't need it anymore.
+                    #Its only here to help us get to level 2, until we fix level 2 to use this
+                    #new stacking method.
                     self.objective+=1.5
                     self.Stacked=True
             if (arcade.check_for_collision(self.Pineapple_coin,self.Kiwi_coin) and not self.Stacked_1):
@@ -708,8 +711,6 @@ class MyGame(arcade.Window):
 
             if (arcade.check_for_collision_with_list(self.player_sprite,self.Sucker_list)) and (not self.Shake_2 or
                     not self.Shake_1 or not self.Shake):
-                    if self.objective>0:
-                        self.objective-=1.5
                     if self.Stacked_2:
                         self.Shake_2=True
                     elif self.Stacked_1:
