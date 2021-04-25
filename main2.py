@@ -948,6 +948,11 @@ class MyGame(arcade.Window):
                         self.restart_objective=0
                         #once we hit the cherry, restart at level 1
                         self.level = 0
+                        self.Stacked_1=False
+                        self.Stacked_2=False
+                        self.Stacked_3=False
+                        self.Stacked_4=False
+                        self.Stacked_5=False
                         # Load the next level
                         self.setup(self.level)
             # See if the player walks to the door. If so, game over.
