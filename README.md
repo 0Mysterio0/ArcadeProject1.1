@@ -1,7 +1,9 @@
-# Lily's Fruit Quest
-#####By Kaylee Roberts, Seth Woodwyk and Tess Scheidel
+Lily's Fruit Quest
+======================
+By Kaylee Roberts, Seth Woodwyk and Tess Scheidel
 
-##Our Project
+Our Project
+---------------------
 
 We decided to create a game in pycharm for our final project. The overall concept for our game was for the player to be
 given an order of fruit and for them successfully catch those fruits as they fell, in the specified order while avoiding
@@ -15,7 +17,8 @@ were unable to add some of these extras into our final product. However, we like
 work in progress and we are looking forward to continuing to add to our game in the future.
 
 
-##Our Process
+Our Process
+----------------------------
 
 ###Working Collaboratively
 From the start, it was clear that CoCalc and Jupyter Notebooks were not going to be the best option to bring our game to 
