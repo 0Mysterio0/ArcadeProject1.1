@@ -344,7 +344,7 @@ class MyGame(arcade.Window):
                 Basic_Fruit_Movement(fruit)
 
         if self.level == 3:
-            arcade.set_background_color(arcade.csscolor.ORANGE_RED)
+            arcade.set_background_color(arcade.csscolor.ORANGE)
             lvl_3_order = "Our Images/Orders/Lvl3/Lvl3Order1.1.PNG"
             # Place Order:
             order_coordinate_list = [[950, 510]]
