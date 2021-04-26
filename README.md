@@ -47,7 +47,7 @@ On_update() is where the most important aspects/changes occur. This is how we ch
 hit any suckers, as well as check conditions for moving onto the next level. More on this later.
 
 
-####*Original randomized functions we created:*
+####*Randomized functions we created:*
 We also created movement functions for the fruit and suckers. We utilized the random library in each of these functions
 to randomize the locations of each of the falling sprites, as well their speed. An extra flair was added to the
 sucker sprites, which randomized changes in the side to side (the x position) causing them to sometimes move diagonally
@@ -66,16 +66,16 @@ This is where most of our time was spent and included a lot of experimentation a
 
 Initially, we attempted to create lists for each fruit. We tried this approach based on the guides we found on Arcade
 Academy. This code was inefficient and ultimately, did not work like we wanted it to. We weren't able to efficiently
-interact with each fruit. Every collision and update had to be on a fruit by fruit basis, which was a lot of unneccesary
+interact with each fruit. Every collision and update had to be on a fruit by fruit basis, which was a lot of unnecessary
 coding. It was also incredibly hard to make the fruit interact with each other and our player. We attempted to utilize a
 behind the scenes scoring system, such that each time we hit a fruit, our score would increase and each time we hit a sucker
 our score would decrease. This was somewhat successful because we were able to set conditions for moving onto the next
-level but we were unable to create visible stacks of fruit on our player. So we changed tactics.
+level, but we were unable to create visible stacks of fruit on our player. So we changed tactics.
 
 ####*Attempt 2*
 
-Our second attempt included creating coin lists for each fruit. From the Aracade Academy tutorial pages, there were example
-code chunks that gave us a bit more direction with creating interactions. Specfically, this is where we came across the 
+Our second attempt included creating coin lists for each fruit. From the Arcade Academy tutorial pages, there were example
+code chunks that gave us a bit more direction with creating interactions. Specifically, this is where we came across the 
 follow_sprite() function in conjunction with the check_for_collisions_in_list(). In this iteration of our game, we 
 essentially had two sprites for each fruit. One was the initial fruit, where if it hit the player it would disappear and
 add points to our scoring system. The coin fruit, was essentially the "ghost fruit", tied to the location of the original
@@ -91,15 +91,16 @@ they hit the ground. Once again, we also had trouble with the
 fruits interacting with each other. When the fruit coins stacked, they only interacted with the player, causing them to 
 stack in front of each other instead of on top of each other. We attempted to make different movement functions for each
 fruit and fruit coin depending on their location in the order, so it would update and follow the fruit before it. However,
-we had to make specific lists for each fruit, *for each order*, ***for each level***. This was very inefficient and a lot
+we had to make specific lists for each fruit, *for each order*, ***for each level***. This was very inefficient, and a lot
 of variables to keep track of. So, we once again changed tactics, with a few alterations to our initial goals.
 
 ###Some Epiphanies and Alterations to our Initial Goals 
 
 We realized working through our second attempt, that randomized orders were ambitious for our skill set and time frame.
 They needlessly complicated our code and made things much more inefficient. We only wanted the specific fruits in the 
-order to fall to avoid overcrowding the screen, and coding that for each posisble order for each level would have been a
-lot of extra, unneeded work for little reward. So, moving forward, we only coded for one specfic order for each level.
+order to fall to avoid overcrowding the screen, and coding that for each possible order for each level in the way 
+we were currently doing so, would have been a
+lot of extra, unneeded work for little reward. So, moving forward, we only coded for one specific order for each level.
 
 We also came to the realization that we didn't need both a fruit and a fruit coin for each object. The fruits were 
 essentially used for addition to the behind the scenes score. That scoring system had a few flaws (if you caught too many 
@@ -114,7 +115,7 @@ updated in an overall fruit list which is drawn, but also is associated with a t
 to the different fruits in each order (so tier_list_1 will include the first fruit from the first order, the second order
 and the third order) but will only be appended during specific levels. This condenses the amount of lists and variables we
 have to keep track of. There are only 6 overall lists (5 tier lists and one overall list), instead of one for each fruit 
-of each level. Theses lists also allow use to better utilize the collision function/interactions. As each fruit is its own
+of each level. These lists also allow us to better utilize the collision function/interactions. As each fruit is its own
 coin, appended to different lists, we can check for the interaction of a single fruit coin with a specific list. This also
 allows for more overall control of interactions. Each fruit coin/list can either be falling, stacked or shaken. Fruits can
 only interact with another fruit in a list if the stacked condition evaluates True. 
