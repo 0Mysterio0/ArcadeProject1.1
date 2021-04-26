@@ -168,6 +168,7 @@ class MyGame(arcade.Window):
         self.tier_2_fruit_list = None
         self.tier_3_fruit_list = None
         self.tier_4_fruit_list = None
+        self.tier_5_fruit_list = None
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
@@ -238,6 +239,7 @@ class MyGame(arcade.Window):
         self.tier_2_fruit_list = arcade.SpriteList()
         self.tier_3_fruit_list = arcade.SpriteList()
         self.tier_4_fruit_list = arcade.SpriteList()
+        self.tier_5_fruit_list = arcade.SpriteList()
         self.stacked_fruit = arcade.SpriteList()
         #This sucker list works for every level
         self.Sucker_list = arcade.SpriteList()
@@ -549,7 +551,7 @@ class MyGame(arcade.Window):
         if self.level == 3:
             lvl_3_order = "Our Images/Orders/Lvl2/Order1.1.PNG"
             # Place Order:
-            order_coordinate_list = [[950, 530]]
+            order_coordinate_list = [[950, 510]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(lvl_3_order, TILE_SCALING)
                 orders.position = coordinate
@@ -563,15 +565,17 @@ class MyGame(arcade.Window):
             for sucker in self.Sucker_list:
                 Sucker_Movement(sucker)
 
-            """This is the model level setup """
-            self.revamped_fruit_list.append(self.Apple_coin)
-            self.tier_1_fruit_list.append(self.Apple_coin)
-            self.revamped_fruit_list.append(self.Plum_coin)
-            self.tier_2_fruit_list.append(self.Plum_coin)
-            self.revamped_fruit_list.append(self.Pear_coin)
-            self.tier_3_fruit_list.append(self.Pear_coin)
-            self.revamped_fruit_list.append(self.Orange_coin)
-            self.tier_4_fruit_list.append(self.Orange_coin)
+            #Set up fruits
+            self.revamped_fruit_list.append(self.Pineapple_coin)
+            self.tier_1_fruit_list.append(self.Pineapple_coin)
+            self.revamped_fruit_list.append(self.Strawberry_coin)
+            self.tier_2_fruit_list.append(self.Strawberry_coin)
+            self.revamped_fruit_list.append(self.Kiwi_coin)
+            self.tier_3_fruit_list.append(self.Kiwi_coin)
+            self.revamped_fruit_list.append(self.Grape_coin)
+            self.tier_4_fruit_list.append(self.Grape_coin)
+            self.revamped_fruit_list.append(self.Lemon_coin)
+            self.tier_5_fruit_list.append(self.Lemon_coin)
             # Apply movement function to each fruit in the level
             for fruit in self.revamped_fruit_list:
                 Basic_Fruit_Movement(fruit)
