@@ -68,5 +68,8 @@ as well as have logical operations.*
 We decided to create a game in pycharm for our final project. Our overall concept
 was to create a game where you are given an order of fruit and you are required to catch 
 the falling fruit in that order. To do this we had to set up quite a few different things, 
-including fruit orders, a movable player, randomized positions and speeds of the falling 
-fruit and 
+including: a movable player, fruit orders, randomized positions/speeds of the falling 
+fruit, obstacles to avoid (i.e. suckers) and multiple levels.
+
+To create this game, we did a lot of experimentation. It took us many attempts and different 
+approaches to finally make 
