@@ -18,9 +18,10 @@ work in progress and we are looking forward to continuing to add to our game in 
 
 
 Our Process
-----------------------------
+--------------------------- 
 
-###Working Collaboratively
+### **Working Collaboratively**
+
 From the start, it was clear that CoCalc and Jupyter Notebooks were not going to be the best option to bring our game to 
 life. Pycharm is the environment we chose to create games in Python because we can most easily utilize the arcade library 
 (which is essential for game creation). We were all able to download Pycharm on our individual computers but this
@@ -32,7 +33,7 @@ tool for collaboration on future coding projects.
 
 After figuring out a way to work together, we were finally able to dive into the creation of our game.
 
-###The Set-Up
+### **The Set-Up**
 
 To begin, we started by brainstorming a list of all the components we wanted to include in our game. This included: a
 movable player, randomized fruit orders, randomized positions/speeds of the falling fruit and obstacles, and multiple
@@ -42,7 +43,7 @@ crates are positioned just out of frame, so our character is still fully visible
 there, we updated, modified or created functions for each of our other components (specifically the falling fruit and 
 suckers).
 
-####*Important functions that we utilized:*
+#### *Important functions that we utilized:*
 
 The major functions that we used in our game (and are present in almost every game), were on_draw(), on_key_press()/on_key_release(),
 and on_update(). On_draw renders each of our components on the screen. On_key_***() is used for the player movement. 
@@ -50,7 +51,8 @@ On_update() is where the most important aspects/changes occur. This is how we ch
 hit any suckers, as well as check conditions for moving onto the next level. More on this later.
 
 
-####*Randomized functions we created:*
+#### *Randomized functions we created:*
+
 We also created movement functions for the fruit and suckers. We utilized the random library in each of these functions
 to randomize the locations of each of the falling sprites, as well their speed. An extra flair was added to the
 sucker sprites, which randomized changes in the side to side (the x position) causing them to sometimes move diagonally
@@ -62,10 +64,10 @@ located in the top, right-hand corner of our screen, and would correspond to the
 From here, we faced our biggest challenge--creating a way for our player to interact with the fruit and the suckers. 
 This is where most of our time was spent and included a lot of experimentation as well as trial and error.
 
-###Creating the Interactions
+### Creating the Interactions
 
 
-####*Attempt 1*
+#### *Attempt 1*
 
 Initially, we attempted to create lists for each fruit. We tried this approach based on the guides we found on Arcade
 Academy. This code was inefficient and ultimately, did not work like we wanted it to. We weren't able to efficiently
@@ -75,7 +77,7 @@ behind the scenes scoring system, such that each time we hit a fruit, our score 
 our score would decrease. This was somewhat successful because we were able to set conditions for moving onto the next
 level, but we were unable to create visible stacks of fruit on our player. So we changed tactics.
 
-####*Attempt 2*
+#### *Attempt 2*
 
 Our second attempt included creating coin lists for each fruit. From the Arcade Academy tutorial pages, there were example
 code chunks that gave us a bit more direction with creating interactions. Specifically, this is where we came across the 
@@ -97,7 +99,7 @@ fruit and fruit coin depending on their location in the order, so it would updat
 we had to make specific lists for each fruit, *for each order*, ***for each level***. This was very inefficient, and a lot
 of variables to keep track of. So, we once again changed tactics, with a few alterations to our initial goals.
 
-###Some Epiphanies and Alterations to our Initial Goals 
+### Some Epiphanies and Alterations to our Initial Goals 
 
 We realized working through our second attempt, that randomized orders were ambitious for our skill set and time frame.
 They needlessly complicated our code and made things much more inefficient. We only wanted the specific fruits in the 
@@ -111,7 +113,7 @@ suckers you weren't able to move on, etc.) So, if we were able to come up with a
 of fruit coins following the player, we wouldn't have a need for the original fruit or the score system. With these ideas
 in mind, we moved forward and created the final system for our game.
 
-###Final Solution
+### Final Solution
 
 Our final code for the project is much more streamlined and efficient than any of our previous attempts. Each fruit is 
 updated in an overall fruit list which is drawn, but also is associated with a tier list. These lists of coins correspond
@@ -145,7 +147,7 @@ definitely took us a bit to get to this code but each step in our exploration wa
 the utilization of lists, collision syntax and update functions. We're really proud of how far we came and all of the progress
 we made.
 
-###Fun Extras We Were Able to Include
+### Fun Extras We Were Able to Include
 - Beginning and ending screens with intstructions --> we used similar code to the placement of orders on each level screen to do this
 - Background music!
 - Sounds for when we picked up fruits, when we hit suckers and when a fruit we had previously picked up fell on the ground
@@ -154,7 +156,7 @@ we made.
 - Cheat keys --> if you press the "P" key, you can automatically advance levels and if you press the "O" key you can go back a level
 
 
-###References
+### References
 [Python Arcade Academy Home Page](https://arcade.academy/)
 
 [Python Arcade Academy Resource Page](https://arcade.academy/resources.html)
@@ -169,7 +171,7 @@ we made.
 
 
 
-###Final Notes
+### Final Notes
 
 We had a lot of fun making this game but with it came some unexpected challenges and lots of trial and error, as well as
 some pretty funny moments when we accidentally broke our game. If you'd like to see some screenshots of our progress,
