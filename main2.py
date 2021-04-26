@@ -46,6 +46,7 @@ SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 
 Fruit_follow_speed=20
 
+sound_effect_volume=0.03
 #Was testing out different classes of sprite, one sucker now turns.
 class TurningSprite(arcade.Sprite):
     """ Sprite that sets its angle to the direction it is traveling in. """
@@ -96,14 +97,22 @@ class MyGame(arcade.Window):
         self.instructions_list = None
         self.intro_list = None
         self.player_list = None
+        # Surprise
+        self.Orange_boi = arcade.Sprite("Our Images/Outro/Bois/Orange Boi.png", FRUIT_SCALING * 1.8)
+        self.Blue_boi = arcade.Sprite("Our Images/Outro/Bois/Blue Boi.png", FRUIT_SCALING * 1.8)
+        self.Purple_boi = arcade.Sprite("Our Images/Outro/Bois/Purple Boi.png", FRUIT_SCALING * 1.8)
+        self.Red_boi = arcade.Sprite("Our Images/Outro/Bois/Red Boi.png", FRUIT_SCALING * 1.8)
+        self.Yellow_boi = arcade.Sprite("Our Images/Outro/Bois/Yellow Boi.png", FRUIT_SCALING * 1.8)
 
         self.cherry_list = None
         self.cherry_list_2 = None
         self.door_list = None
-
+        self.outro_list=None
 
         self.Sucker_list = None
+        #Revamped fruit list holds all fruit in every level
         self.revamped_fruit_list = None
+        #Each tier list is used for stacking operations
         self.tier_1_fruit_list = None
         self.tier_2_fruit_list = None
         self.tier_3_fruit_list = None
@@ -112,6 +121,24 @@ class MyGame(arcade.Window):
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
+
+        # Load sounds
+        self.picking_up_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
+
+        self.losing_fruit_sound = arcade.load_sound("Sounds/sucker hit.wav")
+        #Source: https://freesound.org/people/cabled_mess/sounds/350986/
+
+        self.burst_sound=arcade.load_sound("Sounds/pop.wav")
+        #Source:https://freesound.org/people/CBJ_Student/sounds/545200/
+
+        self.fruit_hit_ground=arcade.load_sound("Sounds/splat.wav")
+        # Source: https://freesound.org/people/Breviceps/sounds/445117/
+
+        self.intro_theme=arcade.load_sound("Sounds/Intro Theme.wav")
+        # Source: https://freesound.org/people/Mrthenoronha/sounds/521656/
+
+        self.background_music=arcade.load_sound("Sounds/Background music.wav")
+        # Source: https://freesound.org/people/BloodPixel/sounds/567193/
 
         # Level
         self.level = 0
@@ -129,8 +156,7 @@ class MyGame(arcade.Window):
         self.Stacked_3 = False
         self.Stacked_4 = False
         self.Stacked_5 = False
-        #List for fruit in the stack
-        self.stacked_fruit = None
+
         #These bools are for when a sucker is hit, it will shake the fruit off.
         self.Shake_1 = False
         self.Shake_2 = False
@@ -138,6 +164,7 @@ class MyGame(arcade.Window):
         self.Shake_4 = False
         self.Shake_5 = False
 
+        #Skip levels for testing
         self.skip_level = False
         self.reverse_level=False
     def setup(self,level):
@@ -153,7 +180,7 @@ class MyGame(arcade.Window):
         self.cherry_list = arcade.SpriteList()
         self.cherry_list_2 = arcade.SpriteList()
         self.door_list = arcade.SpriteList()
-
+        self.outro_list=arcade.SpriteList()
         #We use this list for each level of fruits
         self.revamped_fruit_list = arcade.SpriteList()
 
@@ -169,10 +196,6 @@ class MyGame(arcade.Window):
         #This sucker list works for every level
         self.Sucker_list = arcade.SpriteList()
 
-        # Load sounds
-        self.picking_up_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
-        self.losing_fruit_sound = arcade.load_sound(":resources:sounds/gameover1.wav")
-
 
         self.Sucker1 = arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
         self.Sucker2 = arcade.Sprite("Our Images/Suckers/sucker2.png", FRUIT_SCALING * 1.8)
@@ -180,7 +203,7 @@ class MyGame(arcade.Window):
         self.Sucker4 = TurningSprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
 
 
-        #We may only need individual fruit coins instead!
+        #We only need individual fruit coins instead!
         self.Grape_coin = Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
         self.Cherry_coin = Coin("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
         self.Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
@@ -193,8 +216,6 @@ class MyGame(arcade.Window):
         self.Lemon_coin = Coin("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
         self.Apple_coin = Coin("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
         self.Bannana_coin = Coin("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
-
-
 
         # Set up the player, specifically placing it at these coordinates.
         image_source = "Our Images/Gal_with_basket.PNG"
@@ -224,8 +245,7 @@ class MyGame(arcade.Window):
 
         def Basic_Fruit_Movement(fruit):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
-            to move down the screen, Not sure if we use it here, but we need to take advantage of the
-            SCREEN WIDTH variable. """
+            to move down the screen"""
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             fruit.left = FRUIT_SIZE * rdm.randint(0,14)
@@ -236,9 +256,7 @@ class MyGame(arcade.Window):
 
         #Still use this sucker movement.
         def Sucker_Movement(sucker):
-            """Defining a function that has the suckers moving different than the fruits
-            However there is an issue, if the movement is not limited to the screen,
-            suckers will miss the ground and not respawn at the top of the screen"""
+            """Defining a function that has the suckers moving different than the fruits"""
             sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             sucker.left = FRUIT_SIZE * rdm.randint(0,14)
@@ -251,6 +269,7 @@ class MyGame(arcade.Window):
         #Instruction screen
         if self.level==0:
             arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+            self.intro_player=arcade.play_sound(self.intro_theme,volume=0.02)
             lvl_0="Our Images/Intro/Title.PNG"
             intro_coordinate_list = [[500, 550]]
             for coordinate in intro_coordinate_list:
@@ -284,6 +303,8 @@ class MyGame(arcade.Window):
                            #"Our Images/Orders/Lvl1/Order1.3.PNG"]
             #rdm_lvl_1_order = rdm.choice(lvl_1_orders)
 
+            arcade.stop_sound(self.intro_player)
+            self.background_music_player=arcade.play_sound(self.background_music, volume=0.02,looping=True)
             # Now, we use only one order per level.
             lvl_1_order="Our Images/Orders/Lvl1/Order1.2.PNG"
             #Place Order:
@@ -364,20 +385,22 @@ class MyGame(arcade.Window):
             #Set up fruits
             self.revamped_fruit_list.append(self.Pineapple_coin)
             self.tier_1_fruit_list.append(self.Pineapple_coin)
-            self.revamped_fruit_list.append(self.Strawberry_coin)
-            self.tier_2_fruit_list.append(self.Strawberry_coin)
-            self.revamped_fruit_list.append(self.Kiwi_coin)
-            self.tier_3_fruit_list.append(self.Kiwi_coin)
-            self.revamped_fruit_list.append(self.Grape_coin)
-            self.tier_4_fruit_list.append(self.Grape_coin)
-            self.revamped_fruit_list.append(self.Lemon_coin)
-            self.tier_5_fruit_list.append(self.Lemon_coin)
+            self.revamped_fruit_list.append(self.Apple_coin)
+            self.tier_2_fruit_list.append(self.Apple_coin)
+            self.revamped_fruit_list.append(self.Plum_coin)
+            self.tier_3_fruit_list.append(self.Plum_coin)
+            self.revamped_fruit_list.append(self.Pear_coin)
+            self.tier_4_fruit_list.append(self.Pear_coin)
+            self.revamped_fruit_list.append(self.Orange_coin)
+            self.tier_5_fruit_list.append(self.Orange_coin)
             # Apply movement function to each fruit in the level
             for fruit in self.revamped_fruit_list:
                 Basic_Fruit_Movement(fruit)
 
         #End Screen
         if self.level==4:
+            arcade.stop_sound(self.background_music_player)
+            self.intro_player=arcade.play_sound(self.intro_theme,volume=0.02)
             arcade.set_background_color(arcade.csscolor.PALE_VIOLET_RED)
             #Placing everything related to the ending
             lvl_4 = "Our Images/Outro/Outro.PNG"
@@ -399,6 +422,13 @@ class MyGame(arcade.Window):
                 door_.position = coordinate
                 self.door_list.append(door_)
             self.player_sprite.set_position(500,PLAYER_START_Y)
+            self.outro_list.append(self.Orange_boi)
+            self.outro_list.append(self.Yellow_boi)
+            self.outro_list.append(self.Blue_boi)
+            self.outro_list.append(self.Purple_boi)
+            self.outro_list.append(self.Red_boi)
+            for item in self.outro_list:
+                Basic_Fruit_Movement(item)
 
         # Create the 'physics engine'
         self.physics_engine=arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list)
@@ -419,7 +449,7 @@ class MyGame(arcade.Window):
         self.door_list.draw()
         self.cherry_list.draw()
         self.cherry_list_2.draw()
-
+        self.outro_list.draw()
         #Draw suckers for levels not in the intro or outro
         if self.level != 0 or self.level != 4:
             self.Sucker_list.draw()
@@ -486,30 +516,40 @@ class MyGame(arcade.Window):
             for fruit in self.tier_1_fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
                     Hitting_ground(fruit)
+                    if self.Shake_1:
+                        arcade.play_sound(self.fruit_hit_ground,volume=sound_effect_volume)
                     self.Shake_1 = False
                     self.Stacked_1 = False
                     fruit.update()
             for fruit in self.tier_2_fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
                     Hitting_ground(fruit)
+                    if self.Shake_2:
+                        arcade.play_sound(self.fruit_hit_ground,volume=sound_effect_volume)
                     self.Shake_2 = False
                     self.Stacked_2 = False
                     fruit.update()
             for fruit in self.tier_3_fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
                     Hitting_ground(fruit)
+                    if self.Shake_3:
+                        arcade.play_sound(self.fruit_hit_ground,volume=sound_effect_volume)
                     self.Shake_3 = False
                     self.Stacked_3 = False
                     fruit.update()
             for fruit in self.tier_4_fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
                     Hitting_ground(fruit)
+                    if self.Shake_4:
+                        arcade.play_sound(self.fruit_hit_ground,volume=sound_effect_volume)
                     self.Shake_4 = False
                     self.Stacked_4 = False
                     fruit.update()
             for fruit in self.tier_5_fruit_list:
                 if arcade.check_for_collision_with_list(fruit, self.wall_list):
                     Hitting_ground(fruit)
+                    if self.Shake_5:
+                        arcade.play_sound(self.fruit_hit_ground,volume=sound_effect_volume)
                     self.Shake_5 = False
                     self.Stacked_5 = False
                     fruit.update()
@@ -522,7 +562,7 @@ class MyGame(arcade.Window):
                     #Play good sound here when this occurs
                     tier_1_fruit.follow_sprite(self.player_sprite)
                     if not self.Stacked_1:
-                        arcade.play_sound(self.picking_up_sound, volume= .03)
+                        arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                     self.Stacked_1 = True
                 for tier_2_fruit in self.tier_2_fruit_list:
                     if arcade.check_for_collision_with_list(tier_2_fruit, self.tier_1_fruit_list) and not self.Shake_2\
@@ -530,7 +570,7 @@ class MyGame(arcade.Window):
                         # Play good sound here when this occurs
                         tier_2_fruit.follow_sprite(tier_1_fruit)
                         if not self.Stacked_2:
-                            arcade.play_sound(self.picking_up_sound, volume= .03)
+                            arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                         self.Stacked_2 = True
                     for tier_3_fruit in self.tier_3_fruit_list:
                         if arcade.check_for_collision_with_list(tier_3_fruit, self.tier_2_fruit_list) \
@@ -539,7 +579,7 @@ class MyGame(arcade.Window):
                             # Play good sound here when this occurs
                             tier_3_fruit.follow_sprite(tier_2_fruit)
                             if not self.Stacked_3:
-                                arcade.play_sound(self.picking_up_sound, volume=.03)
+                                arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                             self.Stacked_3 = True
                         for tier_4_fruit in self.tier_4_fruit_list:
                             if arcade.check_for_collision_with_list(tier_4_fruit, self.tier_3_fruit_list) \
@@ -548,7 +588,7 @@ class MyGame(arcade.Window):
                                 # Play good sound here when this occurs
                                 tier_4_fruit.follow_sprite(tier_3_fruit)
                                 if not self.Stacked_4:
-                                    arcade.play_sound(self.picking_up_sound, volume=.03)
+                                    arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                                 self.Stacked_4 = True
                             for tier_5_fruit in self.tier_5_fruit_list:
                                 if arcade.check_for_collision_with_list(tier_5_fruit, self.tier_4_fruit_list) \
@@ -557,7 +597,7 @@ class MyGame(arcade.Window):
                                     # Play good sound here when this occurs
                                     tier_5_fruit.follow_sprite(tier_4_fruit)
                                     if not self.Stacked_5:
-                                        arcade.play_sound(self.picking_up_sound, volume=.03)
+                                        arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                                     self.Stacked_5 = True
 
 
@@ -579,22 +619,22 @@ class MyGame(arcade.Window):
                     if self.Stacked_4:
                         # Play bad sound here when this occurs.
                         if not self.Shake_4:
-                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                            arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                         self.Shake_4=True
                     elif self.Stacked_3:
                         # Play bad sound here when this occurs.
                         if not self.Shake_3:
-                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                            arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                         self.Shake_3=True
                     elif self.Stacked_2:
                         if not self.Shake_2:
                             # Play bad sound here when this occurs.
-                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                            arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                         self.Shake_2 =True
                     elif self.Stacked_1:
                         if not self.Shake_1:
                             # Play bad sound here when this occurs.
-                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                            arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                         self.Shake_1=True
 
 
@@ -602,18 +642,22 @@ class MyGame(arcade.Window):
                 self.instr_objective=True
             if len(arcade.check_for_collision_with_list(self.player_sprite,self.cherry_list_2)) > 0:
                 self.restart_objective=True
+            for item in self.outro_list:
+                if arcade.check_for_collision_with_list(item,self.wall_list):
+                    arcade.play_sound(self.burst_sound, volume=sound_effect_volume)
+                    item.kill()
+            self.outro_list.update()
 
             # See if the user got to the end of the level
-
             if self.level==0:
                 if self.instr_objective or self.skip_level:
-                        #once we hit a certain amount of fruit, go to next level
                         self.skip_level=False
                         self.instr_objective=False
                         self.level =1
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
+                #once we have hit the highest stack for that level, progress on
                 if self.Stacked_3 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
@@ -660,6 +704,7 @@ class MyGame(arcade.Window):
                         self.Stacked_4=False
                         self.Stacked_5=False
                         # Load the next level
+                        arcade.stop_sound(self.intro_player)
                         self.setup(self.level)
             # See if the player walks to the door. If so, game over.
             if len(arcade.check_for_collision_with_list(self.player_sprite, self.door_list)) > 0:
