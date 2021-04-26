@@ -595,7 +595,7 @@ class MyGame(arcade.Window):
                                     and not self.Shake_4 \
                                     and self.Stacked_3:
                                 # Play good sound here when this occurs
-                                tier_3_fruit.follow_sprite(tier_3_fruit)
+                                tier_4_fruit.follow_sprite(tier_3_fruit)
                                 if not self.Stacked_4:
                                     arcade.play_sound(self.picking_up_sound, volume=.03)
                                 self.Stacked_4 = True
@@ -604,7 +604,7 @@ class MyGame(arcade.Window):
                                         and not self.Shake_5 \
                                         and self.Stacked_4:
                                     # Play good sound here when this occurs
-                                    tier_4_fruit.follow_sprite(tier_4_fruit)
+                                    tier_5_fruit.follow_sprite(tier_4_fruit)
                                     if not self.Stacked_5:
                                         arcade.play_sound(self.picking_up_sound, volume=.03)
                                     self.Stacked_5 = True
