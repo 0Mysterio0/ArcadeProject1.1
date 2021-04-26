@@ -72,4 +72,18 @@ including: a movable player, fruit orders, randomized positions/speeds of the fa
 fruit, obstacles to avoid (i.e. suckers) and multiple levels.
 
 To create this game, we did a lot of experimentation. It took us many attempts and different 
-approaches to finally make 
+approaches to finally make our final product. To begin, we took baby steps. We worked through making
+sprites fall from the sky in randomized locations and at different speeds. We used the random package to
+create the different locations and speeds from a given range. From there, we attempted to create a way for 
+our player to interact with the falling fruit. This required the arcade.check_for_collisions_with_list()
+function. This is where we initially created a lot more work for ourselves.
+
+Our initial attempt was to create lists for each fruit. 
+
+
+No longer more than one fruit movement functions.
+
+Each hit was on its, each fruit update was on its own
+Each order had its own list and level and everything.
+All of the draw fruit functions are now in one, instead of originally
+being 
