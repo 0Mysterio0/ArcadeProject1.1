@@ -254,7 +254,7 @@ class MyGame(arcade.Window):
 
         # Load sounds
         self.picking_up_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
-        self.losing_fruit_sound = arcade.load_sound(":resources:sounds/gameover4.wav")
+        self.losing_fruit_sound = arcade.load_sound(":resources:sounds/gameover1.wav")
 
         # Load all of the sucker images, but don't append them to any list yet:
         Sucker1=arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
@@ -725,13 +725,20 @@ class MyGame(arcade.Window):
                     and self.Stacked_3))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
-                    #Play bad sound here when this occurs.
-                    arcade.play_sound(self.losing_fruit_sound, volume=.03)
                     if self.Stacked_3:
+                        # Play bad sound here when this occurs.
+                        if not self.Shake_3:
+                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
                         self.Shake_3=True
                     elif self.Stacked_2:
+                        if not self.Shake_2:
+                            # Play bad sound here when this occurs.
+                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
                         self.Shake_2 =True
                     elif self.Stacked_1:
+                        if not self.Shake_1:
+                            # Play bad sound here when this occurs.
+                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
                         self.Shake_1=True
 
             #Almost everything below this point is now outdated and once sorted through,
