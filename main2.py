@@ -395,11 +395,11 @@ class MyGame(arcade.Window):
                 Basic_Fruit_Movement(fruit)
 
         if self.level == 3:
-            lvl_3_order = "Our Images/Orders/Lvl2/Order1.1.PNG"
+            lvl_3_order = "Our Images/Orders/Lvl3/Lvl3Order1.1.PNG"
             # Place Order:
             order_coordinate_list = [[950, 510]]
             for coordinate in order_coordinate_list:
-                orders = arcade.Sprite(lvl_3_order, TILE_SCALING)
+                orders = arcade.Sprite(lvl_3_order, TILE_SCALING*.75)
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
@@ -556,6 +556,12 @@ class MyGame(arcade.Window):
                     self.Shake_4 = False
                     self.Stacked_4 = False
                     fruit.update()
+            for fruit in self.tier_5_fruit_list:
+                if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                    Hitting_ground(fruit)
+                    self.Shake_5 = False
+                    self.Stacked_5 = False
+                    fruit.update()
 
             #Stacking operations, each successive fruit will follow the previous fruit
             #Occurs only when the previous fruit is stacked. Also the self.objective
@@ -580,7 +586,6 @@ class MyGame(arcade.Window):
                                 and not self.Shake_3 \
                                 and self.Stacked_2:
                             # Play good sound here when this occurs
-                            # arcade.play_sound(self.picking_up_sound) --> plays sound continuously
                             tier_3_fruit.follow_sprite(tier_2_fruit)
                             if not self.Stacked_3:
                                 arcade.play_sound(self.picking_up_sound, volume=.03)
@@ -590,11 +595,20 @@ class MyGame(arcade.Window):
                                     and not self.Shake_4 \
                                     and self.Stacked_3:
                                 # Play good sound here when this occurs
-                                # arcade.play_sound(self.picking_up_sound) --> plays sound continuously
-                                tier_3_fruit.follow_sprite(tier_3_fruit)
+                                tier_4_fruit.follow_sprite(tier_3_fruit)
                                 if not self.Stacked_4:
                                     arcade.play_sound(self.picking_up_sound, volume=.03)
                                 self.Stacked_4 = True
+                            for tier_5_fruit in self.tier_5_fruit_list:
+                                if arcade.check_for_collision_with_list(tier_5_fruit, self.tier_4_fruit_list) \
+                                        and not self.Shake_5 \
+                                        and self.Stacked_4:
+                                    # Play good sound here when this occurs
+                                    tier_5_fruit.follow_sprite(tier_4_fruit)
+                                    if not self.Stacked_5:
+                                        arcade.play_sound(self.picking_up_sound, volume=.03)
+                                    self.Stacked_5 = True
+
 
             #Revamped collision system, if a sucker collides with fruit that is stacked, it will knock
             #ONLY the top one off.
@@ -611,7 +625,12 @@ class MyGame(arcade.Window):
                     and self.Stacked_4))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
-                    if self.Stacked_3:
+                    if self.Stacked_4:
+                        # Play bad sound here when this occurs.
+                        if not self.Shake_4:
+                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                        self.Shake_4=True
+                    elif self.Stacked_3:
                         # Play bad sound here when this occurs.
                         if not self.Shake_3:
                             arcade.play_sound(self.losing_fruit_sound, volume=.03)
@@ -634,21 +653,27 @@ class MyGame(arcade.Window):
                 self.restart_objective=True
 
             # See if the user got to the end of the level
+
             if self.level==0:
                 if self.instr_objective or self.skip_level:
                         #once we hit a certain amount of fruit, go to next level
                         self.skip_level=False
                         self.instr_objective=False
-                        self.level += 1
+                        self.level =1
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
                 if self.Stacked_3 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level += 1
+                        self.level =2
                         # Load the next level
                         self.setup(self.level)
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==2:
                 if self.Stacked_4 or self.skip_level:
                         self.skip_level = False
@@ -656,14 +681,23 @@ class MyGame(arcade.Window):
                         self.level = 3
                         # Load the next level
                         self.setup(self.level)
-                        self.Stacked_4=False
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==3:
-                if self.Stacked_4 or self.skip_level:
+                if self.Stacked_5 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level +=1
+                        self.level =4
                         # Load the next level
                         self.setup(self.level)
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==4:
                 if self.restart_objective:
                         self.restart_objective=False
