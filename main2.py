@@ -546,6 +546,35 @@ class MyGame(arcade.Window):
             for fruit in self.revamped_fruit_list:
                 Basic_Fruit_Movement(fruit)
 
+        if self.level == 3:
+            lvl_3_order = "Our Images/Orders/Lvl2/Order1.1.PNG"
+            # Place Order:
+            order_coordinate_list = [[950, 550]]
+            for coordinate in order_coordinate_list:
+                orders = arcade.Sprite(lvl_3_order, TILE_SCALING)
+                orders.position = coordinate
+                self.orders_list.append(orders)
+
+            # Setup suckers
+            self.Sucker_list.append(self.Sucker1)
+            self.Sucker_list.append(self.Sucker2)
+            self.Sucker_list.append(self.Sucker3)
+            self.Sucker_list.append(self.Sucker4)
+            for sucker in self.Sucker_list:
+                Sucker_Movement(sucker)
+
+            """This is the model level setup """
+            self.revamped_fruit_list.append(self.Apple_coin)
+            self.tier_1_fruit_list.append(self.Apple_coin)
+            self.revamped_fruit_list.append(self.Plum_coin)
+            self.tier_2_fruit_list.append(self.Plum_coin)
+            self.revamped_fruit_list.append(self.Pear_coin)
+            self.tier_3_fruit_list.append(self.Pear_coin)
+            self.revamped_fruit_list.append(self.Orange_coin)
+            self.tier_4_fruit_list.append(self.Orange_coin)
+            # Apply movement function to each fruit in the level
+            for fruit in self.revamped_fruit_list:
+                Basic_Fruit_Movement(fruit)
 
         #End Screen
         if self.level==4:
@@ -681,6 +710,12 @@ class MyGame(arcade.Window):
                     self.Shake_3 = False
                     self.Stacked_3 = False
                     fruit.update()
+            for fruit in self.tier_4_fruit_list:
+                if arcade.check_for_collision_with_list(fruit, self.wall_list):
+                    Hitting_ground(fruit)
+                    self.Shake_4 = False
+                    self.Stacked_4 = False
+                    fruit.update()
 
             #Stacking operations, each successive fruit will follow the previous fruit
             #Occurs only when the previous fruit is stacked. Also the self.objective
@@ -806,7 +841,7 @@ class MyGame(arcade.Window):
                 if self.Stacked_4 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level =4
+                        self.level = 3
                         # Load the next level
                         self.setup(self.level)
             if self.level==3 or self.skip_level:
