@@ -1,4 +1,84 @@
-# Arcade Project
+# Lily's Fruit Quest
+#####By Kaylee Roberts, Seth Woodwyk and Tess Scheidel
+
+##Our Project
+
+We decided to create a game in pycharm for our final project. The overall concept for our game was for the player to be
+given an order of fruit and for them successfully catch those fruits as they fell, in the specified order while avoiding
+other unwanted items. If the player attempted to catch fruit in the incorrect order, the fruit would not be added to the
+basket. If the player caught an unwanted item, a fruit would be removed from their basket. 
+
+Along with these objectives, we had goals to add some fun extras to our project. One idea was to utilize physics to 
+recognize if the fruits stacked up in a straight line. If the fruit or objects were not stacked well, the basket would
+eventually become unbalanced and fall, causing you to lose your fruit stack. Unfortunately, due to time restraints we
+were unable to add some of these extras into our final product. However, we like to think that this game is a continuous 
+work in progress and we are looking forward to continuing to add to our game in the future.
+
+
+##Our Process
+
+###Working Collaboratively
+From the start, it was clear that CoCalc and Jupyter Notebooks were not going to be the best option to bring our game to 
+life. Pycharm is the main environment to create games in Python because we can most easily utilize the arcade library 
+(which is essential for game creation). We were all able to download Pycharm on our individual computers but this
+presented a problem when it came to working collaboratively. To fix this problem, we created a repository on GitHub, 
+where we could update and share changes we each made. None of us had a lot of previous experience working in GitHub so
+we ran into a few obstacles (missing changes, merging conflicts, etc.) but we became fairly good at sorting these issues 
+out as we went along. Overall, GitHub was a good way for us to work together on our game and can be a very helpful 
+tool for collaboration on future coding projects.
+
+After figuring out a way to work together, we were finally able to dive into the creation of our game.
+
+###The Set-Up
+
+To being, we started by brainstorming a list of all of the components we wanted to include in our game. This included: a
+movable player, randomized fruit orders, randomized positions/speeds of the falling fruit and obstacles, and multiple
+levels. We started with the 
+
+
+###Attempt 1
+
+
+
+###Some Alterations
+
+
+###Attempt 2
+
+
+###More Alterations
+
+
+###Final Solution
+
+To create this game, we did a lot of experimentation. It took us many attempts and different 
+approaches to finally make our final product. To begin, we took baby steps. We worked through making
+sprites fall from the sky in randomized locations and at different speeds. We used the random package to
+create the different locations and speeds from a given range. From there, we attempted to create a way for 
+our player to interact with the falling fruit. This required the arcade.check_for_collisions_with_list()
+function. This is where we initially created a lot more work for ourselves.
+
+Our initial attempt was to create lists for each fruit. This code was inefficient and ultimately,
+did not work like we wanted it to. Each collision and update had to be on a fruit by fruit basis.
+It was also incredibly hard make the fruit interact with each other, and our character. This was where
+we changed tactics again. 
+
+We then attempted to create fruit sprites paired coins of the same fruit image. The coins were supposed
+to be what interacted with our player. The fruit sprite would be removed and the paired fruit coin would be what 
+stacked on our player. We ran into difficulties with keeping the coin and fruit stacked/joined together (they
+would often split when they touched the ground). We realized that this wasn't going to work for our game either.
+
+In addition to our struggles with the splitting coins and fruits, we also
+faced challenges with the orders. 
+
+
+No longer more than one fruit movement functions.
+
+
+Each order had its own list and level and everything.
+All of the draw fruit functions are now in one, instead of originally
+being 
+
 
 
 ###Actual To Do List:
@@ -64,40 +144,3 @@ issues. We had to consider sprites separately for things to actually run properl
 as well as have logical operations.* 
 
 *Coins and fruit tied together initially --> moved to just coins*
-
-###Our Project
-
-We decided to create a game in pycharm for our final project. Our overall concept
-was to create a game where you are given an order of fruit and you are required to catch 
-the falling fruit in that order. To do this we had to set up quite a few different things, 
-including: a movable player, fruit orders, randomized positions/speeds of the falling 
-fruit, obstacles to avoid (i.e. suckers) and multiple levels.
-
-
-###The Process
-To create this game, we did a lot of experimentation. It took us many attempts and different 
-approaches to finally make our final product. To begin, we took baby steps. We worked through making
-sprites fall from the sky in randomized locations and at different speeds. We used the random package to
-create the different locations and speeds from a given range. From there, we attempted to create a way for 
-our player to interact with the falling fruit. This required the arcade.check_for_collisions_with_list()
-function. This is where we initially created a lot more work for ourselves.
-
-Our initial attempt was to create lists for each fruit. This code was inefficient and ultimately,
-did not work like we wanted it to. Each collision and update had to be on a fruit by fruit basis.
-It was also incredibly hard make the fruit interact with each other, and our character. This was where
-we changed tactics again. 
-
-We then attempted to create fruit sprites paired coins of the same fruit image. The coins were supposed
-to be what interacted with our player. The fruit sprite would be removed and the paired fruit coin would be what 
-stacked on our player. We ran into difficulties with keeping the coin and fruit stacked/joined together (they
-would often split when they touched the ground). We realized that this wasn't going to work for our game either.
-
-In addition to our struggles with the split
-
-
-No longer more than one fruit movement functions.
-
-
-Each order had its own list and level and everything.
-All of the draw fruit functions are now in one, instead of originally
-being 
