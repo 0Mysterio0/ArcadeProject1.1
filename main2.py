@@ -203,6 +203,9 @@ class MyGame(arcade.Window):
         self.Shake_3 = False
         self.Shake_4 = False
         self.Shake_5 = False
+
+        self.skip_level = False
+        self.reverse_level=False
     def setup(self,level):
         """ Set up the game here. Call this function to restart the game. """
         # Create the Sprite lists
@@ -616,15 +619,19 @@ class MyGame(arcade.Window):
         elif key== arcade.key.ESCAPE:
             self.game_over=True
         elif key==arcade.key.P:
-            self.level+=1
+            self.skip_level=True
         elif key==arcade.key.O:
-            self.level-=1
+            self.reverse_level=True
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = 0
         if key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
+        elif key == arcade.key.P:
+            self.skip_level = False
+        elif key == arcade.key.O:
+            self.reverse_level = False
 
     def on_update(self, delta_time):
         """ Movement and game logic """
@@ -770,26 +777,30 @@ class MyGame(arcade.Window):
 
             # See if the user got to the end of the level
             if self.level==0:
-                if self.instr_objective:
+                if self.instr_objective or self.skip_level:
                         #once we hit a certain amount of fruit, go to next level
+                        self.skip_level=False
                         self.instr_objective=False
                         self.level += 1
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
-                if self.Stacked_3:
+                if self.Stacked_3 or self.skip_level:
+                        self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
                         self.level += 1
                         # Load the next level
                         self.setup(self.level)
             if self.level==2:
-                if self.Stacked_4:
+                if self.Stacked_4 or self.skip_level:
+                        self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level += 1
+                        self.level =4
                         # Load the next level
                         self.setup(self.level)
-            if self.level==3:
+            if self.level==3 or self.skip_level:
                 if self.Stacked_5:
+                        self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
                         self.level +=1
                         # Load the next level
