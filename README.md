@@ -55,10 +55,18 @@ References were helpful, yet also not*
 So far, when a fruit hits your basket, it gets removed and the score increases.
 When you hit 3 fruit that level, it starts the next level.
 
-Initially we tried to mess with the update settings, but that was not working 
+*Initially we tried to mess with the update settings, but that was not working 
 as it updated the score several times as the fruit was passing through the 
-player sprite essentially. 
+player sprite essentially.*
 
-Initially everything was handled with sprite lists, but this caused unexpected
+*Initially everything was handled with sprite lists, but this caused unexpected
 issues. We had to consider sprites separately for things to actually run properly
-as well as have logical operations. 
+as well as have logical operations.* 
+
+*Coins and fruit tied together initially --> moved to just coins*
+
+We decided to create a game in pycharm for our final project. Our overall concept
+was to create a game where you are given an order of fruit and you are required to catch 
+the falling fruit in that order. To do this we had to set up quite a few different things, 
+including fruit orders, a movable player, randomized positions and speeds of the falling 
+fruit and 
