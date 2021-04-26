@@ -140,7 +140,7 @@ class MyGame(arcade.Window):
 
         self.background_music=arcade.load_sound("Sounds/Background music.wav")
         # Source: https://freesound.org/people/BloodPixel/sounds/567193/
-
+        self.background_playing = False
         # Level
         self.level = 0
 
@@ -275,6 +275,7 @@ class MyGame(arcade.Window):
         if self.level == 0:
             arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
             self.intro_player=arcade.play_sound(self.intro_theme,volume=0.02)
+            self.intro_playing=True
             lvl_0="Our Images/Intro/Title.PNG"
             intro_coordinate_list = [[500, 550]]
             for coordinate in intro_coordinate_list:
@@ -306,9 +307,12 @@ class MyGame(arcade.Window):
             # lvl_1_orders= ["Our Images/Orders/Lvl1/Order1.1.PNG", "Our Images/Orders/Lvl1/Order1.2.PNG",
             # "Our Images/Orders/Lvl1/Order1.3.PNG"]
             # rdm_lvl_1_order = rdm.choice(lvl_1_orders)
-
-            arcade.stop_sound(self.intro_player)
-            self.background_music_player=arcade.play_sound(self.background_music, volume=0.02,looping=True)
+            if self.intro_playing:
+                arcade.stop_sound(self.intro_player)
+                self.intro_playing=False
+            if not self.background_playing:
+                self.background_music_player=arcade.play_sound(self.background_music, volume=0.02,looping=True)
+                self.background_playing=True
             # Now, we use only one order per level.
             lvl_1_order = "Our Images/Orders/Lvl1/Order1.2.PNG"
             # Place Order:
@@ -374,7 +378,7 @@ class MyGame(arcade.Window):
             # Place Order:
             order_coordinate_list = [[950, 510]]
             for coordinate in order_coordinate_list:
-                orders = arcade.Sprite(lvl_3_order, TILE_SCALING * .75)
+                orders = arcade.Sprite(lvl_3_order, TILE_SCALING)
                 orders.position = coordinate
                 self.orders_list.append(orders)
 
@@ -654,6 +658,13 @@ class MyGame(arcade.Window):
                     # Load the next level
                     self.setup(self.level)
             if self.level == 1:
+                if self.reverse_level:
+                    self.reverse_level=False
+                    self.level=0
+                    if self.background_playing:
+                        arcade.stop_sound(self.background_music_player)
+                        self.background_playing=False
+                    self.setup(self.level)
                 if self.Stacked_3 or self.skip_level:
                     self.skip_level = False
                     # once we hit 3 fruits, go to next level
@@ -666,6 +677,10 @@ class MyGame(arcade.Window):
                     self.Stacked_4 = False
                     self.Stacked_5 = False
             if self.level == 2:
+                if self.reverse_level:
+                    self.level=1
+                    self.reverse_level=False
+                    self.setup(self.level)
                 if self.Stacked_4 or self.skip_level:
                     self.skip_level = False
                     # once we hit 4 fruits, go to next level
@@ -678,6 +693,10 @@ class MyGame(arcade.Window):
                     self.Stacked_4 = False
                     self.Stacked_5 = False
             if self.level == 3:
+                if self.reverse_level:
+                    self.reverse_level=False
+                    self.level=2
+                    self.setup(self.level)
                 if self.Stacked_5 or self.skip_level:
                     self.skip_level = False
                     # once we hit 5 fruits, go to next level
@@ -700,6 +719,7 @@ class MyGame(arcade.Window):
                         self.Stacked_4=False
                         self.Stacked_5=False
                         # Load the next level
+                        self.background_playing = False
                         arcade.stop_sound(self.intro_player)
                         self.setup(self.level)
             # See if the player walks to the door. If so, game over.
