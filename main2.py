@@ -634,6 +634,7 @@ class MyGame(arcade.Window):
                 self.restart_objective=True
 
             # See if the user got to the end of the level
+
             if self.level==0:
                 if self.instr_objective or self.skip_level:
                         #once we hit a certain amount of fruit, go to next level
