@@ -727,8 +727,6 @@ class MyGame(arcade.Window):
                     and self.Stacked_3))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
-                    #Play bad sound here when this occurs.
-                    arcade.play_sound(self.losing_fruit_sound)
                     if self.Stacked_3:
                         self.Shake_3=True
                     elif self.Stacked_2:
