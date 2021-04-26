@@ -818,6 +818,7 @@ class MyGame(arcade.Window):
                         self.level = 3
                         # Load the next level
                         self.setup(self.level)
+                        self.Stacked_4=False
             if self.level==3:
                 if self.Stacked_4 or self.skip_level:
                         self.skip_level = False
