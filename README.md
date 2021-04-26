@@ -84,112 +84,89 @@ the follow_sprite() function. We actually made some pretty decent progress using
 on the movable player(although they stacked in the positive z-axis, not the positive y-axis). We were also able to move 
 to the next levels using the scoring functions.
 
-However, this was still not very efficient code and we still had a lot of issues. The problem with the fruit/coin fruit 
-system was that on each update, we had problems with splitting. Intially, the locations for each of the sprites (the 
+This was still not very efficient code and we still faced a lot of issues. The problem with the fruit/coin fruit 
+system was that on each update, we had problems with splitting. Initially, the locations for each of the sprites (the 
 fruit and the coin fruit) were set equal to each other. However, the respawn locations of each fruit were randomized once
-they hit the ground. Oddly, only certain fruits and coins would split on the update. We weren't able to find a pattern as
-to why this occurred and it was a bit of a mystery. Once again, we also had trouble with the fruits interacting with each
-other. When the fruit coins stacked, they only interacted with the player, causing them to stack in front of each other 
-instead of on top of each other. We attempted to make different movement functions for each fruit and fruit coin depending
-on their location in the order, so it would update and follow the fruit before it. However, we had to make specific lists 
-for each fruit, *for each order*, ***for each level***. This was very inefficient and a lot of variables to keep track of.
-So, we once again changed tactics, with a few alterations to our initial goals.
+they hit the ground. Oddly, certain fruits and coins would split on the update, while others remained tied. We weren't 
+able to find a pattern as to why this occurred and it was a bit of a mystery. Once again, we also had trouble with the 
+fruits interacting with each other. When the fruit coins stacked, they only interacted with the player, causing them to 
+stack in front of each other instead of on top of each other. We attempted to make different movement functions for each
+fruit and fruit coin depending on their location in the order, so it would update and follow the fruit before it. However,
+we had to make specific lists for each fruit, *for each order*, ***for each level***. This was very inefficient and a lot
+of variables to keep track of. So, we once again changed tactics, with a few alterations to our initial goals.
 
-###Some Alterations to our Initial Goals 
+###Some Epiphanies and Alterations to our Initial Goals 
 
+We realized working through our second attempt, that randomized orders were ambitious for our skill set and time frame.
+They needlessly complicated our code and made things much more inefficient. We only wanted the specific fruits in the 
+order to fall to avoid overcrowding the screen, and coding that for each posisble order for each level would have been a
+lot of extra, unneeded work for little reward. So, moving forward, we only coded for one specfic order for each level.
+
+We also came to the realization that we didn't need both a fruit and a fruit coin for each object. The fruits were 
+essentially used for addition to the behind the scenes score. That scoring system had a few flaws (if you caught too many 
+suckers you weren't able to move on, etc.) So, if we were able to come up with a way to utilize the positioning and amount 
+of fruit coins following the player, we wouldn't have a need for the original fruit or the score system. With these ideas
+in mind, we moved forward and created the final system for our game.
 
 ###Final Solution
 
-To create this game, we did a lot of experimentation. It took us many attempts and different 
-approaches to finally make our final product. To begin, we took baby steps. We worked through making
-sprites fall from the sky in randomized locations and at different speeds. We used the random package to
-create the different locations and speeds from a given range. From there, we attempted to create a way for 
-our player to interact with the falling fruit. This required the arcade.check_for_collisions_with_list()
-function. This is where we initially created a lot more work for ourselves.
+Our final code for the project is much more streamlined and efficient than any of our previous attempts. Each fruit is 
+updated in an overall fruit list which is drawn, but also is associated with a tier list. These lists of coins correspond
+to the different fruits in each order (so tier_list_1 will include the first fruit from the first order, the second order
+and the third order) but will only be appended during specific levels. This condenses the amount of lists and variables we
+have to keep track of. There are only 6 overall lists (5 tier lists and one overall list), instead of one for each fruit 
+of each level. Theses lists also allow use to better utilize the collision function/interactions. As each fruit is its own
+coin, appended to different lists, we can check for the interaction of a single fruit coin with a specific list. This also
+allows for more overall control of interactions. Each fruit coin/list can either be falling, stacked or shaken. Fruits can
+only interact with another fruit in a list if the stacked condition evaluates true. 
 
-Our initial attempt was to create lists for each fruit. This code was inefficient and ultimately,
-did not work like we wanted it to. Each collision and update had to be on a fruit by fruit basis.
-It was also incredibly hard make the fruit interact with each other, and our character. This was where
-we changed tactics again. 
+For example, in level one, the kiwi is the only fruit coin that can interact with the player because it is in the first
+tier list. If it collides with the player, it follows the player and  its stacked condition evaluates TRUE. Now, the 
+pineapple coin can interact with the kiwi. When the pineapple coin collides with the kiwi, it will now follow that sprite
+and its stacked condition will evaluate true. However, these functions are generalized to any of the fruit in the tier lists
+so if you wanted to update or change the order, you would only have to change the loaded sprite coin in the function list.
 
-We then attempted to create fruit sprites paired coins of the same fruit image. The coins were supposed
-to be what interacted with our player. The fruit sprite would be removed and the paired fruit coin would be what 
-stacked on our player. We ran into difficulties with keeping the coin and fruit stacked/joined together (they
-would often split when they touched the ground). We realized that this wasn't going to work for our game either.
+We used sucker movement and the dropping of fruit in a similar way. If a sucker interacts with any of the fruit in the highest
+tier list and *it's stacked condition is TRUE*, the stacked condition will evaluate as FALSE and the shake condition evaluates
+TRUE. This causes the fruit to fall off of the player's basket. We made to sure only allow the suckers to interact with
+the fruit of the highest tier level. We realized that if we generalized it, that a sucker could hit the first fruit and 
+the player would lose the entire stack. This could be a possible option for a hard mode in the future, but wasn't something
+we wanted to implement now. 
 
-In addition to our struggles with the splitting coins and fruits, we also
-faced challenges with the orders. 
+Now, to advance to the next level, the player must reach a specific number of fruit coins that have their stacked condition
+evaluate as TRUE. If they do, the player moves onto the next level. This allowed us to remove the old scoring system, and 
+with it the issues of collecting too many suckers.
+
+Our final approach streamlined our code *so much* and made everything much more efficient and intuitive. We no longer had
+three different functions doing the same thing, multiple draw statements for each fruit or 20+ lists to keep track of. It
+definitely took us a bit to get to this code but each step in our exploration was important as we began to better understand
+the utilization of lists, collision syntax and update functions. We're really proud of how far we came and all of the progress
+we made.
+
+###Fun Extras We Were Able to Include
+- Beginning and ending screens with intstructions --> we used similar code to the placement of orders on each level screen to do this
+- Background music!
+- Sounds for when we picked up fruits, when we hit suckers and when a fruit we had previously picked up fell on the ground
+- Balloons that floated down on the ending screen --> similar to the falling fruit functions!
+- The ability to leave the game (through the door) or restart the game by picking up the cherry on the ending screen
+- Cheat keys --> if you press the "P" key, you can automatically advance levels and if you press the "O" key you can go back a level
 
 
-No longer more than one fruit movement functions.
+###References
+[Python Arcade Academy Home Page](https://arcade.academy/)
+
+[Python Arcade Academy Resource Page](https://arcade.academy/resources.html)
+
+*The links to the sounds we utilized can be found within our code*
 
 
-Each order had its own list and level and everything.
-All of the draw fruit functions are now in one, instead of originally
-being 
+
+###Final Notes
+
+We had a lot of fun making this game but with it came some unexpected challenges and lots of trial and error, as well as
+some pretty funny moments when we accidentally broke our game. If you'd like to see some screenshots of our progress,
+you can find them in our GitHub repository in the "Game Screenshots" folder. We hope you enjoy playing our game as much as
+we enjoyed making it!
 
 
 
-###Actual To Do List:
-1. Update all levels to match formatting of level 1 order 2
-
-2. Make sounds when hitting fruit and suckers
-
-3. Fix ending screen to show ending instructions
-
-4. Write Report
-###To Do List:
-~~1. Import our own pictures to make game *cool*~~
-
-2. ~~Make player move only between bounds~~
-
-3. ~~Have fruit and suckers fall from sky, with random speeds~~
-
-~~4. Randomize fruit orders and display correct fruit~~
-
-~~5. Advance to next level once collected fruit~~
-
-~~6. Have an ending screen~~
-
-~~7. Have title/intro screen~~
-
-9. Make sound when collecting fruit and suckers
-
-10. Have background music
-
-~~11. Made sucker movement different/harder than fruit movement, potentially
-utilizing x and y coords.~~
-
-~~12. Randomize initial placement of fruits and suckers~~
-
-~~13. Fruit gets placed into basket, on top of one another~~
-
-~~14. Have order matter when collecting fruits~~
-
-###Extra:
-~~Ex1. after losing, the fruit gets sucked up and out of your basket.~~
-
-Ex2. Player animations
-
-Ex3. Player select
-
-Ex4. Balloons appear when you complete a level
-###Notes:
-textures/directions would be super complex to code
-
-Used a crate for boundaries
-
-References were helpful, yet also not*
-
-So far, when a fruit hits your basket, it gets removed and the score increases.
-When you hit 3 fruit that level, it starts the next level.
-
-*Initially we tried to mess with the update settings, but that was not working 
-as it updated the score several times as the fruit was passing through the 
-player sprite essentially.*
-
-*Initially everything was handled with sprite lists, but this caused unexpected
-issues. We had to consider sprites separately for things to actually run properly
-as well as have logical operations.* 
-
-*Coins and fruit tied together initially --> moved to just coins*
