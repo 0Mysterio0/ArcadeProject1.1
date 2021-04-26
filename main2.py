@@ -254,7 +254,7 @@ class MyGame(arcade.Window):
 
         # Load sounds
         self.picking_up_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
-        self.losing_fruit_sound = arcade.load_sound(":resources:sounds/lose4.wav")
+        self.losing_fruit_sound = arcade.load_sound(":resources:sounds/gameover4.wav")
 
         # Load all of the sucker images, but don't append them to any list yet:
         Sucker1=arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
@@ -679,19 +679,17 @@ class MyGame(arcade.Window):
             for tier_1_fruit in self.tier_1_fruit_list:
                 if arcade.check_for_collision(tier_1_fruit, self.player_sprite) and not self.Shake_1:
                     #Play good sound here when this occurs
-                    #arcade.play_sound(self.picking_up_sound) --> plays sound continuously
                     tier_1_fruit.follow_sprite(self.player_sprite)
                     if not self.Stacked_1:
-                        self.objective += 1.5
+                        arcade.play_sound(self.picking_up_sound, volume= .03)
                     self.Stacked_1 = True
                 for tier_2_fruit in self.tier_2_fruit_list:
                     if arcade.check_for_collision_with_list(tier_2_fruit, self.tier_1_fruit_list) and not self.Shake_2\
                             and self.Stacked_1:
                         # Play good sound here when this occurs
-                        # arcade.play_sound(self.picking_up_sound) --> plays sound continuously
                         tier_2_fruit.follow_sprite(tier_1_fruit)
                         if not self.Stacked_2:
-                            self.objective += 1.5
+                            arcade.play_sound(self.picking_up_sound, volume= .03)
                         self.Stacked_2 = True
                     for tier_3_fruit in self.tier_3_fruit_list:
                         if arcade.check_for_collision_with_list(tier_3_fruit, self.tier_2_fruit_list) \
@@ -701,7 +699,7 @@ class MyGame(arcade.Window):
                             # arcade.play_sound(self.picking_up_sound) --> plays sound continuously
                             tier_3_fruit.follow_sprite(tier_2_fruit)
                             if not self.Stacked_3:
-                                self.objective += 1.5
+                                arcade.play_sound(self.picking_up_sound, volume=.03)
                             self.Stacked_3 = True
 
             #Old collision system below, still handy for reference at this point in time.
@@ -727,6 +725,8 @@ class MyGame(arcade.Window):
                     and self.Stacked_3))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
+                    #Play bad sound here when this occurs.
+                    arcade.play_sound(self.losing_fruit_sound, volume=.03)
                     if self.Stacked_3:
                         self.Shake_3=True
                     elif self.Stacked_2:
