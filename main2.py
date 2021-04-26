@@ -15,13 +15,11 @@ import arcade
 import random as rdm
 import math
 
-# Constants
 
-#We need to utilize these constants more all around the game!!
-#Also maybe increase the size of our game as well just in general.
+#Constants for Screen
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Platformer"
+SCREEN_TITLE = "Lily's Fruit Quest"
 
 
 # Constants used to scale our sprites from their original size
@@ -32,26 +30,23 @@ FRUIT_SCALING = 0.5
 SUCKER_SCALING=0.3
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
-GRAVITY = 1
 PLAYER_START_X = 64
 PLAYER_START_Y = 128
-msg="Here we define our constants for our game,such as how fast our player will move across the screen," \
-    " which in our case is={0}\n".format(PLAYER_MOVEMENT_SPEED)
+
 # Fruits Constants
 FRUIT_START_Y = 650
 FRUIT_NATIVE_SIZE = 128
 FRUIT_SIZE = int(FRUIT_NATIVE_SIZE * FRUIT_SCALING)
-# Constants for falling fruit
 
+# Constants for falling suckers
 SUCKER_START_Y = 650
 SUCKER_NATIVE_SIZE=128
 SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
-# Constants for falling suckers
+
+
 Fruit_follow_speed=20
-#print(msg)
 
-
-#Each of these class sprites are tests basically. The one that actually works and is valuable is the coin one so far.
+#Was testing out different classes of sprite, one sucker now turns.
 class TurningSprite(arcade.Sprite):
     """ Sprite that sets its angle to the direction it is traveling in. """
     def update(self):
@@ -61,13 +56,7 @@ class TurningSprite(arcade.Sprite):
 
 class Coin(arcade.Sprite):
     """
-    This is an imported and adapted to our game coins class that will have (fruit coins) follow the player. We need to
-    fix it so that fruits will stack on top of one another inside the basket somehow.
-    Maybe make some predetermined heights or even
-    make it so each fruit coin will follow the next fruit coin below it. For instance call the (follow sprite)
-    function on each incoming fruit? Whatever we end up doing, we'll probably need to play around with the
-    follow_sprite function below too and see what we can have it do.
-
+    This is an imported and adapted to our game coins class that will have (fruit coins) follow the player.
     """
 
     def follow_sprite(self, player_sprite):
@@ -79,53 +68,11 @@ class Coin(arcade.Sprite):
         the target sprite, and not jump around if the sprite is not off
         an exact multiple of Fruit_follow_speed
         """
-        #We need to fix the follow sprite if statements, such that
-        #the sprite tops or bottoms are aligned correctly
-        #Please change the function below as you see fit, it does not work as intended!
-
 
         if self.top < player_sprite.top:
             self.top += min(Fruit_follow_speed, player_sprite.top - self.center_y)
         elif self.top > player_sprite.top:
             self.top -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
-
-        if self.center_x < player_sprite.center_x:
-            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
-        elif self.center_x > player_sprite.center_x:
-            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
-
-    def follow_sprite_2(self, player_sprite):
-
-
-        if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
-        elif self.center_y > player_sprite.top:
-            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
-
-        if self.center_x < player_sprite.center_x:
-            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
-        elif self.center_x > player_sprite.center_x:
-            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
-
-    def follow_sprite_3(self, player_sprite):
-
-
-        if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top)
-        elif self.center_y > player_sprite.top:
-            self.center_y -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
-
-        if self.center_x < player_sprite.center_x:
-            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
-        elif self.center_x > player_sprite.center_x:
-            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
-
-    def follow_sprite_4(self, player_sprite):
-
-        if self.center_y < player_sprite.top:
-            self.center_y += min(Fruit_follow_speed, player_sprite.top - self.center_y)
-        elif self.center_y > player_sprite.top:
-            self.center_y -= min(Fruit_follow_speed, player_sprite.top)
 
         if self.center_x < player_sprite.center_x:
             self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
@@ -165,7 +112,7 @@ class MyGame(arcade.Window):
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+
         # Level
         self.level = 0
 
@@ -303,6 +250,7 @@ class MyGame(arcade.Window):
 
         #Instruction screen
         if self.level==0:
+            arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
             lvl_0="Our Images/Intro/Title.PNG"
             intro_coordinate_list = [[500, 550]]
             for coordinate in intro_coordinate_list:
@@ -362,9 +310,10 @@ class MyGame(arcade.Window):
             #Apply movement function to each fruit in the level
             for fruit in self.revamped_fruit_list:
                 Basic_Fruit_Movement(fruit)
-
+            arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
         if self.level == 2:
+            arcade.set_background_color(arcade.csscolor.LIGHT_YELLOW)
             lvl_2_order= "Our Images/Orders/Lvl2/Order1.2.PNG"
             # Place Order:
             order_coordinate_list = [[950, 530]]
@@ -395,6 +344,7 @@ class MyGame(arcade.Window):
                 Basic_Fruit_Movement(fruit)
 
         if self.level == 3:
+            arcade.set_background_color(arcade.csscolor.ORANGE_RED)
             lvl_3_order = "Our Images/Orders/Lvl3/Lvl3Order1.1.PNG"
             # Place Order:
             order_coordinate_list = [[950, 510]]
@@ -428,6 +378,7 @@ class MyGame(arcade.Window):
 
         #End Screen
         if self.level==4:
+            arcade.set_background_color(arcade.csscolor.PALE_VIOLET_RED)
             #Placing everything related to the ending
             lvl_4 = "Our Images/Outro/Outro.PNG"
             ending_coordinate_list = [[500, 450]]
