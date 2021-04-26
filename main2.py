@@ -648,8 +648,6 @@ class MyGame(arcade.Window):
             self.game_over=True
         elif key==arcade.key.P:
             self.skip_level=True
-        elif key==arcade.key.O:
-            self.reverse_level=True
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.A:
@@ -756,19 +754,6 @@ class MyGame(arcade.Window):
                                     arcade.play_sound(self.picking_up_sound, volume=.03)
                                 self.Stacked_4 = True
 
-
-
-
-            #Old collision system below, still handy for reference at this point in time.
-            #When suckers collides with player, shake the top fruit off.
-             #   if arcade.check_for_collision(sucker,self.player_sprite) and (not self.Shake_1 or
-              #          not self.Shake_2 or not self.Shake_3 or not self.Shake_4 or not self.Shake_5):
-               #         if  self.Stacked_3:
-                #            self.Shake_3=True
-                 #       elif self.Stacked_2:
-                  #          self.Shake_2 =True
-                   #     elif self.Stacked_1:
-                    #        self.Shake_1=True
             #Revamped collision system, if a sucker collides with fruit that is stacked, it will knock
             #ONLY the top one off.
             #Theres a lot of "and"s as well as "or"s in the following statements, so read carefully and
@@ -801,25 +786,10 @@ class MyGame(arcade.Window):
                         self.Shake_1=True
 
 
-            # Hit the cherry used for intro and repeating the game
-            cherry_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                  self.cherry_list)
-            cherry_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                   self.cherry_list_2)
-
-            for cherry in cherry_hit_list:
-                cherry.remove_from_sprite_lists()
-                # Play a sound
-                #arcade.play_sound(self.collect_coin_sound)
+            if len(arcade.check_for_collision_with_list(self.player_sprite,self.cherry_list)) > 0:
                 self.instr_objective=True
-                self.cherry_list.update()
-
-            for cherry in cherry_hit_list_2:
-                cherry.remove_from_sprite_lists()
-                # Play a sound
-                #arcade.play_sound(self.collect_coin_sound)
-                self.restart_objective = True
-                self.cherry_list.update()
+            if len(arcade.check_for_collision_with_list(self.player_sprite,self.cherry_list_2)) > 0:
+                self.restart_objective=True
 
             # See if the user got to the end of the level
             if self.level==0:
@@ -844,8 +814,8 @@ class MyGame(arcade.Window):
                         self.level = 3
                         # Load the next level
                         self.setup(self.level)
-            if self.level==3 or self.skip_level:
-                if self.Stacked_5:
+            if self.level==3:
+                if self.Stacked_4 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
                         self.level +=1
