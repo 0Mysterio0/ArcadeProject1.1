@@ -44,7 +44,8 @@ SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 
 Fruit_follow_speed = 20
 
-sound_effect_volume=0.03
+sound_effect_volume=0.3
+music_effect_volume=0.2
 #Was testing out different classes of sprite, one sucker now turns.
 class TurningSprite(arcade.Sprite):
     """ Sprite that sets its angle to the direction it is traveling in. """
@@ -279,7 +280,7 @@ class MyGame(arcade.Window):
         # Instruction screen
         if self.level == 0:
             arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
-            self.intro_player=arcade.play_sound(self.intro_theme,volume=0.02)
+            self.intro_player=arcade.play_sound(self.intro_theme,volume=music_effect_volume)
             self.intro_playing=True
             lvl_0="Our Images/Intro/Title.PNG"
             intro_coordinate_list = [[500, 550]]
@@ -339,7 +340,7 @@ class MyGame(arcade.Window):
                 arcade.stop_sound(self.intro_player)
                 self.intro_playing=False
             if not self.background_playing:
-                self.background_music_player=arcade.play_sound(self.background_music, volume=0.02,looping=True)
+                self.background_music_player=arcade.play_sound(self.background_music, volume=music_effect_volume,looping=True)
                 self.background_playing=True
             # Now, we use only one order per level.
             lvl_1_order = "Our Images/Orders/Lvl1/Order1.2.PNG"
@@ -396,7 +397,7 @@ class MyGame(arcade.Window):
             if self.background_playing:
                 arcade.stop_sound(self.background_music_player)
                 self.background_playing = False
-            self.intro_player=arcade.play_sound(self.intro_theme,volume=0.02)
+            self.intro_player=arcade.play_sound(self.intro_theme,volume=music_effect_volume)
             arcade.set_background_color(arcade.csscolor.PALE_VIOLET_RED)
             # Placing everything related to the ending
             lvl_4 = "Our Images/Outro/Outro.PNG"
