@@ -519,7 +519,7 @@ class MyGame(arcade.Window):
         if self.level == 2:
             lvl_2_order= "Our Images/Orders/Lvl2/Order1.2.PNG"
             # Place Order:
-            order_coordinate_list = [[950, 550]]
+            order_coordinate_list = [[950, 530]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(lvl_2_order, TILE_SCALING)
                 orders.position = coordinate
@@ -549,7 +549,7 @@ class MyGame(arcade.Window):
         if self.level == 3:
             lvl_3_order = "Our Images/Orders/Lvl2/Order1.1.PNG"
             # Place Order:
-            order_coordinate_list = [[950, 550]]
+            order_coordinate_list = [[950, 530]]
             for coordinate in order_coordinate_list:
                 orders = arcade.Sprite(lvl_3_order, TILE_SCALING)
                 orders.position = coordinate
