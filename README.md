@@ -67,13 +67,35 @@ This is where most of our time was spent and included a lot of experimentation a
 Initially, we attempted to create lists for each fruit. We tried this approach based on the guides we found on Arcade
 Academy. This code was inefficient and ultimately, did not work like we wanted it to. We weren't able to efficiently
 interact with each fruit. Every collision and update had to be on a fruit by fruit basis, which was a lot of unneccesary
-coding. It was also incredibly hard to make the fruit interact with each other. So we changed tactics.
+coding. It was also incredibly hard to make the fruit interact with each other and our player. We attempted to utilize a
+behind the scens scoring system, so that each time we hit a fruit, our score would increase and each time we hit a sucker
+our score would decrease. This was somewhat successful because we were able to set conditions for moving onto the next
+level but we were unable to create visible stacks of fruit on our player. So we changed tactics.
 
 ####*Attempt 2*
 
-Fr
+Our second attempt included creating coin lists for each fruit. From the Aracade Academy tutorial pages, there were example
+code chunks that gave us a bit more direction with creating interactions. Specfically, this is where we came across the 
+follow_sprite() function in conjunction with the check_for_collisions_in_list(). In this iteration of our game, we 
+essentially had two sprites for each fruit. One was the initial fruit, where if it hit the player it would disappear and
+add points to our scoring system. The coin fruit, was essentially the "ghost fruit", tied to the location of the original
+fruit sprite. This coin fruit was the sprite that would interact with the player and be added to the fruit basket with
+the follow_sprite() function. We actually made some pretty decent progress using this tactic. We were able to stack fruits
+on the movable player(although they stacked in the positive z-axis, not the positive y-axis). We were also able to move 
+to the next levels using the scoring functions.
 
-###More Alterations
+However, this was still not very efficient code and we still had a lot of issues. The problem with the fruit/coin fruit 
+system was that on each update, we had problems with splitting. Intially, the locations for each of the sprites (the 
+fruit and the coin fruit) were set equal to each other. However, the respawn locations of each fruit were randomized once
+they hit the ground. Oddly, only certain fruits and coins would split on the update. We weren't able to find a pattern as
+to why this occurred and it was a bit of a mystery. Once again, we also had trouble with the fruits interacting with each
+other. When the fruit coins stacked, they only interacted with the player, causing them to stack in front of each other 
+instead of on top of each other. We attempted to make different movement functions for each fruit and fruit coin depending
+on their location in the order, so it would update and follow the fruit before it. However, we had to make specific lists 
+for each fruit, *for each order*, ***for each level***. This was very inefficient and a lot of variables to keep track of.
+So, we once again changed tactics, with a few alterations to our initial goals.
+
+###Some Alterations to our Initial Goals 
 
 
 ###Final Solution
