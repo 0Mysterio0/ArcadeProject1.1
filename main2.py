@@ -654,16 +654,21 @@ class MyGame(arcade.Window):
                         #once we hit a certain amount of fruit, go to next level
                         self.skip_level=False
                         self.instr_objective=False
-                        self.level += 1
+                        self.level =1
                         # Load the next level
                         self.setup(self.level)
             if self.level==1:
                 if self.Stacked_3 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level += 1
+                        self.level =2
                         # Load the next level
                         self.setup(self.level)
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==2:
                 if self.Stacked_4 or self.skip_level:
                         self.skip_level = False
@@ -671,14 +676,23 @@ class MyGame(arcade.Window):
                         self.level = 3
                         # Load the next level
                         self.setup(self.level)
-                        self.Stacked_4=False
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==3:
                 if self.Stacked_5 or self.skip_level:
                         self.skip_level = False
                         #once we hit a certain amount of fruit, go to next level
-                        self.level +=1
+                        self.level =4
                         # Load the next level
                         self.setup(self.level)
+                        self.Stacked_1 = False
+                        self.Stacked_2 = False
+                        self.Stacked_3 = False
+                        self.Stacked_4 = False
+                        self.Stacked_5 = False
             if self.level==4:
                 if self.restart_objective:
                         self.restart_objective=False
