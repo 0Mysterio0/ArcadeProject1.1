@@ -34,8 +34,10 @@ After figuring out a way to work together, we were finally able to dive into the
 To being, we started by brainstorming a list of all the components we wanted to include in our game. This included: a
 movable player, randomized fruit orders, randomized positions/speeds of the falling fruit and obstacles, and multiple
 levels. We heavily relied on the resources and guidance from the Arcade Academy tutorial/website for the initial set up
-of our game screen and movement functions for our player. From there, we updated, modified and created functions for each
-of our other components (specifically the falling fruit and suckers).
+of our game screen and movement functions for our player. We utilized crate objects as the boundaries of our screen. The
+crates are positioned just out of frame, so our character is still fully visible on screen when they bump into them.From
+there, we updated, modified or created functions for each of our other components (specifically the falling fruit and 
+suckers).
 
 ####*Important functions that we utilized:*
 
@@ -62,18 +64,14 @@ This is where most of our time was spent and included a lot of experimentation a
 
 ####*Attempt 1*
 
-Initially Our initial attempt was to create lists for each fruit. This code was inefficient and ultimately, did not work
-like we wanted it to. Each collision and update had to be on a fruit by fruit basis. It was also incredibly hard to make
-the fruit interact with each other, and our character. This was where
-we changed tactics again.
+Initially, we attempted to create lists for each fruit. We tried this approach based on the guides we found on Arcade
+Academy. This code was inefficient and ultimately, did not work like we wanted it to. We weren't able to efficiently
+interact with each fruit. Every collision and update had to be on a fruit by fruit basis, which was a lot of unneccesary
+coding. It was also incredibly hard to make the fruit interact with each other. So we changed tactics.
 
+####*Attempt 2*
 
-
-###Some Alterations
-
-
-###Attempt 2
-
+Fr
 
 ###More Alterations
 
