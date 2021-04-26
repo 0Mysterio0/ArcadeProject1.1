@@ -155,6 +155,12 @@ we made.
 
 [Python Arcade Academy Resource Page](https://arcade.academy/resources.html)
 
+[Python Arcade Academy Sprite Resource](https://arcade.academy/_modules/arcade/sprite.html)
+
+[Python Arcade Academy Follow Sprite Function Resource](https://arcade.academy/examples/sprite_follow_simple_2.html)
+
+[Python Arcade Academy Coins Resource](https://arcade.academy/examples/platform_tutorial/step_06.html)
+
 *The links to the sounds we utilized can be found within our code*
 
 
