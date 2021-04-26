@@ -300,8 +300,6 @@ class MyGame(arcade.Window):
             sucker.boundary_left = FRUIT_SIZE
             sucker.change_y =rdm.choice([-5,-4,-3,-2])
             sucker.change_x= rdm.choice([-1, 0, 1])
-            self.junk_list.append(sucker)
-
 
         #Instruction screen
         if self.level==0:
