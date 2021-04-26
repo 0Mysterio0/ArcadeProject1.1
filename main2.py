@@ -625,7 +625,12 @@ class MyGame(arcade.Window):
                     and self.Stacked_4))\
                     and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
                     or not self.Shake_5):
-                    if self.Stacked_3:
+                    if self.Stacked_4:
+                        # Play bad sound here when this occurs.
+                        if not self.Shake_4:
+                            arcade.play_sound(self.losing_fruit_sound, volume=.03)
+                        self.Shake_4=True
+                    elif self.Stacked_3:
                         # Play bad sound here when this occurs.
                         if not self.Shake_3:
                             arcade.play_sound(self.losing_fruit_sound, volume=.03)
