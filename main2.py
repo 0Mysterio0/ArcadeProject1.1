@@ -43,9 +43,8 @@ SUCKER_NATIVE_SIZE = 128
 SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 
 Fruit_follow_speed = 20
-
-sound_effect_volume=0.3
-music_effect_volume=0.2
+sound_effect_volume=0.2
+music_effect_volume=0.02
 #Was testing out different classes of sprite, one sucker now turns.
 class TurningSprite(arcade.Sprite):
     """ Sprite that sets its angle to the direction it is traveling in. """
@@ -280,7 +279,7 @@ class MyGame(arcade.Window):
         # Instruction screen
         if self.level == 0:
             arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
-            self.intro_player=arcade.play_sound(self.intro_theme,volume=music_effect_volume)
+            self.intro_player=arcade.play_sound(self.intro_theme,volume=music_effect_volume,looping=True)
             self.intro_playing=True
             lvl_0="Our Images/Intro/Title.PNG"
             intro_coordinate_list = [[500, 550]]
