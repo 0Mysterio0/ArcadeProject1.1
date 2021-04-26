@@ -22,7 +22,7 @@ Our Process
 
 ###Working Collaboratively
 From the start, it was clear that CoCalc and Jupyter Notebooks were not going to be the best option to bring our game to 
-life. Pycharm is the main environment to create games in Python because we can most easily utilize the arcade library 
+life. Pycharm is the environment we chose to create games in Python because we can most easily utilize the arcade library 
 (which is essential for game creation). We were all able to download Pycharm on our individual computers but this
 presented a problem when it came to working collaboratively. To fix this problem, we created a repository on GitHub, 
 where we could update and share changes we each made. None of us had a lot of previous experience working in GitHub so
@@ -138,7 +138,7 @@ Now, to advance to the next level, the player must reach a specific number of fr
 evaluate as True. If they do, the player moves onto the next level. This allowed us to remove the old scoring system, and 
 with it the issues of collecting too many suckers.
 
-Our final approach streamlined our code *so much* and made everything much more efficient and intuitive. We no longer had
+Our final approach streamlined our code *so much* and made everything much more intuitive. We no longer had
 three different functions doing the same thing, multiple draw statements for each fruit or 20+ lists to keep track of. It
 definitely took us a bit to get to this code but each step in our exploration was important as we began to better understand
 the utilization of lists, collision syntax and update functions. We're really proud of how far we came and all of the progress
