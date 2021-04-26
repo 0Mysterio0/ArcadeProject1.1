@@ -31,12 +31,41 @@ After figuring out a way to work together, we were finally able to dive into the
 
 ###The Set-Up
 
-To being, we started by brainstorming a list of all of the components we wanted to include in our game. This included: a
+To being, we started by brainstorming a list of all the components we wanted to include in our game. This included: a
 movable player, randomized fruit orders, randomized positions/speeds of the falling fruit and obstacles, and multiple
-levels. We started with the 
+levels. We heavily relied on the resources and guidance from the Arcade Academy tutorial/website for the initial set up
+of our game screen and movement functions for our player. From there, we updated, modified and created functions for each
+of our other components (specifically the falling fruit and suckers).
+
+####*Important functions that we utilized:*
+
+The major functions that we used in our game (and are present in almost every game), were on_draw(), on_key_press()/on_key_release(),
+and on_update(). On_draw renders each of our components on the screen. On_key_***() is used for the player movement. 
+On_update() is where the most important aspects/changes occur. This is how we check to see if we caught any fruit or
+hit any suckers, as well as check conditions for moving onto the next level. More on this later.
 
 
-###Attempt 1
+####*Original randomized functions we created:*
+We also created movement functions for the fruit and suckers. We utilized the random library in each of these functions
+to randomize the locations of each of the falling sprites, as well their speed. An extra flair was added to the
+sucker sprites, which randomized changes in the side to side (the x position) causing them to sometimes move diagonally
+across the screen.
+
+We also created a way to randomize possible orders for each level, by choosing a sprite from a list. They were always 
+located in the top, right-hand corner of our screen, and would correspond to the type of fruit that was falling.
+
+From here, we faced our biggest challenge--creating a way for our player to interact with the fruit and the suckers. 
+This is where most of our time was spent and included a lot of experimentation as well as trial and error.
+
+###Creating the Interactions
+
+
+####*Attempt 1*
+
+Initially Our initial attempt was to create lists for each fruit. This code was inefficient and ultimately, did not work
+like we wanted it to. Each collision and update had to be on a fruit by fruit basis. It was also incredibly hard to make
+the fruit interact with each other, and our character. This was where
+we changed tactics again.
 
 
 
