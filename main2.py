@@ -144,23 +144,16 @@ class MyGame(arcade.Window):
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
-        self.coin_list = None
-        self.coin_list_2= None
-        self.coin_list_3 = None
-        self.coin_list_4 = None
         self.wall_list = None
         self.orders_list = None
         self.instructions_list = None
         self.intro_list = None
         self.player_list = None
-        self.fruit_list= None
-        self.fruit_list_2= None
-        self.fruit_list_3= None
-        self.fruit_list_4= None
+
         self.cherry_list = None
         self.cherry_list_2 = None
         self.door_list = None
-        self.junk_list=None
+
 
         self.Sucker_list = None
         self.revamped_fruit_list = None
@@ -175,17 +168,9 @@ class MyGame(arcade.Window):
         # Level
         self.level = 0
 
-        #Defining Objective System, it gets a little complex here:
-        #So far only self.objective is the true score. Anything else is just a foundation
-        #for a later system. This might be just one potential option for us. We may be able to utiilze
-        #the follow sprite function differently for fruits without referencing any sort of objectives?
-        #or maybe this is used with these objectives as well for the whole process? Altogether it looks
-        #like we have a few options.
-
-        self.objective=0
+        #Bools for the intro and outro objectives
         self.instr_objective=False
         self.restart_objective = False
-        self.control=0
 
         #When game is over, this allows for the game to close
         self.game_over = False
@@ -215,18 +200,11 @@ class MyGame(arcade.Window):
         self.orders_list = arcade.SpriteList(use_spatial_hash=True)
         self.instructions_list = arcade.SpriteList(use_spatial_hash=True)
         self.intro_list = arcade.SpriteList(use_spatial_hash=True)
-        self.coin_list = arcade.SpriteList()
-        self.coin_list_2 = arcade.SpriteList()
-        self.coin_list_3 = arcade.SpriteList()
-        self.coin_list_4= arcade.SpriteList()
-        self.fruit_list = arcade.SpriteList()
-        self.fruit_list_2 = arcade.SpriteList()
-        self.fruit_list_3 = arcade.SpriteList()
-        self.fruit_list_4 = arcade.SpriteList()
+
+
         self.cherry_list = arcade.SpriteList()
         self.cherry_list_2 = arcade.SpriteList()
         self.door_list = arcade.SpriteList()
-        self.junk_list=arcade.SpriteList()
 
         #We use this list for each level of fruits
         self.revamped_fruit_list = arcade.SpriteList()
@@ -242,49 +220,15 @@ class MyGame(arcade.Window):
         #This sucker list works for every level
         self.Sucker_list = arcade.SpriteList()
 
-        #Load all of the fruit images, but don't append them to any list yet:
-        Apple = arcade.Sprite("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
-        Bannana = arcade.Sprite("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
-        Cherry = arcade.Sprite("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
-        Grapes = arcade.Sprite("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
-        Kiwi = arcade.Sprite("Our Images/Fruits/kiwi.png", FRUIT_SCALING * 1.8)
-        Lemon = arcade.Sprite("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
-        Orange = arcade.Sprite("Our Images/Fruits/orange.png", FRUIT_SCALING * 1.8)
-        Pear = arcade.Sprite("Our Images/Fruits/pear.png", FRUIT_SCALING * 1.8)
-        Pineapple = arcade.Sprite("Our Images/Fruits/Pineapple.png", FRUIT_SCALING * 1.8)
-        Plum = arcade.Sprite("Our Images/Fruits/plum.png", FRUIT_SCALING * 1.8)
-        Strawberry= arcade.Sprite("Our Images/Fruits/Strawberry.png", FRUIT_SCALING * 1.8)
-        Watermelon = arcade.Sprite("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
-
         # Load sounds
         self.picking_up_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
         self.losing_fruit_sound = arcade.load_sound(":resources:sounds/gameover1.wav")
-
-        # Load all of the sucker images, but don't append them to any list yet:
-        Sucker1=arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
-        Sucker2 = arcade.Sprite("Our Images/Suckers/sucker2.png", FRUIT_SCALING * 1.8)
-        Sucker3 = arcade.Sprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
-        Sucker4=TurningSprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
 
 
         self.Sucker1 = arcade.Sprite("Our Images/Suckers/sucker1.png", FRUIT_SCALING * 1.8)
         self.Sucker2 = arcade.Sprite("Our Images/Suckers/sucker2.png", FRUIT_SCALING * 1.8)
         self.Sucker3 = arcade.Sprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
         self.Sucker4 = TurningSprite("Our Images/Suckers/sucker3.png", FRUIT_SCALING * 1.8)
-
-        #Fruit Coin Lists?:
-        Grape_coin= Coin("Our Images/Fruits/grapes.png", FRUIT_SCALING * 1.8)
-        Cherry_coin = Coin("Our Images/Fruits/Cherry.png", FRUIT_SCALING * 1.8)
-        Watermelon_coin = Coin("Our Images/Fruits/Watermelon.png", FRUIT_SCALING * 1.8)
-        Orange_coin = Coin("Our Images/Fruits/orange.png", FRUIT_SCALING * 1.8)
-        Pear_coin = Coin("Our Images/Fruits/pear.png", FRUIT_SCALING * 1.8)
-        Pineapple_coin = Coin("Our Images/Fruits/Pineapple.png", FRUIT_SCALING * 1.8)
-        Plum_coin = Coin("Our Images/Fruits/plum.png", FRUIT_SCALING * 1.8)
-        Strawberry_coin = Coin("Our Images/Fruits/Strawberry.png", FRUIT_SCALING * 1.8)
-        Kiwi_coin = Coin("Our Images/Fruits/kiwi.png", FRUIT_SCALING * 1.8)
-        Lemon_coin = Coin("Our Images/Fruits/lemon.png", FRUIT_SCALING * 1.8)
-        Apple_coin = Coin("Our Images/Fruits/Apple.png", FRUIT_SCALING * 1.8)
-        Bannana_coin = Coin("Our Images/Fruits/Bannana.png", FRUIT_SCALING * 1.8)
 
 
         #We may only need individual fruit coins instead!
@@ -319,7 +263,6 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
 
 
-
         # We use crates to define boundaries of our game, and put them in the wall_list.
         # This shows using a coordinate list to place sprites
         coordinate_list = [[-30, 96],
@@ -330,14 +273,10 @@ class MyGame(arcade.Window):
             wall.position = coordinate
             self.wall_list.append(wall)
 
-
-        #This basic fruit function is now all that we need, no further use for the advanced fruit
-        #movement functions. They are not removed simply because it will break the code at this point
-        #in time.
         def Basic_Fruit_Movement(fruit):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
-            to move down the screen, then it will append that fruit to the fruit list for you. Not sure if we
-              use it here, but we need to take advantage of the SCREEN WIDTH variable. """
+            to move down the screen, Not sure if we use it here, but we need to take advantage of the
+            SCREEN WIDTH variable. """
             fruit.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
             fruit.left = FRUIT_SIZE * rdm.randint(0,14)
@@ -345,97 +284,6 @@ class MyGame(arcade.Window):
             fruit.boundary_right = FRUIT_SIZE
             fruit.boundary_left = FRUIT_SIZE
             fruit.change_y =rdm.choice([-4,-3,-2])
-
-        #This function is now outdated, as we have since changed from having fruit and
-        #fruit coins. This function was needed because we were originally overusing the
-        #sprite lists and come into some unexpected issues because of it.
-        def Advanced_Fruit_Movement(self,fruit,coin):
-            """Ok so here me out. What if there is a (coin fruit)... such that the coin fruit follows the real
-             fruit, and it gets picked up and the real fruit that manages the score variables is the one that
-              disappears instead.
-               Potential Issue so far: If the fruit hits the ground before its collected, the
-               fruit coin and the real fruit get separated from each other """
-
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list.append(fruit)
-            coin.bottom = fruit.bottom
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
-            coin.left =  fruit.left
-
-            coin.boundary_right=fruit.boundary_right
-            coin.boundary_left=fruit.boundary_left
-            coin.change_y=fruit.change_y
-            self.coin_list.append(coin)
-
-        # Outdated
-        def Advanced_Fruit_Movement_2(self,fruit,coin):
-
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list_2.append(fruit)
-            coin.bottom = fruit.bottom
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
-            coin.left =  fruit.left
-
-            coin.boundary_right=fruit.boundary_right
-            coin.boundary_left=fruit.boundary_left
-            coin.change_y=fruit.change_y
-            self.coin_list_2.append(coin)
-
-        # Outdated
-        def Advanced_Fruit_Movement_3(self,fruit,coin):
-
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list_3.append(fruit)
-            coin.bottom = fruit.bottom
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
-            coin.left =  fruit.left
-
-            coin.boundary_right=fruit.boundary_right
-            coin.boundary_left=fruit.boundary_left
-            coin.change_y=fruit.change_y
-            self.coin_list_3.append(coin)
-
-        # Outdated
-        def Advanced_Fruit_Movement_4(self,fruit,coin):
-
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(0,14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
-            fruit.change_y =rdm.choice([-5,-4,-3,-2])
-            self.fruit_list_4.append(fruit)
-            coin.bottom = fruit.bottom
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            # This is where we make the  "ghost fruit" or "coin fruit" that follows the real fruit"
-            coin.left =  fruit.left
-
-            coin.boundary_right=fruit.boundary_right
-            coin.boundary_left=fruit.boundary_left
-            coin.change_y=fruit.change_y
-            self.coin_list_4.append(coin)
 
         #Still use this sucker movement.
         def Sucker_Movement(sucker):
@@ -608,16 +456,6 @@ class MyGame(arcade.Window):
         # Clear the screen to the background color
         arcade.start_render()
 
-
-        #These lists are outdated, but will currently cause issues if removed.
-        self.fruit_list.draw()
-        self.fruit_list_2.draw()
-        self.fruit_list_3.draw()
-        self.coin_list.draw()
-        self.coin_list_2.draw()
-        self.coin_list_3.draw()
-
-
         #These are the actual lists:
         # Draw our sprites
         self.wall_list.draw()
@@ -648,6 +486,8 @@ class MyGame(arcade.Window):
             self.game_over=True
         elif key==arcade.key.P:
             self.skip_level=True
+        elif key == arcade.key.O:
+            self.reverse_level = True
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.A:
