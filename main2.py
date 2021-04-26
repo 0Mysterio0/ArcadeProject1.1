@@ -182,9 +182,8 @@ class MyGame(arcade.Window):
         #like we have a few options.
 
         self.objective=0
-        self.instr_objective=0
-        self.restart_objective = 0
-        self.end_objective = 0
+        self.instr_objective=False
+        self.restart_objective = False
         self.control=0
 
         #When game is over, this allows for the game to close
@@ -616,6 +615,10 @@ class MyGame(arcade.Window):
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
         elif key== arcade.key.ESCAPE:
             self.game_over=True
+        elif key==arcade.key.P:
+            self.level+=1
+        elif key==arcade.key.O:
+            self.level-=1
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.A:
@@ -702,6 +705,9 @@ class MyGame(arcade.Window):
                                 arcade.play_sound(self.picking_up_sound, volume=.03)
                             self.Stacked_3 = True
 
+
+
+
             #Old collision system below, still handy for reference at this point in time.
             #When suckers collides with player, shake the top fruit off.
              #   if arcade.check_for_collision(sucker,self.player_sprite) and (not self.Shake_1 or
@@ -741,96 +747,6 @@ class MyGame(arcade.Window):
                             arcade.play_sound(self.losing_fruit_sound, volume=.03)
                         self.Shake_1=True
 
-            #Almost everything below this point is now outdated and once sorted through,
-            #can be removed.
-            self.fruit_list.update()
-            #hitting the ground
-            for fruit in self.fruit_list:
-                if arcade.check_for_collision_with_list(fruit, self.wall_list):
-                    fruit.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    fruit.left = FRUIT_SIZE *rdm.randint(1,14)
-            self.fruit_list.update()
-
-            for coin in self.coin_list:
-                if arcade.check_for_collision_with_list(coin, self.wall_list):
-                    coin.bottom = FRUIT_SIZE *9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    coin.left = fruit.left
-            self.coin_list.update()
-
-            # hitting the ground
-            for fruit in self.fruit_list_2:
-                if arcade.check_for_collision_with_list(fruit, self.wall_list):
-                    fruit.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    fruit.left = FRUIT_SIZE *rdm.randint(1,14)
-            self.fruit_list_2.update()
-
-            for coin in self.coin_list_2:
-                if arcade.check_for_collision_with_list(coin, self.wall_list):
-                    coin.bottom = FRUIT_SIZE *9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    coin.left = fruit.left
-            self.coin_list_2.update()
-
-
-            # hitting the ground
-            for fruit in self.fruit_list_3:
-                if arcade.check_for_collision_with_list(fruit, self.wall_list):
-                    fruit.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    fruit.left = FRUIT_SIZE *rdm.randint(1,14)
-            self.fruit_list_3.update()
-
-            for coin in self.coin_list_3:
-                if arcade.check_for_collision_with_list(coin, self.wall_list):
-                    coin.bottom = FRUIT_SIZE *9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    coin.left = fruit.left
-            self.coin_list_3.update()
-
-            # hitting the ground
-            for fruit in self.fruit_list_4:
-                if arcade.check_for_collision_with_list(fruit, self.wall_list):
-                    fruit.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    fruit.left = FRUIT_SIZE *rdm.randint(1,14)
-            self.fruit_list_4.update()
-
-            for coin in self.coin_list_4:
-                if arcade.check_for_collision_with_list(coin, self.wall_list):
-                    coin.bottom = FRUIT_SIZE *9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    coin.left = fruit.left
-            self.coin_list_4.update()
-
-            # hitting the ground
-            for sucker in self.junk_list:
-                if arcade.check_for_collision_with_list(sucker, self.wall_list):
-                    sucker.bottom = FRUIT_SIZE * 9.75
-                    # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-                    sucker.left = FRUIT_SIZE *rdm.randint(1,14)
-            self.junk_list.update()
-
-            # See if we hit any fruits
-            #if  arcade.check_for_collision(self.player_sprite,self.fruit_list)==True:
-             #  if arcade.check_for_collision(self.fruit_list[1],self.fruit_list_2[1] )==True:
-              #     self.fruit_list_2[1].follow_sprite(self.fruit_list[1])
-
-            fruit_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                 self.fruit_list)
-
-            fruit_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                  self.fruit_list_2)
-
-            fruit_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                  self.fruit_list_3)
-
-            fruit_hit_list_4 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                    self.fruit_list_4)
-
-
 
             # Hit the cherry used for intro and repeating the game
             cherry_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -838,110 +754,25 @@ class MyGame(arcade.Window):
             cherry_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
                                                                    self.cherry_list_2)
 
-
-
-            # See if we hit any of our Fruit coins
-            coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                  self.coin_list)
-
-            coin_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                 self.coin_list_2)
-
-            coin_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                 self.coin_list_3)
-
-            coin_hit_list_4 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                   self.coin_list_4)
-
-            #second_layer_hit_list=arcade.check_for_collision_with_list(self.first_fruit,
-                                                                #  self.coin_list)
-
-            #after we hit a fruit coin, it will follow the player around
-            #eventually we need to check for collisions between the fruit coins and have them stack
-            #on top of each other inside the basket as a whole
-            #or we set predetermined heights for each incoming fruit to rest at.
-
-            for coin in coin_hit_list:
-                coin.follow_sprite(self.player_sprite)
-
-
-            for coin in coin_hit_list_2:
-                coin.follow_sprite_2(self.player_sprite)
-
-            for coin in coin_hit_list_3:
-                coin.follow_sprite_3(self.player_sprite)
-
-            for coin in coin_hit_list_4:
-                coin.follow_sprite_4(self.player_sprite)
-
-            if self.objective == 1:
-                fruit_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                        self.fruit_list_2)
-                coin_hit_list_2 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                       self.coin_list_2)
-
-            for coin in coin_hit_list_2:
-                coin.follow_sprite(self.player_sprite)
-
-            if self.objective == 1:
-                fruit_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                        self.fruit_list_3)
-                coin_hit_list_3 = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                       self.coin_list_3)
-
-            for coin in coin_hit_list_3:
-                coin.follow_sprite(self.player_sprite)
-
-            # Loop through each fruit we hit (if any) and remove it
-            for fruit in fruit_hit_list:
-                # Remove the fruit --> I don't know if this is what we want to have happen... we want it to register
-                # that we hit something but if we remove it (and we don't have a way to regenerate the objects falling)
-                # we won't be have enough fruit to make it through all of the levels'
-                #--->should be resolved with the fruit coin system. --> it is indeed resolved with the coins
-                fruit.remove_from_sprite_lists()
-                # Play a sound
-                #arcade.play_sound(self.collect_coin_sound)
-                # Add to the score
-                self.objective += 1.5
-                #self.first_objective += 1
-                self.fruit_list.update()
-
-            for fruit in fruit_hit_list_2:
-                fruit.remove_from_sprite_lists()
-                self.objective += 1.5
-                self.fruit_list_2.update()
-
-            for fruit in fruit_hit_list_3:
-                fruit.remove_from_sprite_lists()
-                self.objective += 1.5
-                self.fruit_list_3.update()
-
-            for fruit in fruit_hit_list_4:
-                fruit.remove_from_sprite_lists()
-                self.objective += 1.5
-                self.fruit_list_4.update()
-
-
             for cherry in cherry_hit_list:
                 cherry.remove_from_sprite_lists()
                 # Play a sound
                 #arcade.play_sound(self.collect_coin_sound)
-                self.instr_objective += 1
+                self.instr_objective=True
                 self.cherry_list.update()
 
             for cherry in cherry_hit_list_2:
                 cherry.remove_from_sprite_lists()
                 # Play a sound
                 #arcade.play_sound(self.collect_coin_sound)
-                self.restart_objective = 1
-                self.objective=0
+                self.restart_objective = True
                 self.cherry_list.update()
 
             # See if the user got to the end of the level
             if self.level==0:
-                if self.instr_objective==1:
+                if self.instr_objective:
                         #once we hit a certain amount of fruit, go to next level
-                        self.instr_objective=0
+                        self.instr_objective=False
                         self.level += 1
                         # Load the next level
                         self.setup(self.level)
@@ -952,14 +783,20 @@ class MyGame(arcade.Window):
                         # Load the next level
                         self.setup(self.level)
             if self.level==2:
-                if self.objective>=9.5 or self.Stacked_4:
+                if self.Stacked_4:
                         #once we hit a certain amount of fruit, go to next level
-                        self.level = 4
+                        self.level += 1
+                        # Load the next level
+                        self.setup(self.level)
+            if self.level==3:
+                if self.Stacked_5:
+                        #once we hit a certain amount of fruit, go to next level
+                        self.level +=1
                         # Load the next level
                         self.setup(self.level)
             if self.level==4:
-                if self.restart_objective==1:
-                        self.restart_objective=0
+                if self.restart_objective:
+                        self.restart_objective=False
                         #once we hit the cherry, restart at level 1
                         self.level = 0
                         self.Stacked_1=False
