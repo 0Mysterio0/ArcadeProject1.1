@@ -43,8 +43,8 @@ SUCKER_NATIVE_SIZE = 128
 SUCKER_SIZE = int(SUCKER_NATIVE_SIZE * SUCKER_SCALING)
 
 Fruit_follow_speed = 20
-sound_effect_volume=0.2
-music_effect_volume=0.02
+sound_effect_volume=0.3
+music_effect_volume=0.2
 #Was testing out different classes of sprite, one sucker now turns.
 class TurningSprite(arcade.Sprite):
     """ Sprite that sets its angle to the direction it is traveling in. """
