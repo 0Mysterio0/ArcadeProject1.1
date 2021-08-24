@@ -29,7 +29,7 @@ FRUIT_SCALING = 0.5
 SUCKER_SCALING = 0.3
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 7
-PLAYER_START_X = 64
+PLAYER_START_X = 264
 PLAYER_START_Y = 128
 
 # Fruits Constants
@@ -80,9 +80,25 @@ class Coin(arcade.Sprite):
             self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
         elif self.center_x > player_sprite.center_x:
             self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
+
+    def follow_below(self,player_sprite):
+        if self.top < player_sprite.bottom:
+            self.top += min(Fruit_follow_speed, player_sprite.top - self.center_y)
+        elif self.top > player_sprite.bottom:
+            self.top -= min(Fruit_follow_speed, self.center_y - player_sprite.top)
+
+        if self.center_x < player_sprite.center_x:
+            self.center_x += min(Fruit_follow_speed, player_sprite.center_x - self.center_x)
+        elif self.center_x > player_sprite.center_x:
+            self.center_x -= min(Fruit_follow_speed, self.center_x - player_sprite.center_x)
+    def reset_pos(self):
+        # Reset flake to random position above screen
+        self.center_y = SCREEN_HEIGHT + 100
+        self.center_x= rdm.randrange(SCREEN_WIDTH)
+
 class Birb(arcade.Sprite):
     """
-   Bird adaptation, however is currently too fast.
+   Bird adaptation with different speed.
     """
 
     def follow_sprite(self, player_sprite):
@@ -121,7 +137,6 @@ class MyGame(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.wall_list = None
@@ -285,7 +300,7 @@ class MyGame(arcade.Window):
         self.complete_sprite_list.append(self.player_sprite)
         # Create the ground
         # This shows using a loop to place multiple sprites horizontally
-        for x in range(0, 1250, 64):
+        for x in range(0, 1750, 64):
             wall = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = x
             wall.center_y = 32
@@ -293,8 +308,8 @@ class MyGame(arcade.Window):
             self.complete_sprite_list.append(wall)
         # We use crates to define boundaries of our game, and put them in the wall_list.
         # This shows using a coordinate list to place sprites
-        coordinate_list = [[-30, 96],
-                           [1045, 96]]
+        coordinate_list = [[-230, 96],
+                           [1245, 96]]
         for coordinate in coordinate_list:
             # Add a crate on the ground
             wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", TILE_SCALING *0.7)
@@ -304,28 +319,26 @@ class MyGame(arcade.Window):
         def Basic_Fruit_Movement(fruit):
             """Defining a function that condenses the fruit movement operations, input what fruit you want
             to move down the screen"""
-            fruit.bottom = FRUIT_SIZE * 9.75
-            # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            fruit.left = FRUIT_SIZE * rdm.randint(0, 14)
-
-            fruit.boundary_right = FRUIT_SIZE
-            fruit.boundary_left = FRUIT_SIZE
             fruit.change_y = rdm.choice([-4, -3, -2])
-
+            fruit.center_y = SCREEN_HEIGHT + 100
+            fruit.center_x = rdm.randrange(SCREEN_WIDTH)
         # Still use this sucker movement.
         def Sucker_Movement(sucker):
             """Defining a function that has the suckers moving different than the fruits"""
-            sucker.bottom = FRUIT_SIZE * 9.75
+            #sucker.bottom = FRUIT_SIZE * 9.75
             # fruit.left will have to by FRUIT_SIZE * an random integer --> use random here
-            sucker.left = FRUIT_SIZE * rdm.randint(0, 14)
+            #sucker.left = FRUIT_SIZE * rdm.randint(0, 14)
 
-            sucker.boundary_right = FRUIT_SIZE
-            sucker.boundary_left = FRUIT_SIZE
+            #sucker.boundary_right = FRUIT_SIZE
+            #sucker.boundary_left = FRUIT_SIZE
+            sucker.center_y = SCREEN_HEIGHT + 100
+            sucker.center_x = rdm.randrange(SCREEN_WIDTH)
             sucker.change_y = rdm.choice([-5, -4, -3, -2])
             sucker.change_x = rdm.choice([-1, 0, 1])
         def Birb_Movement(birb):
             """Defining a function that has the suckers moving different than the fruits"""
-            birb.right = 1500
+            birb.center_x = -100
+            birb.center_y = 400
 
             #birb.boundary_right = FRUIT_SIZE
             #birb.boundary_left = FRUIT_SIZE
@@ -338,14 +351,14 @@ class MyGame(arcade.Window):
             self.intro_player=arcade.play_sound(self.intro_theme,volume=music_effect_volume,looping=True)
             self.intro_playing=True
             lvl_0="Our Images/Intro/Title.PNG"
-            intro_coordinate_list = [[500, 550]]
+            intro_coordinate_list = [[700, 550]]
             for coordinate in intro_coordinate_list:
                 intro = arcade.Sprite(lvl_0, TILE_SCALING)
                 intro.position = coordinate
                 self.intro_list.append(intro)
                 self.complete_sprite_list.append(intro)
             lvl_0_instr = "Our Images/Intro/Instructions.png"
-            instruction_coordinate_list = [[500, 360]]
+            instruction_coordinate_list = [[700, 360]]
             for coordinate in instruction_coordinate_list:
                 instructions = arcade.Sprite(lvl_0_instr, TILE_SCALING * .3)
                 instructions.position = coordinate
@@ -353,7 +366,7 @@ class MyGame(arcade.Window):
                 self.complete_sprite_list.append(instructions)
             # Placing fruit to take us into the game when collected
             fruit = "Our Images/Fruits/Cherry.png"
-            cherry_coordinate_list = [[925, 175]]
+            cherry_coordinate_list = [[1125, 175]]
             for coordinate in cherry_coordinate_list:
                 cherry_instr = arcade.Sprite(fruit, FRUIT_SCALING * 1.8)
                 cherry_instr.position = coordinate
@@ -550,9 +563,11 @@ class MyGame(arcade.Window):
             # New hitting ground function to optimize some things
             def fruit_hitting_ground(fruits):
                 """When fruit hits ground, this function will reset it"""
-                fruits.bottom = FRUIT_SIZE * 9.75
-                fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
+                #fruits.bottom = FRUIT_SIZE * 9.75
+                #fruits.left = FRUIT_SIZE * rdm.randint(1, 14)
                 fruits.change_y = rdm.randint(-4, -2)
+                fruits.center_x=rdm.randrange(100,SCREEN_WIDTH-100)
+                fruits.center_y=SCREEN_HEIGHT+100
             def sucker_hitting_ground(sucker):
                 """When sucker hits ground, this function will reset it"""
                 sucker.bottom = FRUIT_SIZE * 9.75
@@ -627,7 +642,7 @@ class MyGame(arcade.Window):
                         arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                     self.Stacked_1 = True
                 if self.Catch_1:
-                    tier_1_fruit.follow_sprite(self.crow)
+                    tier_1_fruit.follow_below(self.crow)
 
                 for tier_2_fruit in self.tier_2_fruit_list:
                     if arcade.check_for_collision_with_list(tier_2_fruit, self.tier_1_fruit_list) and not self.Shake_2 \
@@ -638,6 +653,8 @@ class MyGame(arcade.Window):
                         if not self.Stacked_2:
                             arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                         self.Stacked_2 = True
+                    if self.Catch_2:
+                        tier_2_fruit.follow_below(self.crow)
                     for tier_3_fruit in self.tier_3_fruit_list:
                         if arcade.check_for_collision_with_list(tier_3_fruit, self.tier_2_fruit_list) \
                                 and not self.Shake_3 \
@@ -648,6 +665,8 @@ class MyGame(arcade.Window):
                             if not self.Stacked_3:
                                 arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                             self.Stacked_3 = True
+                        if self.Catch_3:
+                            tier_3_fruit.follow_below(self.crow)
                         for tier_4_fruit in self.tier_4_fruit_list:
                             if arcade.check_for_collision_with_list(tier_4_fruit, self.tier_3_fruit_list) \
                                     and not self.Shake_4 \
@@ -658,6 +677,8 @@ class MyGame(arcade.Window):
                                 if not self.Stacked_4:
                                     arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                                 self.Stacked_4 = True
+                            if self.Catch_4:
+                                tier_1_fruit.follow_below(self.crow)
                             for tier_5_fruit in self.tier_5_fruit_list:
                                 if arcade.check_for_collision_with_list(tier_5_fruit, self.tier_4_fruit_list) \
                                         and not self.Shake_5 \
@@ -668,6 +689,8 @@ class MyGame(arcade.Window):
                                     if not self.Stacked_5:
                                         arcade.play_sound(self.picking_up_sound, volume=sound_effect_volume)
                                     self.Stacked_5 = True
+                                if self.Catch_5:
+                                    tier_5_fruit.follow_below(self.crow)
 
             # Revamped collision system, if a sucker collides with fruit that is stacked, it will knock ONLY the top one off.
             for sucker in self.Sucker_list:
@@ -712,40 +735,44 @@ class MyGame(arcade.Window):
                         (arcade.check_for_collision_with_list(birb, self.tier_2_fruit_list)
                          and self.Stacked_2) or
                         (arcade.check_for_collision_with_list(birb, self.tier_3_fruit_list)
-                         and self.Stacked_3) or
+                        and self.Stacked_3) or
                         (arcade.check_for_collision_with_list(birb, self.tier_4_fruit_list)
-                         and self.Stacked_4)) \
-                            and (not self.Shake_1 or not self.Shake_2 or not self.Shake_3 or not self.Shake_4
-                                 or not self.Shake_5):
+                        and self.Stacked_4)) \
+                            and (not self.Catch_1 or not self.Catch_2 or not self.Catch_3 or not self.Catch_4
+                                 or not self.Catch_5):
                         if self.Stacked_4:
                             # Play bad sound here when this occurs.
                             if not self.Catch_4:
                                 arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                             self.Catch_4 = True
-
+                            self.Stacked_3 = False
+                            birb.follow_sprite(self.birb_spawn_right)
                         elif self.Stacked_3:
                             # Play bad sound here when this occurs.
                             if not self.Catch_3:
                                 arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
 
                             self.Catch_3 = True
-
+                            self.Stacked_2 = False
+                            birb.follow_sprite(self.birb_spawn_right)
                         elif self.Stacked_2:
                             if not self.Catch_2:
                                 # Play bad sound here when this occurs.
                                 arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
 
                             self.Catch_2 = True
-
+                            self.Stacked_1 = False
+                            birb.follow_sprite(self.birb_spawn_right)
                         elif self.Stacked_1:
                             if not self.Catch_1:
                                 # Play bad sound here when this occurs.
                                 arcade.play_sound(self.losing_fruit_sound, volume=sound_effect_volume)
                             self.Catch_1 = True
-                            if self.Catch_1:
-                                birb.follow_sprite(self.birb_spawn_right)
-                if self.Catch_1 or not self.Stacked_1:
-                    birb.follow_sprite(self.birb_spawn_right)
+                            self.Stacked_1 = False
+                            birb.follow_sprite(self.birb_spawn_right)
+
+                if not self.Stacked_1:
+                    birb.follow_sprite(self.birb_spawn_left)
 
 
             if len(arcade.check_for_collision_with_list(self.player_sprite,self.cherry_list)) > 0:
